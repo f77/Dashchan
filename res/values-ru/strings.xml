@@ -269,6 +269,8 @@
 	<string name="action_threads_grid">Сетка тредов</string>
 	<string name="action_user_boards">Пользовательские разделы</string>
 	<string name="action_view">Просмотр</string>
+	<string name="action_rating_up">Двачую!</string>
+	<string name="action_rating_down">RRRAGE!</string>
 
 	<!-- Messages -->
 

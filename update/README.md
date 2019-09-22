@@ -1,1 +1,1 @@
-Stored in [Dashchan Extensions](https://github.com/Mishiranu/Dashchan-Extensions) repository.
+Stored in [Dashchan Extensions](https://github.com/f77/Dashchan-Extensions) repository.

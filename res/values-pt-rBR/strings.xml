@@ -234,6 +234,8 @@
 	<string name="action_threads_grid">Fios em grades</string>
 	<string name="action_user_boards">Boards de usuários</string>
 	<string name="action_view">Ver</string>
+	<string name="action_rating_up">Like!</string>
+	<string name="action_rating_down">Dislike!</string>
 
 	<!-- Messages -->
 

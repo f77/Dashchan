@@ -254,6 +254,8 @@
 	<string name="action_threads_grid">Threads grid</string>
 	<string name="action_user_boards">User boards</string>
 	<string name="action_view">View</string>
+	<string name="action_rating_up">Like!</string>
+	<string name="action_rating_down">Dislike!</string>
 
 	<!-- Messages -->
 

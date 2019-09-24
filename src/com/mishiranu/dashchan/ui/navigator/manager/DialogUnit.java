@@ -66,6 +66,8 @@ import android.widget.TextView;
 import chan.content.ChanConfiguration;
 import chan.content.ChanLocator;
 import chan.content.ChanManager;
+import chan.content.ChanPerformer;
+import chan.content.model.Post;
 import chan.content.model.Posts;
 import chan.util.StringUtils;
 
@@ -73,6 +75,7 @@ import com.mishiranu.dashchan.C;
 import com.mishiranu.dashchan.R;
 import com.mishiranu.dashchan.content.ImageLoader;
 import com.mishiranu.dashchan.content.async.CancellableTask;
+import com.mishiranu.dashchan.content.async.ChangePostRatingTask;
 import com.mishiranu.dashchan.content.async.ReadSinglePostTask;
 import com.mishiranu.dashchan.content.async.SendLocalArchiveTask;
 import com.mishiranu.dashchan.content.async.SendMultifunctionalTask;
@@ -1040,6 +1043,11 @@ public class DialogUnit implements DialogStack.Callback {
 		showPerformSendDialog(state, null, null, null, null, true);
 	}
 
+	public void performChangePostRating (String chanName, String boardName, Post post, boolean isUp){
+		ChangePostRatingTask task = new ChangePostRatingTask(new PerformSendCallback(0), chanName, boardName, post, isUp);
+		task.executeOnExecutor(ChangePostRatingTask.THREAD_POOL_EXECUTOR);
+	}
+
 	public void performSendArchiveThread(String chanName, String boardName, String threadNumber, String threadTitle,
 			final Posts posts) {
 		Context context = uiManager.getContext();
@@ -1243,7 +1251,7 @@ public class DialogUnit implements DialogStack.Callback {
 	}
 
 	private class PerformSendCallback implements SendMultifunctionalTask.Callback, SendLocalArchiveTask.Callback,
-			DialogInterface.OnCancelListener {
+			ChangePostRatingTask.Callback, DialogInterface.OnCancelListener {
 		private final ProgressDialog dialog;
 
 		public PerformSendCallback(int localArchiveMax) {
@@ -1323,6 +1331,18 @@ public class DialogUnit implements DialogStack.Callback {
 			} else if (showSuccess) {
 				ToastUtils.show(uiManager.getContext(), R.string.message_completed);
 			}
+		}
+
+		@Override
+		public void onChangePostRatingSuccess(ChanPerformer.SendChangePostRatingResult result) {
+			completeTask();
+			ToastUtils.show(uiManager.getContext(), result.message);
+		}
+
+		@Override
+		public void onChangePostRatingFail(String errorMessage) {
+			completeTask();
+			ToastUtils.show(uiManager.getContext(), errorMessage);
 		}
 	}
 

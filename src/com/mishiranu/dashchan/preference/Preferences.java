@@ -734,7 +734,7 @@ public class Preferences {
 	}
 
 	public static final ChanKey KEY_PARTIAL_THREAD_LOADING = new ChanKey("%s_partial_thread_loading");
-	public static final boolean DEFAULT_PARTIAL_THREAD_LOADING = true;
+	public static final boolean DEFAULT_PARTIAL_THREAD_LOADING = false;
 
 	public static boolean isPartialThreadLoading(String chanName) {
 		if (ChanConfiguration.get(chanName).getOption(ChanConfiguration.OPTION_READ_THREAD_PARTIALLY)) {
@@ -800,7 +800,7 @@ public class Preferences {
 	}
 
 	public static final String KEY_RECAPTCHA_JAVASCRIPT = "recaptcha_javascript";
-	public static final boolean DEFAULT_RECAPTCHA_JAVASCRIPT = true;
+	public static final boolean DEFAULT_RECAPTCHA_JAVASCRIPT = false;
 
 	public static boolean isRecaptchaJavascript() {
 		return PREFERENCES.getBoolean(KEY_RECAPTCHA_JAVASCRIPT, DEFAULT_RECAPTCHA_JAVASCRIPT);

@@ -174,7 +174,7 @@ public class ChanPerformer implements ChanManager.Linked {
     }
 
     @Extendable
-    protected SendChangePostRatingResult onChangePostRating(boolean is_up) throws HttpException, ApiException,
+    protected SendChangePostRatingResult onChangePostRating(SendChangePostRatingData data) throws HttpException, ApiException,
             InvalidResponseException {
         throw new UnsupportedOperationException();
     }
@@ -1149,9 +1149,38 @@ public class ChanPerformer implements ChanManager.Linked {
     }
 
     @Public
-    public static class SendChangePostRatingResult {
+    public static class SendChangePostRatingData implements HttpRequest.HolderPreset {
         @Public
-        public SendChangePostRatingResult() {
+        public final HttpHolder holder;
+        @Public
+        public final String boardName;
+        @Public
+        public final Post post;
+        @Public
+        public final boolean is_up;
+
+        public SendChangePostRatingData(HttpHolder holder, String boardName, Post post, boolean is_up) {
+            this.holder = holder;
+            this.boardName = boardName;
+            this.post = post;
+            this.is_up = is_up;
+        }
+
+        @Override
+        public HttpHolder getHolder() {
+            return holder;
+        }
+    }
+
+    @Public
+    public static final class SendChangePostRatingResult {
+        public final boolean isSuccess;
+        public final String message;
+
+        @Public
+        public SendChangePostRatingResult(boolean isSuccess, String message) {
+            this.isSuccess = isSuccess;
+            this.message = message;
         }
     }
 
@@ -1342,10 +1371,10 @@ public class ChanPerformer implements ChanManager.Linked {
             }
         }
 
-        public SendChangePostRatingResult onChangePostRating(boolean is_up) throws ExtensionException,
+        public SendChangePostRatingResult onChangePostRating(SendChangePostRatingData data) throws ExtensionException,
                 HttpException, ApiException, InvalidResponseException {
             try {
-                return performer.onChangePostRating(is_up);
+                return performer.onChangePostRating(data);
             } catch (LinkageError | RuntimeException e) {
                 throw new ExtensionException(e);
             }

@@ -476,6 +476,14 @@ public class InteractionUnit {
                                     postItem.getThreadNumber(), postNumbers);
                             break;
                         }
+                        case MENU_RATING_UP: {
+                            uiManager.dialog().performChangePostRating(postItem.getChanName(), postItem.getBoardName(), postItem.getPost(),true);
+                            break;
+                        }
+                        case MENU_RATING_DOWN: {
+                            uiManager.dialog().performChangePostRating(postItem.getChanName(), postItem.getBoardName(), postItem.getPost(),false);
+                            break;
+                        }
                         case MENU_DELETE: {
                             ArrayList<String> postNumbers = new ArrayList<>(1);
                             postNumbers.add(postItem.getPostNumber());

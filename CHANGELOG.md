@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [1.0.4] - 2019-09-24
+### Changed
+- Updated the versions generation code.
+
 ## [1.0.3] - 2019-09-24
 ### Changed
 - Updated README.md.

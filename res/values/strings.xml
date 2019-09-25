@@ -575,4 +575,8 @@
 		to favorites</string>
 	<string name="preference_watcher_wifi_only">Wi-Fi only</string>
 
+	<!-- Notification channels -->
+
+	<string name="notification_channel_file_has_been_downloaded">File has been downloaded</string>
+
 </resources>

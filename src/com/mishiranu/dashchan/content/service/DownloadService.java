@@ -24,6 +24,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -31,6 +32,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -106,7 +108,7 @@ public class DownloadService extends Service implements ReadFileTask.Callback, R
 		}
 		this.notificationColor = notificationColor;
 		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DownloadServiceWakeLock");
+		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Dashchan:DownloadServiceWakeLock");
 		wakeLock.setReferenceCounted(false);
 	}
 
@@ -372,12 +374,14 @@ public class DownloadService extends Service implements ReadFileTask.Callback, R
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	@TargetApi(Build.VERSION_CODES.O)
 	private void refreshNotificationFromThread(NotificationData notificationData) {
 		if (builder == null || (notificationData.hasTask) != oldStateWithTask) {
 			oldStateWithTask = notificationData.hasTask;
 			notificationManager.cancel(C.NOTIFICATION_ID_DOWNLOAD);
-			builder = new Notification.Builder(context);
+
+			builder = createNotificationBuilder(context);
+
 			builder.setDeleteIntent(PendingIntent.getService(context, 0,
 					obtainIntent(this, ACTION_CANCEL_DOWNLOADING), PendingIntent.FLAG_UPDATE_CURRENT));
 			builder.setSmallIcon(notificationData.hasTask ? android.R.drawable.stat_sys_download
@@ -682,5 +686,37 @@ public class DownloadService extends Service implements ReadFileTask.Callback, R
 		intent.putExtra(EXTRA_FILE, file.getAbsolutePath());
 		intent.putExtra(EXTRA_SUCCESS, success);
 		context.startService(intent);
+	}
+
+	/**
+	 * Create a Notification.Builder depending on the API version.
+	 */
+	private Notification.Builder createNotificationBuilder (Context context){
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+			return new Notification.Builder(context, createNotificationChannel());
+		}
+
+		return new Notification.Builder(context);
+	}
+
+	/**
+	 * @see <a href="https://stackoverflow.com/a/51349999/10452175">this stackoverflow answer</a>
+	 */
+	@TargetApi(Build.VERSION_CODES.O)
+	private synchronized String createNotificationChannel() {
+		NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		String id = getResources().getString(R.string.const_app_name) + " DownloadService";
+		String name = getResources().getString(R.string.notification_channel_file_has_been_downloaded);
+		NotificationChannel channel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT);
+
+		channel.enableLights(true);
+		channel.setLightColor(Color.BLUE);
+		if (mNotificationManager != null) {
+			mNotificationManager.createNotificationChannel(channel);
+		} else {
+			stopSelf();
+		}
+		return id;
 	}
 }

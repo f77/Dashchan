@@ -597,4 +597,8 @@
 		в избранное</string>
 	<string name="preference_watcher_wifi_only">Только через Wi-Fi</string>
 
+	<!-- Notification channels -->
+
+	<string name="notification_channel_file_has_been_downloaded">Скачивание файла завершено</string>
+
 </resources>

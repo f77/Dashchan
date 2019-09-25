@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.10.8] - 2019-09-25
+### Fixed
+- Fixed a bug that appeared after android api 28: an exception throws while creating a notification about successful file downloading.
+
 ## [2.10.7] - 2019-09-25
 ### Changed
 - The android app's version is equal to the git version now.

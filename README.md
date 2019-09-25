@@ -2,8 +2,20 @@
 Dashchan Continued - форк приложения [Dashchan](https://github.com/Mishiranu/Dashchan).
 Создан для исправления некоторых багов и добавления некоторого дополнительного функционала.
 
-# Dashchan
+# Install
+1. Если у вас установлено оригинальное приложение Dashchan, то потребуется его удалить, вместе со всеми расширениями. Можете перед этим сделать бекап (Настройки -> О программе -> Резервное копирование данных).
+2. Скачать основное приложение: [Dashchan.apk](https://github.com/f77/Dashchan-Extensions/raw/master/update/package/Dashchan.apk).
+3. Скачать необходимые расширения по ссылкам ниже.
 
+Расширение двача с возможностью просмотра и изменения лайков постов в /po, /news и некоторых других разделах: [DashchanDvach.apk](https://github.com/f77/Dashchan-Extensions/raw/master/update/package/DashchanDvach.apk).
+
+# Настройка
+Если вы восстанавливали бекап настроек от оригинальлного приложения, то, возможно, вам потребуется их изменить для полноценной работы приложения:
+1. Выключите частичную загрузку тредов, чтобы изменения лайков отображались сразу же после перезагрузки страницы. (Настройки -> Форумы -> 2ch.hk -> Частичная загрузка тредов).
+2. Настройки -> Форумы -> 2ch.hk -> Тип капчи -> reCAPTCHA 2
+3. Общие -> Использовать JavaScript для ReCAPTCHA -> убрать галочку.
+
+# Dashchan
 Dashchan is imageboards client for Android.
 
 Read the [project wiki](https://github.com/Mishiranu/Dashchan/wiki) for further information.

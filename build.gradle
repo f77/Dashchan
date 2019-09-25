@@ -9,6 +9,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.gladed.androidgitversion' version '0.4.10'
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -54,6 +58,8 @@ android {
                 storePassword keystoreProperties['store.password']
                 keyAlias keystoreProperties['key.alias']
                 keyPassword keystoreProperties['key.password']
+                v1SigningEnabled true
+                v2SigningEnabled true
             }
         }
 
@@ -62,21 +68,8 @@ android {
     }
 
     defaultConfig {
-        if (file('version.properties').exists()) {
-            def versionProperties = new Properties()
-            versionProperties.load(new FileInputStream(file('version.properties')))
-
-            /**
-             * Use the number of seconds/10 since Jan 1 2016 as the versionCode.
-             * This lets us upload a new build at most every 10 seconds for the
-             * next 680 years.
-             * @link https://stackoverflow.com/a/38643838/10452175
-             */
-            def timeCode = (int) (((new Date().getTime() / 1000) - 1451606400) / 10)
-
-            versionCode timeCode
-            versionName versionProperties['version.name']
-        }
+        versionName androidGitVersion.name()
+        versionCode androidGitVersion.code()
 
         def apiKeyGoogle = privateProperties['api.key.google']
         def apiKeySoundCloud = privateProperties['api.key.soundcloud']

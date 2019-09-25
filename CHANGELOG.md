@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.10.7] - 2019-09-25
+### Changed
+- The android app's version is equal to the git version now.
+- App's version code takes from git.
+- Changed signingConfigs.
+
 ## [1.0.5] - 2019-09-24
 ### Fixed
 - Fixed the git version.
@@ -39,4 +45,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.0.0] - 2019-09-22
 ### Added
 - Added this changelog.
-- Rebuilded to a new Android SDK (29).
+- Rebuilt to a new Android SDK (29).

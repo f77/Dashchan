@@ -659,7 +659,9 @@ public class ChanManager {
 		if (signaturesArray != null) {
 			for (android.content.pm.Signature signature : signaturesArray) {
 				if (signature != null) {
-					fingerprints.add(IOUtils.calculateSha256(signature.toByteArray()));
+					String calculatedFingerprint = IOUtils.calculateSha256(signature.toByteArray());
+					fingerprints.add(calculatedFingerprint);
+					android.util.Log.d("FINGERPRINT", calculatedFingerprint);
 				}
 			}
 		}

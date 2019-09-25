@@ -232,6 +232,8 @@ public class ReadUpdateTask extends HttpHolderTask<Void, Long, Void> {
 									}
 									HashSet<String> fingerprints = new HashSet<>();
 									for (String rawFingerprint : rawFingerprints) {
+										android.util.Log.d("RAW FINGERPRINT", rawFingerprint);
+
 										if (!StringUtils.isEmpty(rawFingerprint)) {
 											rawFingerprint = rawFingerprint.replaceAll("[^a-fA-F0-9]", "")
 													.toLowerCase(Locale.US);

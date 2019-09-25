@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.10.12] - 2019-09-25
+- Distribution system test 2.
+
 ## [2.10.11] - 2019-09-25
 ### Changed
 - UPDATE_SOURCE_URI_STRING has been changed to f77's fork github page.

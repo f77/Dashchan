@@ -24,7 +24,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -32,7 +31,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -229,8 +227,8 @@ public class DownloadService extends Service implements ReadFileTask.Callback, R
 		public final boolean forceSetImage;
 
 		private NotificationData(boolean allowHeadsUp, boolean hasTask, int queudTasksSize, int successTasksSize,
-				ArrayList<TaskData> errorTasks, boolean hasExternal, TaskData lastSuccessTaskData,
-				String currentTaskFileName, int progress, int progressMax, boolean forceSetImage) {
+								 ArrayList<TaskData> errorTasks, boolean hasExternal, TaskData lastSuccessTaskData,
+								 String currentTaskFileName, int progress, int progressMax, boolean forceSetImage) {
 			this.allowHeadsUp = allowHeadsUp;
 			this.hasTask = hasTask;
 			this.queudTasksSize = queudTasksSize;
@@ -245,8 +243,8 @@ public class DownloadService extends Service implements ReadFileTask.Callback, R
 		}
 
 		public NotificationData(boolean allowHeadsUp, boolean hasTask, int queudTasksSize, int successTasksSize,
-				ArrayList<TaskData> errorTasks, boolean hasExternal, TaskData lastSuccessTaskData,
-				String currentTaskFileName, int progress, int progressMax) {
+								ArrayList<TaskData> errorTasks, boolean hasExternal, TaskData lastSuccessTaskData,
+								String currentTaskFileName, int progress, int progressMax) {
 			this(allowHeadsUp, hasTask, queudTasksSize, successTasksSize, errorTasks, hasExternal, lastSuccessTaskData,
 					currentTaskFileName, progress, progressMax, false);
 		}
@@ -374,14 +372,12 @@ public class DownloadService extends Service implements ReadFileTask.Callback, R
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.O)
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 	private void refreshNotificationFromThread(NotificationData notificationData) {
 		if (builder == null || (notificationData.hasTask) != oldStateWithTask) {
 			oldStateWithTask = notificationData.hasTask;
 			notificationManager.cancel(C.NOTIFICATION_ID_DOWNLOAD);
-
-			builder = createNotificationBuilder(context);
-
+			builder = new Notification.Builder(context);
 			builder.setDeleteIntent(PendingIntent.getService(context, 0,
 					obtainIntent(this, ACTION_CANCEL_DOWNLOADING), PendingIntent.FLAG_UPDATE_CURRENT));
 			builder.setSmallIcon(notificationData.hasTask ? android.R.drawable.stat_sys_download
@@ -447,7 +443,7 @@ public class DownloadService extends Service implements ReadFileTask.Callback, R
 			headsUp = false;
 			builder.setProgress(notificationData.progressMax, notificationData.progress,
 					notificationData.progressMax == 0 || notificationData.progress > notificationData.progressMax
-					|| notificationData.progress < 0);
+							|| notificationData.progress < 0);
 		} else {
 			contentTitle = context.getString(notificationData.hasExternal ? R.string.message_download_completed
 					: R.string.message_save_completed);
@@ -686,37 +682,5 @@ public class DownloadService extends Service implements ReadFileTask.Callback, R
 		intent.putExtra(EXTRA_FILE, file.getAbsolutePath());
 		intent.putExtra(EXTRA_SUCCESS, success);
 		context.startService(intent);
-	}
-
-	/**
-	 * Create a Notification.Builder depending on the API version.
-	 */
-	private Notification.Builder createNotificationBuilder (Context context){
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-			return new Notification.Builder(context, createNotificationChannel());
-		}
-
-		return new Notification.Builder(context);
-	}
-
-	/**
-	 * @see <a href="https://stackoverflow.com/a/51349999/10452175">this stackoverflow answer</a>
-	 */
-	@TargetApi(Build.VERSION_CODES.O)
-	private synchronized String createNotificationChannel() {
-		NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-
-		String id = getResources().getString(R.string.const_app_name) + " DownloadService";
-		String name = getResources().getString(R.string.notification_channel_file_has_been_downloaded);
-		NotificationChannel channel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT);
-
-		channel.enableLights(true);
-		channel.setLightColor(Color.BLUE);
-		if (mNotificationManager != null) {
-			mNotificationManager.createNotificationChannel(channel);
-		} else {
-			stopSelf();
-		}
-		return id;
 	}
 }

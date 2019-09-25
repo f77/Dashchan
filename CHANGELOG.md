@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.10.14] - 2019-09-25
+### Changed
+- The app has been rebuilt to the older targetSdkVersion 25. Maybe, you need to delete the previous version (targetSdkVersion 29) before install this update.
+
 ## [2.10.13] - 2019-09-25
 ### Changed
 - Updated README.md.

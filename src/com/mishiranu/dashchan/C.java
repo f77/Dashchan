@@ -71,7 +71,7 @@ public class C {
 		EXTENSION_TRANSFORMATION = Collections.unmodifiableMap(extensionTransformation);
 	}
 
-	public static final String UPDATE_SOURCE_URI_STRING = "//raw.githubusercontent.com/Mishiranu/Dashchan/master/"
+	public static final String UPDATE_SOURCE_URI_STRING = "//raw.githubusercontent.com/f77/Dashchan/master/"
 			+ "update/data.json";
 
 	public static final String DEFAULT_DOWNLOAD_PATH = "/Download/Dashchan/";

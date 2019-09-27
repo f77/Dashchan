@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.10.16] - 2019-09-27
+### Added
+- Added the display of the total count of posts in the thread's summary.
+
 ## [2.10.15] - 2019-09-27
 ### Added
 - Added the support of the automatically uploading to GitHub releases in the gradle script.

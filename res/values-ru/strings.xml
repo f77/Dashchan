@@ -168,6 +168,7 @@
 	<string name="text_today">Сегодня</string>
 	<string name="text_unique_hash">Уникальный хеш</string>
 	<string name="text_unique_posters_format">Уникальных отправителей: %s</string>
+	<string name="text_total_posts_count_format">Всего сообщений: %s</string>
 	<string name="text_unsupported_version">Неподдерживаемая версия</string>
 	<string name="text_updates_format">Обновлений: %d</string>
 	<string name="text_updates_available_format">Доступно обновлений: %d</string>

@@ -528,14 +528,15 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
 					builder.append(getString(R.string.text_board)).append(": ");
 					String title = getChanConfiguration().getBoardTitle(boardName);
 					builder.append(StringUtils.formatBoardTitle(pageHolder.chanName, boardName, title));
-					builder.append('\n');
 				}
-				builder.append(getString(R.string.text_files_format, files));
+				builder.append('\n').append(getString(R.string.text_total_posts_count_format, getAdapter().getCount()));
 				builder.append('\n').append(getString(R.string.text_posts_with_files_format, postsWithFiles));
+				builder.append('\n').append(getString(R.string.text_files_format, files));
 				builder.append('\n').append(getString(R.string.text_links_attachments_format, links));
 				if (uniquePosters > 0) {
 					builder.append('\n').append(getString(R.string.text_unique_posters_format, uniquePosters));
 				}
+
 				new AlertDialog.Builder(getActivity()).setTitle(R.string.action_summary).setMessage(builder)
 						.setPositiveButton(android.R.string.ok, null).show();
 				return true;

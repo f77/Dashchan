@@ -138,6 +138,7 @@
 	<string name="text_today">Hoje</string>
 	<string name="text_unique_hash">Hash único</string>
 	<string name="text_unique_posters_format">Postadores únicos: %s</string>
+	<string name="text_total_posts_count_format">Total count of posts: %s</string>
 	<string name="text_unsupported_version">Versão não suportada</string>
 	<string name="text_updates_format">Atualizações: %d</string>
 	<string name="text_updates_available_format">Atualizações disponíveis: %d</string>

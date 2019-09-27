@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.10.17] - 2019-09-27
+### Changed
+- Migrated from GCC to Clang. NDK Revision r20 is used now.
+
 ## [2.10.16] - 2019-09-27
 ### Added
 - Added the display of the total count of posts in the thread's summary.

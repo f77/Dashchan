@@ -951,7 +951,7 @@ static void * performDecodeVideo(void * data) {
 	if (lastPacketValid) {
 		av_packet_unref(&lastPacket);
 	}
-	sparseArrayDestroyEach(&scaleContexts, sws_freeContext(data));
+	sparseArrayDestroy(&scaleContexts, &sws_freeContext);
 	av_free(scaleHolder.scaleBuffer);
 	av_frame_free(&frame);
 	return NULL;
@@ -1425,7 +1425,7 @@ void destroy(JNIEnv * env, jlong pointer) {
 		free(player->audioBuffer);
 	}
 	updatePlayerSurface(env, player, NULL, 0);
-	sparseArrayDestroyEach(&player->bridges, free(data));
+	sparseArrayDestroy(&player->bridges, &free);
 	(*env)->DeleteGlobalRef(env, player->nativeBridge);
 	free(player);
 }

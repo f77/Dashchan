@@ -105,8 +105,6 @@ void sparseArrayDestroy(SparseArray * sparseArray, void callback(void * data));
 void sparseArrayAdd(SparseArray * sparseArray, int index, void * data);
 void * sparseArrayGet(SparseArray * sparseArray, int index);
 
-#define sparseArrayDestroyEach(a, b) {void callback(void * data) {b;} sparseArrayDestroy(a, callback);}
-
 int64_t getTime();
 int64_t getTimeUs();
 

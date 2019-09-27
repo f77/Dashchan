@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.10.15] - 2019-09-27
+### Added
+- Added the support of the automatically uploading to GitHub releases in the gradle script.
+
+### Fixed
+- Fixed YouTube videos' titles.
+
 ## [2.10.14] - 2019-09-25
 ### Changed
 - The app has been rebuilt to the older targetSdkVersion 25. Maybe, you need to delete the previous version (targetSdkVersion 29) before install this update.

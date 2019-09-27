@@ -2,10 +2,12 @@ buildscript {
     repositories {
         jcenter()
         google()
+        gradlePluginPortal()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.trevjonez.AndroidGithubReleasePlugin:plugin:1.2.2'
     }
 }
 
@@ -21,13 +23,13 @@ allprojects {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.trevjonez.AndroidGithubReleasePlugin'
 
 dependencies {
     compileOnly 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
 }
 
 def privateProperties = new Properties()
-
 if (file('private.properties').exists()) {
     privateProperties.load(new FileInputStream(file('private.properties')))
 }
@@ -79,8 +81,8 @@ android {
 
         buildConfigField 'String', 'API_KEY_GOOGLE', '"' + apiKeyGoogle + '"'
         buildConfigField 'String', 'API_KEY_SOUNDCLOUD', '"' + apiKeySoundCloud + '"'
-
         buildConfigField 'long', 'BUILD_TIMESTAMP', System.currentTimeMillis() + 'L'
+
         minSdkVersion 16
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 25
@@ -100,6 +102,49 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+// Github releases.
+if (file('github.properties').exists()) {
+    def githubProperties = new Properties()
+    githubProperties.load(new FileInputStream(file('github.properties')))
+
+    GithubApi {
+        owner githubProperties['github.owner']
+        repo githubProperties['github.repo']
+        authToken githubProperties['github.api.key']
+    }
+    AndroidGithubRelease {
+        defaultConfig {
+            tagName androidGitVersion.name()
+        }
+
+        androidConfigs {
+            debug {
+                assets 'build/outputs/apk/debug/' + project.name + '-debug.apk'
+                releaseName androidGitVersion.name()
+
+                // allows release meta data to be updated, existing binaries must be manually deleted prior to re-upload.
+                overwrite true
+
+                // default: false, flags the github release as a pre-release.
+                preRelease true
+
+                // (Transformer<String, String>) optional, transformer for dynamic tag naming based on combined configuration.
+                tagModifier { it + "-DEBUG" } // "1.0.0-DEBUG"
+            }
+            release {
+                assets 'build/outputs/apk/release/' + project.name + '-release.apk'
+                releaseName androidGitVersion.name()
+
+                // allows release meta data to be updated, existing binaries must be manually deleted prior to re-upload.
+                overwrite true
+
+                // default: false, flags the github release as a draft
+                draft false
+            }
+        }
     }
 }
 

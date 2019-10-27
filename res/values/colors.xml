@@ -114,8 +114,8 @@
 	<color name="background_window_amoled">@android:color/black</color>
 	<color name="background_block_amoled">#ff111111</color>
 	<color name="background_drawer_amoled">#ff0f0f0f</color>
-	<color name="color_post_primary_amoled">#88ffffff</color>
-	<color name="color_post_secondary_amoled">#66ffffff</color>
+	<color name="color_post_primary_amoled">#ffffffff</color>
+	<color name="color_post_secondary_amoled">#ffffffff</color>
 	<color name="color_post_grayed_amoled">@color/color_post_secondary_amoled</color>
 	<color name="color_text_link_amoled">@color/color_accent_amoled</color>
 	<color name="color_text_quote_amoled">#ff779922</color>

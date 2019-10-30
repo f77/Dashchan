@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.10.18] - 2019-10-30
+### Changed
+- OLED theme has been fixed. The color of text is full white now.
+
 ## [2.10.17] - 2019-09-27
 ### Changed
 - Migrated from GCC to Clang. NDK Revision r20 is used now.

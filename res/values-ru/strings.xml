@@ -514,6 +514,8 @@
 	<string name="preference_huge_captcha">Большая капча</string>
 	<string name="preference_internal_browser">Встроенный браузер</string>
 	<string name="preference_internal_browser_sumamry">Открывать внешние ссылки во встроенном браузере</string>
+	<string name="preference_chrome_custom_tabs">Chrome Custom Tabs</string>
+	<string name="preference_chrome_custom_tabs_sumamry">Использовать более быстрый браузер</string>
 	<string name="preference_licenses">Лицензии открытого ПО</string>
 	<string name="preference_licenses_summary">Сведения о лицензиях на ПО с открытым исходным кодом</string>
 	<string name="preference_load_catalog">Загружать каталог</string>

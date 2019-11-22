@@ -51,6 +51,9 @@ public class GeneralFragment extends BasePreferenceFragment {
 		}
 		makeCheckBox(navigationCategory, true, Preferences.KEY_INTERNAL_BROWSER, Preferences.DEFAULT_INTERNAL_BROWSER,
 				R.string.preference_internal_browser, R.string.preference_internal_browser_sumamry);
+        
+        makeCheckBox(navigationCategory, true, Preferences.KEY_CHROME_TABS, Preferences.DEFAULT_CHROME_TABS,
+				R.string.preference_chrome_custom_tabs, R.string.preference_chrome_custom_tabs_sumamry);
 
 		PreferenceCategory servicesCategory = makeCategory(R.string.preference_category_services);
 		makeCheckBox(servicesCategory, true, Preferences.KEY_RECAPTCHA_JAVASCRIPT,

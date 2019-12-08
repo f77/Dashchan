@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.11.0] - 2019-12-08
+### Added
+- Added more faster Chrome Tabs instead of the WebView browser. (You still may disable Chrome Tabs in preferences).
+
 ## [2.10.18] - 2019-10-30
 ### Changed
 - OLED theme has been fixed. The color of text is full white now.

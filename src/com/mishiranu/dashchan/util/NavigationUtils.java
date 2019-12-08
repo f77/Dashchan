@@ -219,7 +219,9 @@ public class NavigationUtils {
 		} catch (ActivityNotFoundException e) {
 			ToastUtils.show(context, R.string.message_unknown_address);
 		} catch (NullPointerException e) {
-			//please fix this shit
+			// @TODO: please fix this shit
+			// @TODO: какой-то внутренний пердолинг android, хз.
+			// @see https://stackoverflow.com/questions/17549030/android-nullpointerexception-in-instrumentation-execstartactivity
 		} catch (Exception e) {
 			ToastUtils.show(context, e.getMessage());
 		}

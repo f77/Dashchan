@@ -631,6 +631,13 @@ public class Preferences {
 	public static boolean isUseInternalBrowser() {
 		return PREFERENCES.getBoolean(KEY_INTERNAL_BROWSER, DEFAULT_INTERNAL_BROWSER);
 	}
+    
+    public static final String KEY_CHROME_TABS = "chrome_tabs";
+    public static final boolean DEFAULT_CHROME_TABS = false;
+    
+    public static boolean isUseChromeTabs() {
+		return PREFERENCES.getBoolean(KEY_CHROME_TABS, DEFAULT_CHROME_TABS);
+	}
 
 	public static final String KEY_LAST_UPDATE_CHECK = "last_update_check";
 

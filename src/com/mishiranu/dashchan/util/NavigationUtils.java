@@ -16,17 +16,6 @@
 
 package com.mishiranu.dashchan.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -44,11 +33,7 @@ import android.provider.Browser;
 import android.util.Pair;
 import android.view.View;
 
-import chan.content.ChanLocator;
-import chan.content.ChanManager;
-import chan.http.CookieBuilder;
-import chan.util.CommonUtils;
-import chan.util.StringUtils;
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.mishiranu.dashchan.C;
 import com.mishiranu.dashchan.R;
@@ -64,6 +49,23 @@ import com.mishiranu.dashchan.ui.LauncherActivity;
 import com.mishiranu.dashchan.ui.WebBrowserActivity;
 import com.mishiranu.dashchan.ui.gallery.GalleryActivity;
 import com.mishiranu.dashchan.ui.navigator.NavigatorActivity;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import chan.content.ChanLocator;
+import chan.content.ChanManager;
+import chan.http.CookieBuilder;
+import chan.util.CommonUtils;
+import chan.util.StringUtils;
 
 public class NavigationUtils {
 	public static final int FLAG_NOT_ANIMATED = 0x00000001;
@@ -84,7 +86,7 @@ public class NavigationUtils {
 	}
 
 	public static Intent obtainPostsIntent(Context context, String chanName, String boardName, String threadNumber,
-			String postNumber, String threadTitle, int flags) {
+										   String postNumber, String threadTitle, int flags) {
 		int allowFlags = FLAG_NOT_ANIMATED | FLAG_FROM_CACHE | FLAG_RETURNABLE;
 		return obtainMainIntent(context, flags, allowFlags).putExtra(C.EXTRA_CHAN_NAME, chanName)
 				.putExtra(C.EXTRA_BOARD_NAME, boardName).putExtra(C.EXTRA_THREAD_NUMBER, threadNumber)
@@ -92,14 +94,14 @@ public class NavigationUtils {
 	}
 
 	public static Intent obtainSearchIntent(Context context, String chanName, String boardName, String searchQuery,
-			int flags) {
+											int flags) {
 		int allowFlags = FLAG_NOT_ANIMATED | FLAG_RETURNABLE;
 		return obtainMainIntent(context, flags, allowFlags).putExtra(C.EXTRA_CHAN_NAME, chanName)
 				.putExtra(C.EXTRA_BOARD_NAME, boardName).putExtra(C.EXTRA_SEARCH_QUERY, searchQuery);
 	}
 
 	public static Intent obtainTargetIntent(Context context, String chanName, ChanLocator.NavigationData data,
-			int flags) {
+											int flags) {
 		switch (data.target) {
 			case ChanLocator.NavigationData.TARGET_THREADS: {
 				return obtainThreadsIntent(context, chanName, data.boardName, flags);
@@ -118,7 +120,7 @@ public class NavigationUtils {
 	}
 
 	public static void handleGalleryUpButtonClick(Activity activity, boolean overrideUpButton,
-			String chanName, GalleryItem galleryItem) {
+												  String chanName, GalleryItem galleryItem) {
 		boolean success = false;
 		if (overrideUpButton) {
 			String boardName = null, threadNumber = null;
@@ -157,6 +159,7 @@ public class NavigationUtils {
 		Intent intent;
 		boolean internalBrowser = isWeb && (browserType == BrowserType.INTERNAL || browserType == BrowserType.AUTO &&
 				Preferences.isUseInternalBrowser());
+		boolean chromeTabs = Preferences.isUseChromeTabs();
 		if (internalBrowser && browserType != BrowserType.INTERNAL) {
 			ChanManager manager = ChanManager.getInstance();
 			PackageManager packageManager = context.getPackageManager();
@@ -178,7 +181,15 @@ public class NavigationUtils {
 			}
 			internalBrowser = names.size() == 0;
 		}
-		if (internalBrowser) {
+
+		if (internalBrowser & chromeTabs) {
+			intent = null;
+			CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+			int color = ResourceUtils.getColor(context, R.attr.colorPrimarySupport);
+			builder.setToolbarColor(color);
+			CustomTabsIntent customTabsIntent = builder.build();
+			customTabsIntent.launchUrl(context, uri);
+		} else if (internalBrowser) {
 			intent = new Intent(context, WebBrowserActivity.class).setData(uri);
 			if (getActivity(context) == null) {
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -195,17 +206,20 @@ public class NavigationUtils {
 					String userAgent = AdvancedPreferences.getUserAgent(chanName);
 					String cookie = new CookieBuilder().append(CloudFlarePasser.COOKIE_CLOUDFLARE,
 							cloudFlareCookie).build();
-					intent.putExtra("headers", new String[] {"User-Agent", userAgent, "Cookie", cookie});
+					intent.putExtra("headers", new String[]{"User-Agent", userAgent, "Cookie", cookie});
 				}
 			}
 			if (!isWeb) {
 				intent = Intent.createChooser(intent, null);
 			}
 		}
+
 		try {
 			context.startActivity(intent);
 		} catch (ActivityNotFoundException e) {
 			ToastUtils.show(context, R.string.message_unknown_address);
+		} catch (NullPointerException e) {
+			//please fix this shit
 		} catch (Exception e) {
 			ToastUtils.show(context, e.getMessage());
 		}
@@ -246,8 +260,8 @@ public class NavigationUtils {
 	private static WeakReference<ArrayList<GalleryItem>> galleryItems;
 
 	public static void openGallery(Context context, View imageView, String chanName, int imageIndex,
-			GalleryItem.GallerySet gallerySet, boolean allowExpandedScreen, NavigatePostMode navigatePostMode,
-			boolean galleryMode) {
+								   GalleryItem.GallerySet gallerySet, boolean allowExpandedScreen, NavigatePostMode navigatePostMode,
+								   boolean galleryMode) {
 		int[] viewPosition = null;
 		if (imageView != null) {
 			int[] location = new int[2];
@@ -382,13 +396,13 @@ public class NavigationUtils {
 				handleUri(context, null, uri, BrowserType.EXTERNAL);
 			}
 		})
-		.addItem(0, "Google")
-		.addItem(1, "Yandex")
-		.addItem(2, "TinEye")
-		.addItem(3, "SauceNAO")
-		.addItem(4, "iqdb")
-		.addItem(5, "whatanime")
-		.show();
+				.addItem(0, "Google")
+				.addItem(1, "Yandex")
+				.addItem(2, "TinEye")
+				.addItem(3, "SauceNAO")
+				.addItem(4, "iqdb")
+				.addItem(5, "whatanime")
+				.show();
 	}
 
 	public static void shareText(Context context, String subject, String text, Uri uri) {
@@ -411,7 +425,7 @@ public class NavigationUtils {
 					if (!filterPackageNames.contains(resolveInfo.activityInfo.packageName)) {
 						browserIntents.add(new Intent(Intent.ACTION_VIEW).setData(uri)
 								.setComponent(new ComponentName(resolveInfo.activityInfo.packageName,
-								resolveInfo.activityInfo.name)));
+										resolveInfo.activityInfo.name)));
 					}
 				}
 				if (!browserIntents.isEmpty()) {

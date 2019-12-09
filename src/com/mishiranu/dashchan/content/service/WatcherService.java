@@ -35,6 +35,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Process;
+import android.os.SystemClock;
 
 import chan.content.ChanConfiguration;
 import chan.content.ChanManager;
@@ -468,6 +469,7 @@ public class WatcherService extends Service implements FavoritesStorage.Observer
 		@Override
 		public Result call() {
 			WatcherItem watcherItem = result.watcherItem;
+			SystemClock.sleep(500);
 			try {
 				ChanPerformer performer = ChanPerformer.get(watcherItem.chanName);
 				ChanPerformer.ReadPostsCountResult result = performer.safe()

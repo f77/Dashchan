@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.11.1] - 2019-12-09
+### Changed
+- Reverted the dirty huck of WatcherService.
+
 ## [2.11.0] - 2019-12-08
 ### Added
 - Added more faster Chrome Tabs instead of the WebView browser. (You still may disable Chrome Tabs in preferences).

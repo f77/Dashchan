@@ -16,6 +16,21 @@
 
 package com.mishiranu.dashchan.content.service;
 
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Process;
+
+import com.mishiranu.dashchan.content.NetworkObserver;
+import com.mishiranu.dashchan.content.storage.FavoritesStorage;
+import com.mishiranu.dashchan.preference.Preferences;
+import com.mishiranu.dashchan.util.ConcurrentUtils;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,17 +41,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.FutureTask;
 
-import android.app.Service;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.Process;
-import android.os.SystemClock;
-
 import chan.content.ChanConfiguration;
 import chan.content.ChanManager;
 import chan.content.ChanPerformer;
@@ -46,11 +50,6 @@ import chan.http.HttpException;
 import chan.http.HttpHolder;
 import chan.http.HttpValidator;
 import chan.util.StringUtils;
-
-import com.mishiranu.dashchan.content.NetworkObserver;
-import com.mishiranu.dashchan.content.storage.FavoritesStorage;
-import com.mishiranu.dashchan.preference.Preferences;
-import com.mishiranu.dashchan.util.ConcurrentUtils;
 
 public class WatcherService extends Service implements FavoritesStorage.Observer, Handler.Callback {
 	private static final HashMap<String, ExecutorService> EXECUTORS = new HashMap<>();
@@ -469,7 +468,8 @@ public class WatcherService extends Service implements FavoritesStorage.Observer
 		@Override
 		public Result call() {
 			WatcherItem watcherItem = result.watcherItem;
-			SystemClock.sleep(500);
+			// SystemClock.sleep(500);
+            // Fixed in the Dvach extension.
 			try {
 				ChanPerformer performer = ChanPerformer.get(watcherItem.chanName);
 				ChanPerformer.ReadPostsCountResult result = performer.safe()

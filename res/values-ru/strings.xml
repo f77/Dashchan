@@ -180,6 +180,8 @@
 
 	<!-- Actions -->
 
+	<string name="action_fast_scroll_posts_previous">Найти предыдущие посты</string>
+	<string name="action_fast_scroll_posts_forward">Найти следующие посты</string>
 	<string name="action_add_post">Ответить</string>
 	<string name="action_add_to_favorites">Добавить в избранное</string>
 	<string name="action_appearance">Внешний вид</string>

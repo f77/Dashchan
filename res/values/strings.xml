@@ -165,6 +165,8 @@
 
 	<!-- Actions -->
 
+	<string name="action_fast_scroll_posts_previous">Find previous posts</string>
+	<string name="action_fast_scroll_posts_forward">Find forward posts</string>
 	<string name="action_add_post">Add reply</string>
 	<string name="action_add_to_favorites">Add to favorites</string>
 	<string name="action_appearance">Appearance</string>

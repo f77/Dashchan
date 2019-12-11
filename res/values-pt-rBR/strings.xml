@@ -149,6 +149,8 @@
 
 	<!-- Actions -->
 
+	<string name="action_fast_scroll_posts_previous">Encontre as postagens mensagens</string>
+	<string name="action_fast_scroll_posts_forward">Encontre as seguintes mensagens</string>
 	<string name="action_add_post">Responder</string>
 	<string name="action_add_to_favorites">Adcionar ao favoritos</string>
 	<string name="action_appearance">Aparência</string>

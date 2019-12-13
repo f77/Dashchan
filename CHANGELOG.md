@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.12.1] - 2019-12-13
+### Added
+- Added the preferences for the fast search in the "interface" section.
+
 ## [2.12.0] - 2019-12-11
 ### Added
 - Added the beta version of "fast search" of the replies to the user posts.

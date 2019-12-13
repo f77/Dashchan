@@ -26,9 +26,11 @@ import android.text.style.TypefaceSpan;
 
 import com.mishiranu.dashchan.R;
 import com.mishiranu.dashchan.preference.Preferences;
+import com.mishiranu.dashchan.util.ToastUtils;
 
 public class InterfaceFragment extends BasePreferenceFragment {
 	private CheckBoxPreference advancedSearchPreference;
+	private CheckBoxPreference fastSearchPreference;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,9 +70,21 @@ public class InterfaceFragment extends BasePreferenceFragment {
 		makeList(postsCategory, Preferences.KEY_HIGHLIGHT_UNREAD, Preferences.VALUES_HIGHLIGHT_UNREAD,
 				Preferences.DEFAULT_HIGHLIGHT_UNREAD, R.string.preference_highlight_unread,
 				R.array.preference_highlight_unread_choices);
-		advancedSearchPreference = makeCheckBox(postsCategory, true, Preferences.KEY_ADVANCED_SEARCH,
+
+		PreferenceCategory searchCategory = makeCategory(R.string.preference_category_search);
+		advancedSearchPreference = makeCheckBox(searchCategory, true, Preferences.KEY_ADVANCED_SEARCH,
 				Preferences.DEFAULT_ADVANCED_SEARCH, R.string.preference_advanced_search,
 				R.string.preference_advanced_search_summary);
+		fastSearchPreference = makeCheckBox(searchCategory, true, Preferences.KEY_FAST_SEARCH,
+				Preferences.DEFAULT_FAST_SEARCH, R.string.preference_fast_search,
+				R.string.preference_fast_search_summary);
+		makeList(searchCategory, Preferences.KEY_FAST_SEARCH_SOURCE, Preferences.VALUES_FAST_SEARCH_SOURCE,
+				Preferences.DEFAULT_FAST_SEARCH_SOURCE, R.string.preference_fast_search_source,
+				R.array.preference_fast_search_source_choices);
+		makeCheckBox(searchCategory, true, Preferences.KEY_FAST_SEARCH_SMOOTH_SCROLL,
+				Preferences.DEFAULT_FAST_SEARCH_SMOOTH_SCROLL, R.string.preference_fast_search_smooth_scroll,
+				R.string.preference_fast_search_smooth_scroll_summary);
+
 		makeCheckBox(postsCategory, true, Preferences.KEY_DISPLAY_ICONS, Preferences.DEFAULT_DISPLAY_ICONS,
 				R.string.preference_display_icons, R.string.preference_display_icons_summary);
 
@@ -96,6 +110,8 @@ public class InterfaceFragment extends BasePreferenceFragment {
 				builder.setSpan(new TypefaceSpan("sans-serif-medium"), start, end, flags);
 			}
 			MessageDialog.create(this, builder, false);
+		} else if (preference == fastSearchPreference) {
+			ToastUtils.show(getActivity(), R.string.message_uninstall_reminder);
 		}
 	}
 }

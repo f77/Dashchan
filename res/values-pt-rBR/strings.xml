@@ -355,6 +355,7 @@
 	<string name="preference_category_downloading">Downloading</string>
 	<string name="preference_category_navigation">Nevegação</string>
 	<string name="preference_category_posts">Lista de posts</string>
+	<string name="preference_category_search">Procurar</string>
 	<string name="preference_category_services">Serviços</string>
 	<string name="preference_category_submission">Formulário de envio</string>
 	<string name="preference_category_threads">Lista de fios</string>

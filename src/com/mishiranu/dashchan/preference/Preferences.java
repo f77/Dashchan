@@ -152,6 +152,30 @@ public class Preferences {
 		return PREFERENCES.getBoolean(KEY_ADVANCED_SEARCH, DEFAULT_ADVANCED_SEARCH);
 	}
 
+	public static final String KEY_FAST_SEARCH = "fast_search";
+	public static final boolean DEFAULT_FAST_SEARCH = true;
+
+	public static boolean isFastSearch() {
+		return PREFERENCES.getBoolean(KEY_FAST_SEARCH, DEFAULT_FAST_SEARCH);
+	}
+
+	public static final String KEY_FAST_SEARCH_SMOOTH_SCROLL = "fast_search_smooth_scroll";
+	public static final boolean DEFAULT_FAST_SEARCH_SMOOTH_SCROLL = true;
+
+	public static boolean isFastSearchSmoothScroll() {
+		return PREFERENCES.getBoolean(KEY_FAST_SEARCH_SMOOTH_SCROLL, DEFAULT_FAST_SEARCH_SMOOTH_SCROLL);
+	}
+
+	public static final String KEY_FAST_SEARCH_SOURCE = "fast_search_source";
+	public static final String VALUES_FAST_SEARCH_SOURCE_MY_POSTS = "fast_search_source_my_posts";
+	public static final String VALUES_FAST_SEARCH_SOURCE_REPLIES_TO_MY_POSTS = "fast_search_source_replies_to_my_posts";
+	public static final String[] VALUES_FAST_SEARCH_SOURCE = new String[] {VALUES_FAST_SEARCH_SOURCE_MY_POSTS, VALUES_FAST_SEARCH_SOURCE_REPLIES_TO_MY_POSTS};
+	public static final String DEFAULT_FAST_SEARCH_SOURCE = VALUES_FAST_SEARCH_SOURCE_REPLIES_TO_MY_POSTS;
+
+	public static String getFastSearchSource() {
+		return PREFERENCES.getString(KEY_FAST_SEARCH_SOURCE, DEFAULT_FAST_SEARCH_SOURCE);
+	}
+
 	public static final String KEY_ALL_ATTACHMENTS = "all_attachments";
 	public static final boolean DEFAULT_ALL_ATTACHMENTS = false;
 

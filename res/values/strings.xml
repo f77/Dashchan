@@ -397,6 +397,7 @@
 	<string name="preference_category_navigation">Navigation</string>
 	<string name="preference_category_navigation_drawer">Navigation drawer</string>
 	<string name="preference_category_posts">Posts list</string>
+	<string name="preference_category_search">Search</string>
 	<string name="preference_category_services">Services</string>
 	<string name="preference_category_submission">Submission form</string>
 	<string name="preference_category_threads">Threads list</string>
@@ -419,6 +420,17 @@
 		\n<b>:m</b> — your posts\n<b>:r</b> — replies to your posts\n<b>:a</b> — posts with attachments
 		\n<b>:d</b> — deleted posts\n<b>:e</b> — edited posts\n<b>:n</b> — new posts
 		\n<b>:op</b> — posts by original poster\n\nFlags can be excluded using \":-\" characters.</string>
+
+	<string name="preference_fast_search">Fast search</string>
+	<string name="preference_fast_search_summary">Fast search allows instantly scroll to replies to your posts</string>
+	<string name="preference_fast_search_source">The source of messages for the fast search</string>
+	<string-array name="preference_fast_search_source_choices">
+		<item>My posts</item>
+		<item>Replies to my posts</item>
+	</string-array>
+	<string name="preference_fast_search_smooth_scroll">Fast search smooth scroll</string>
+	<string name="preference_fast_search_smooth_scroll_summary">If enabled, the movement between messages will be smooth</string>
+
 	<string name="preference_all_attachments">All attachments</string>
 	<string name="preference_all_attachments_summary">Display thumbnails for all attachments</string>
 	<string name="preference_auto_refresh_mode">Auto refreshing mode</string>

@@ -417,6 +417,7 @@
 	<string name="preference_category_navigation">Навигация</string>
 	<string name="preference_category_navigation_drawer">Панель навигации</string>
 	<string name="preference_category_posts">Список сообщений</string>
+	<string name="preference_category_search">Поиск</string>
 	<string name="preference_category_services">Сервисы</string>
 	<string name="preference_category_submission">Форма отправки</string>
 	<string name="preference_category_threads">Список тредов</string>
@@ -439,6 +440,17 @@
 		\n<b>:m</b> — ваши сообщения\n<b>:r</b> — ответы на ваши сообщения\n<b>:a</b> — сообщения с вложениями
 		\n<b>:d</b> — удалённые сообщения\n<b>:e</b> — изменённые сообщения\n<b>:n</b> — новые сообщения
 		\n<b>:op</b> — сообщения создателя треда\n\nФлаги также можно исключить используя символы \":-\".</string>
+
+	<string name="preference_fast_search">Быстрый поиск</string>
+	<string name="preference_fast_search_summary">Добавляет в экшнбар 2 кнопки, позволяющие быстро проскроллить к нужным постам</string>
+	<string name="preference_fast_search_source">Источник сообщений для быстрого поиска</string>
+	<string-array name="preference_fast_search_source_choices">
+		<item>Мои посты</item>
+		<item>Ответы на мои посты</item>
+	</string-array>
+	<string name="preference_fast_search_smooth_scroll">Плавный скроллинг для быстрого поиска</string>
+	<string name="preference_fast_search_smooth_scroll_summary">Если включено, перемещение между сообщениями будет осуществляться плавно</string>
+
 	<string name="preference_all_attachments">Все вложения</string>
 	<string name="preference_all_attachments_summary">Показывать миниатюры всех вложений</string>
 	<string name="preference_auto_refresh_mode">Режим автообновления</string>

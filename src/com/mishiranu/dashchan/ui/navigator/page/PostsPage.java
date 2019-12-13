@@ -327,10 +327,12 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
 
     @Override
     public void onCreateOptionsMenu(Menu menu) {
-        menu.add(0, OPTIONS_MENU_FAST_SCROLL_POSTS_PREVIOUS, 0, R.string.action_fast_scroll_posts_previous)
-                .setIcon(obtainIcon(R.attr.actionBack)).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        menu.add(0, OPTIONS_MENU_FAST_SCROLL_POSTS_FORWARD, 0, R.string.action_fast_scroll_posts_forward)
-                .setIcon(obtainIcon(R.attr.actionForward)).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if (Preferences.isFastSearch()) {
+            menu.add(0, OPTIONS_MENU_FAST_SCROLL_POSTS_PREVIOUS, 0, R.string.action_fast_scroll_posts_previous)
+                    .setIcon(obtainIcon(R.attr.actionBack)).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.add(0, OPTIONS_MENU_FAST_SCROLL_POSTS_FORWARD, 0, R.string.action_fast_scroll_posts_forward)
+                    .setIcon(obtainIcon(R.attr.actionForward)).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
 
         menu.add(0, OPTIONS_MENU_ADD_POST, 0, R.string.action_add_post)
                 .setIcon(obtainIcon(R.attr.actionAddPost)).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -384,14 +386,20 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
         Activity activity = getActivity();
         PageHolder pageHolder = getPageHolder();
         PostsAdapter adapter = getAdapter();
-        HashSet<String> repliesToUserPosts = getRepliesToPostNumbers(getExtra().userPostNumbers);
+
+        HashSet<String> fastScrollPostsNumbers;
+        if (Preferences.getFastSearchSource().equals(Preferences.VALUES_FAST_SEARCH_SOURCE_MY_POSTS)) {
+            fastScrollPostsNumbers = getExtra().userPostNumbers;
+        } else {
+            fastScrollPostsNumbers = getRepliesToPostNumbers(getExtra().userPostNumbers);
+        }
 
         switch (item.getItemId()) {
             case OPTIONS_MENU_FAST_SCROLL_POSTS_PREVIOUS:
-                return scrollPostsCycled(getSortedPositionsOfPostNumbers(repliesToUserPosts), true);
+                return scrollPostsCycled(getSortedPositionsOfPostNumbers(fastScrollPostsNumbers), true);
 
             case OPTIONS_MENU_FAST_SCROLL_POSTS_FORWARD:
-                return scrollPostsCycled(getSortedPositionsOfPostNumbers(repliesToUserPosts), false);
+                return scrollPostsCycled(getSortedPositionsOfPostNumbers(fastScrollPostsNumbers), false);
 
             case OPTIONS_MENU_ADD_POST: {
                 getUiManager().navigator().navigatePosting(pageHolder.chanName, pageHolder.boardName,
@@ -1627,8 +1635,12 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
         showMessageInTitle((sortedPositionsOfPosts.indexOf(positionOfPost) + 1) + "/" + sortedPositionsOfPosts.size());
         Log.i("SCROLL_POSTS", "Scroll from " + (currentPosition + 1) + " to " + (positionOfPost + 1));
 
-        //ListScroller.scrollTo(getListView(), positionOfPost);// slow
-        getListView().setSelection(positionOfPost);// instantly
+        // Scroll
+        if (Preferences.isFastSearchSmoothScroll()) {
+            ListScroller.scrollTo(getListView(), positionOfPost);// slow
+        } else {
+            getListView().setSelection(positionOfPost);// instantly
+        }
 
         scrollPostsPreviousPosition = positionOfPost;
         return true;

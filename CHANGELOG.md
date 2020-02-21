@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.12.2] - 2020-02-21
+### Added
+- Added install instructions in English in the README.md.
+### Changed
+- Updated version history links in the CHANGELOG.md.
+
 ## [2.12.1] - 2019-12-13
 ### Added
 - Added the preferences for the fast search in the "interface" section.
@@ -108,3 +114,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Added this changelog.
 - Rebuilt to a new Android SDK (29).
+
+[2.12.2]: https://github.com/f77/Dashchan/compare/2.12.1...2.12.2
+[2.12.1]: https://github.com/f77/Dashchan/compare/2.12.0...2.12.1
+[2.12.0]: https://github.com/f77/Dashchan/compare/2.11.1...2.12.0
+[2.11.1]: https://github.com/f77/Dashchan/compare/2.11.0...2.11.1
+[2.11.0]: https://github.com/f77/Dashchan/compare/2.10.18...2.11.0
+[2.10.18]: https://github.com/f77/Dashchan/compare/2.10.17...2.10.18
+[2.10.17]: https://github.com/f77/Dashchan/compare/2.10.16...2.10.17
+[2.10.16]: https://github.com/f77/Dashchan/compare/2.10.15...2.10.16
+[2.10.15]: https://github.com/f77/Dashchan/compare/2.10.14...2.10.15
+[2.10.14]: https://github.com/f77/Dashchan/compare/2.10.13...2.10.14
+[2.10.13]: https://github.com/f77/Dashchan/compare/2.10.12...2.10.13
+[2.10.12]: https://github.com/f77/Dashchan/compare/2.10.11...2.10.12
+[2.10.11]: https://github.com/f77/Dashchan/compare/2.10.10...2.10.11
+[2.10.10]: https://github.com/f77/Dashchan/compare/2.10.9...2.10.10
+[2.10.9]: https://github.com/f77/Dashchan/compare/2.10.8...2.10.9
+[2.10.8]: https://github.com/f77/Dashchan/compare/2.10.7...2.10.8
+[2.10.7]: https://github.com/f77/Dashchan/compare/1.0.5...2.10.7
+[1.0.5]: https://github.com/f77/Dashchan/compare/1.0.4...1.0.5
+[1.0.4]: https://github.com/f77/Dashchan/compare/1.0.3...1.0.4
+[1.0.3]: https://github.com/f77/Dashchan/compare/1.0.2...1.0.3
+[1.0.2]: https://github.com/f77/Dashchan/compare/1.0.1...1.0.2
+[1.0.1]: https://github.com/f77/Dashchan/compare/1.0.0...1.0.1
+[1.0.0]: https://github.com/f77/Dashchan/compare/e4ba0c2b2bb22e708992163212d335e498e110de...1.0.0
+[Unreleased]: https://github.com/f77/Dashchan/compare/master...master

@@ -1,15 +1,22 @@
 # Dashchan Continued
 Dashchan Continued - форк приложения [Dashchan](https://github.com/Mishiranu/Dashchan).
 Создан для исправления некоторых багов и добавления некоторого дополнительного функционала.
+Dashchan Continued is a fork of the [Dashchan](https://github.com/Mishiranu/Dashchan) app.
+It is developing to fix some bugs and to add some additional functional.
 
-# Install
+# Install/RU
 1. Если у вас установлено оригинальное приложение Dashchan, то потребуется его удалить, вместе со всеми расширениями. Можете перед этим сделать бекап (Настройки -> О программе -> Резервное копирование данных).
 2. Скачать основное приложение: [Dashchan.apk](https://github.com/f77/Dashchan-Extensions/raw/master/update/package/Dashchan.apk).
 3. Скачать необходимые расширения по ссылкам ниже.
 
 Расширение двача с возможностью просмотра и изменения лайков постов в /po, /news и некоторых других разделах: [DashchanDvach.apk](https://github.com/f77/Dashchan-Extensions/raw/master/update/package/DashchanDvach.apk).
 
-# Настройка
+# Install/EN
+1. If you have already installed original Dashchan app, you need to delete it, with all installed extensions. You can make a backup before (Preferences -> About -> Backup data).
+2. Download the main app [Dashchan.apk](https://github.com/f77/Dashchan-Extensions/raw/master/update/package/Dashchan.apk).
+3. Download needed extensions using links below.
+
+# Configuration/RU
 Если вы восстанавливали бекап настроек от оригинальлного приложения, то, возможно, вам потребуется их изменить для полноценной работы приложения:
 1. Выключите частичную загрузку тредов, чтобы изменения лайков отображались сразу же после перезагрузки страницы. (Настройки -> Форумы -> 2ch.hk -> Частичная загрузка тредов).
 2. Настройки -> Форумы -> 2ch.hk -> Тип капчи -> reCAPTCHA 2

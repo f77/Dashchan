@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.1'
         classpath 'com.trevjonez.AndroidGithubReleasePlugin:plugin:1.2.2'
     }
 }
@@ -27,7 +27,7 @@ apply plugin: 'com.trevjonez.AndroidGithubReleasePlugin'
 
 dependencies {
     compileOnly 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
-    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.browser:browser:1.2.0'
 }
 
 def privateProperties = new Properties()

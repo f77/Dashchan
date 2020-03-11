@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.13.0] - 2020-03-11
+### Fixed
+- Toast button has been fixed.
+
 ## [2.12.2] - 2020-02-21
 ### Added
 - Added install instructions in English in the README.md.
@@ -115,6 +119,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added this changelog.
 - Rebuilt to a new Android SDK (29).
 
+[2.13.0]: https://github.com/f77/Dashchan/compare/2.12.2...2.13.0
 [2.12.2]: https://github.com/f77/Dashchan/compare/2.12.1...2.12.2
 [2.12.1]: https://github.com/f77/Dashchan/compare/2.12.0...2.12.1
 [2.12.0]: https://github.com/f77/Dashchan/compare/2.11.1...2.12.0

@@ -510,25 +510,7 @@ public class ClickableToast {
 		}
 	}
 
-	private static boolean IS_MIUI_V9;
-
-	static {
-		boolean isMiuiV9 = false;
-
-		try {
-			Method getProperty = Class.forName("android.os.SystemProperties")
-					.getMethod("get", String.class, String.class);
-
-			String miuiVersion = StringUtils.emptyIfNull((String) getProperty
-					.invoke(null, "ro.miui.ui.version.name", ""));
-			Matcher matcher = Pattern.compile("V(\\d+)").matcher(miuiVersion);
-			isMiuiV9 = matcher.matches() && Integer.parseInt(matcher.group(1)) >= 9;
-		} catch (Exception e) {
-			// Ignore exception
-		}
-
-		IS_MIUI_V9 = isMiuiV9;
-	}
+	private static boolean IS_MIUI_V9 = true;
 
 	private static boolean isToastWindowSupported() {
 		// TYPE_TOAST works well only on Lollipop and higher, but can throw BadTokenException on some devices

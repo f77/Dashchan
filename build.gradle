@@ -28,6 +28,7 @@ apply plugin: 'com.trevjonez.AndroidGithubReleasePlugin'
 dependencies {
     compileOnly 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
     implementation 'androidx.browser:browser:1.2.0'
+    implementation 'io.noties.markwon:core:4.2.2'
 }
 
 def privateProperties = new Properties()

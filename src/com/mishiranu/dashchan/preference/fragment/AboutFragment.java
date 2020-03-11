@@ -248,7 +248,7 @@ public class AboutFragment extends BasePreferenceFragment {
 						Intent intent = new Intent(getActivity(), PreferencesActivity.class);
 						intent.putExtra(PreferencesActivity.EXTRA_SHOW_FRAGMENT, TextFragment.class.getName());
 						intent.putExtra(PreferencesActivity.EXTRA_SHOW_FRAGMENT_ARGUMENTS,
-								TextFragment.createArguments(TextFragment.TYPE_CHANGELOG, content));
+								TextFragment.createArguments(TextFragment.TYPE_CHANGELOG, content, true));
 						intent.putExtra(PreferencesActivity.EXTRA_NO_HEADERS, true);
 						startActivity(intent);
 					} else {
@@ -306,12 +306,9 @@ public class AboutFragment extends BasePreferenceFragment {
 					break;
 				}
 			}
-			Uri uri = ChanLocator.getDefault().buildPathWithHost("github.com", "Mishiranu", "Dashchan", "wiki", page);
+			Uri uri = ChanLocator.getDefault().buildPathWithHost("raw.githubusercontent.com", "f77", "Dashchan", "master", "CHANGELOG.md");
 			try {
 				String result = new HttpRequest(uri, holder).read().getString();
-				if (result != null) {
-					result = ChangelogGroupCallback.parse(result);
-				}
 				if (result == null) {
 					errorItem = new ErrorItem(ErrorItem.TYPE_UNKNOWN);
 					return false;

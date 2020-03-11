@@ -16,10 +16,6 @@
 
 package com.mishiranu.dashchan.preference.fragment;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -30,8 +26,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
-import chan.content.ChanMarkup;
-
 import com.mishiranu.dashchan.C;
 import com.mishiranu.dashchan.R;
 import com.mishiranu.dashchan.graphics.ColorScheme;
@@ -40,9 +34,17 @@ import com.mishiranu.dashchan.util.IOUtils;
 import com.mishiranu.dashchan.util.ResourceUtils;
 import com.mishiranu.dashchan.widget.CommentTextView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import chan.content.ChanMarkup;
+import io.noties.markwon.Markwon;
+
 public class TextFragment extends Fragment implements View.OnClickListener {
 	private static final String EXTRA_TYPE = "type";
 	private static final String EXTRA_CONTENT = "content";
+	private static final String EXTRA_IS_MARKDOWN = "is_markdown";
 
 	public static final int TYPE_LICENSES = 0;
 	public static final int TYPE_CHANGELOG = 1;
@@ -52,9 +54,14 @@ public class TextFragment extends Fragment implements View.OnClickListener {
 	public TextFragment() {}
 
 	public static Bundle createArguments(int type, String content) {
+		return createArguments(type, content, false);
+	}
+
+	public static Bundle createArguments(int type, String content, boolean isMarkdown) {
 		Bundle args = new Bundle();
 		args.putInt(EXTRA_TYPE, type);
 		args.putString(EXTRA_CONTENT, content);
+		args.putBoolean(EXTRA_IS_MARKDOWN, isMarkdown);
 		return args;
 	}
 
@@ -63,6 +70,7 @@ public class TextFragment extends Fragment implements View.OnClickListener {
 		Bundle args = getArguments();
 		int type = args.getInt(EXTRA_TYPE);
 		String content = args.getString(EXTRA_CONTENT);
+		boolean isMarkdown = args.getBoolean(EXTRA_IS_MARKDOWN);
 		switch (type) {
 			case TYPE_LICENSES: {
 				InputStream input = null;
@@ -79,14 +87,19 @@ public class TextFragment extends Fragment implements View.OnClickListener {
 				break;
 			}
 		}
-		CharSequence text = HtmlParser.spanify(content, new Markup(), null, null);
-		new ColorScheme(getActivity()).apply(text);
 		float density = ResourceUtils.obtainDensity(this);
 		textView = new CommentTextView(getActivity(), null, android.R.attr.textAppearanceLarge);
 		int padding = (int) (16f * density);
 		textView.setPadding(padding, padding, padding, padding);
 		textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-		textView.setText(text);
+		if (isMarkdown) {
+			final Markwon markwon = Markwon.builder(getActivity().getApplicationContext()).build();
+			markwon.setMarkdown(textView, content);
+		} else {
+			CharSequence text = HtmlParser.spanify(content, new Markup(), null, null);
+			new ColorScheme(getActivity()).apply(text);
+			textView.setText(text);
+		}
 		ScrollView scrollView = new ScrollView(getActivity());
 		scrollView.setId(android.R.id.list);
 		FrameLayout frameLayout = new FrameLayout(getActivity());

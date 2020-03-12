@@ -372,7 +372,7 @@ public class NavigationUtils {
 					}
 					case 1: {
 						uri = locator.buildQueryWithHost("yandex.ru", "images/search", "rpt", "imageview",
-								"img_url", imageUriString);
+								"url", imageUriString);
 						break;
 					}
 					case 2: {

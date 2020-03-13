@@ -372,11 +372,11 @@ public class NavigationUtils {
 					}
 					case 1: {
 						uri = locator.buildQueryWithHost("yandex.ru", "images/search", "rpt", "imageview",
-								"img_url", imageUriString);
+								"url", imageUriString);
 						break;
 					}
 					case 2: {
-						uri = locator.buildQueryWithHost("www.tineye.com", "search", "url", imageUriString);
+						uri = locator.buildQueryWithHost("tineye.com", "search", "url", imageUriString);
 						break;
 					}
 					case 3: {
@@ -384,18 +384,28 @@ public class NavigationUtils {
 						break;
 					}
 					case 4: {
-						uri = locator.buildQueryWithSchemeHost(false, "iqdb.org", null, "url", imageUriString);
+						uri = locator.buildQueryWithHost("iqdb.org", null, "url", imageUriString);
 						break;
 					}
 					case 5: {
-						uri = locator.buildQueryWithHost("whatanime.ga", "/", "url", imageUriString);
+						uri = locator.buildQueryWithHost("trace.moe", "/", "url", imageUriString);
 						break;
 					}
 					default: {
 						return;
 					}
 				}
-				handleUri(context, null, uri, BrowserType.EXTERNAL);
+
+				boolean chromeTabs = Preferences.isUseChromeTabs();
+				if (chromeTabs) {
+					CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+					int color = ResourceUtils.getColor(context, R.attr.colorPrimarySupport);
+					builder.setToolbarColor(color);
+					CustomTabsIntent customTabsIntent = builder.build();
+					customTabsIntent.launchUrl(context, uri);
+				} else {
+					handleUri(context, null, uri, BrowserType.EXTERNAL);
+				}
 			}
 		})
 				.addItem(0, "Google")
@@ -403,7 +413,7 @@ public class NavigationUtils {
 				.addItem(2, "TinEye")
 				.addItem(3, "SauceNAO")
 				.addItem(4, "iqdb")
-				.addItem(5, "whatanime")
+				.addItem(5, "trace.moe")
 				.show();
 	}
 

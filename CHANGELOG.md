@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.15.0] - 2020-03-13
+### Fixed
+- Pictures search has been improved.
+
 ## [2.14.0] - 2020-03-11
 ### Added
 - Now you can see this changelog directly from the app (Preferences -> About -> Changelog).
@@ -123,6 +127,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added this changelog.
 - Rebuilt to a new Android SDK (29).
 
+[2.15.0]: https://github.com/f77/Dashchan/compare/2.14.0...2.15.0
 [2.14.0]: https://github.com/f77/Dashchan/compare/2.13.0...2.14.0
 [2.13.0]: https://github.com/f77/Dashchan/compare/2.12.2...2.13.0
 [2.12.2]: https://github.com/f77/Dashchan/compare/2.12.1...2.12.2

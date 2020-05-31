@@ -176,10 +176,12 @@ public class CaptchaForm implements View.OnClickListener, View.OnLongClickListen
 			case NEED_LOAD: {
 				boolean needLoad = captchaState == ChanPerformer.CaptchaState.NEED_LOAD;
 				if (needLoad) {
-					blockParentView.setEnabled(true);
+					blockParentView.setVisibility(View.VISIBLE);
+					inputView.setVisibility(View.VISIBLE);
 					skipTextView.setText(R.string.action_load_captcha);
 				} else {
-					blockParentView.setEnabled(false);
+					blockParentView.setVisibility(View.GONE);
+					inputView.setVisibility(View.GONE);
 					skipTextView.setText(R.string.message_can_skip_captcha);
 				}
 				loadButton.setVisibility(View.GONE);

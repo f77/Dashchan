@@ -369,7 +369,7 @@ public class ForegroundManager implements Handler.Callback {
 		}
 
 		@Override
-		public void onRefreshCapctha(boolean forceRefresh) {
+		public void onRefreshCaptcha(boolean forceRefresh) {
 			CaptchaPendingData pendingData = getPendingData(true);
 			if (pendingData == null) {
 				return;

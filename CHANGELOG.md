@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.16.0] - 2020-06-13
+### Changed
+- Refresh button is now reloading thread, to refresh pull down.
+- Long press on refresh button now removes deleted messages.
+- Bigger send button.
+- Update libraries, change to androidx.
+### Fixed
+- Removed ability to load captcha, if it solved before.
+- Completely remove captcha after solving.
+
 ## [2.15.0] - 2020-03-13
 ### Fixed
 - Pictures search has been improved.

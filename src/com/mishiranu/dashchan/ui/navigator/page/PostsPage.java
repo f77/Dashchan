@@ -26,7 +26,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Parcel;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.ActionMode;
@@ -40,6 +39,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import androidx.annotation.LayoutRes;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.mishiranu.dashchan.C;
 import com.mishiranu.dashchan.R;
@@ -358,6 +360,14 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
         threadOptions.add(0, THREAD_OPTIONS_MENU_HIDDEN_POSTS, 0, R.string.action_hidden_posts);
         threadOptions.add(0, THREAD_OPTIONS_MENU_CLEAR_DELETED, 0, R.string.action_clear_deleted);
         threadOptions.add(0, THREAD_OPTIONS_MENU_SUMMARY, 0, R.string.action_summary);
+
+        // Create custom thread reload menu icon.
+        createCustomMenuItem(menu.findItem(THREAD_OPTIONS_MENU_RELOAD), R.layout.custom_reload_button,
+                v -> refreshPosts(true, true),
+                v -> {
+                    showClearDeletedPostsDialog();
+                    return true;
+                });
     }
 
     @Override
@@ -520,22 +530,7 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
                 return true;
             }
             case THREAD_OPTIONS_MENU_CLEAR_DELETED: {
-                new AlertDialog.Builder(getActivity()).setMessage(R.string.message_clear_deleted_posts_warning)
-                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                            PostsExtra extra = getExtra();
-                            Posts cachedPosts = extra.cachedPosts;
-                            cachedPosts.clearDeletedPosts();
-                            ArrayList<PostItem> deletedPostItems = adapter.clearDeletedPosts();
-                            if (deletedPostItems != null) {
-                                extra.cachedPostItems.removeAll(deletedPostItems);
-                                for (PostItem postItem : deletedPostItems) {
-                                    extra.userPostNumbers.remove(postItem.getPostNumber());
-                                }
-                                notifyAllAdaptersChanged();
-                            }
-                            updateOptionsMenu(false);
-                            serializePosts();
-                        }).setNegativeButton(android.R.string.cancel, null).show();
+                showClearDeletedPostsDialog();
                 return true;
             }
             case THREAD_OPTIONS_MENU_SUMMARY: {
@@ -1689,5 +1684,47 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
         notifyTitleChanged();
 
         restoreTitleTimer.restart();
+    }
+
+    /**
+     * Show dialog for clearing deleted posts.
+     */
+    protected void showClearDeletedPostsDialog() {
+        new AlertDialog.Builder(getActivity()).setMessage(R.string.message_clear_deleted_posts_warning)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    PostsExtra extra = getExtra();
+                    Posts cachedPosts = extra.cachedPosts;
+                    cachedPosts.clearDeletedPosts();
+                    ArrayList<PostItem> deletedPostItems = getAdapter().clearDeletedPosts();
+                    if (deletedPostItems != null) {
+                        extra.cachedPostItems.removeAll(deletedPostItems);
+                        for (PostItem postItem : deletedPostItems) {
+                            extra.userPostNumbers.remove(postItem.getPostNumber());
+                        }
+                        notifyAllAdaptersChanged();
+                    }
+                    updateOptionsMenu(false);
+                    serializePosts();
+                }).setNegativeButton(android.R.string.cancel, null).show();
+    }
+
+    /**
+     * Create custom menu item with possibility to set onLongClickListener.
+     *
+     * @param item                Menu item
+     * @param buttonLayoutId      Button layout.
+     * @param onClickListener     onClick listener.
+     * @param onLongClickListener onLongClick listener.
+     * @link https://stackoverflow.com/a/31921679/10452175
+     */
+    protected void createCustomMenuItem(MenuItem item, @LayoutRes int buttonLayoutId,
+                                        View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener) {
+        item.setActionView(buttonLayoutId);
+        if (onClickListener != null) {
+            item.getActionView().setOnClickListener(onClickListener);
+        }
+        if (onLongClickListener != null) {
+            item.getActionView().setOnLongClickListener(onLongClickListener);
+        }
     }
 }

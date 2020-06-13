@@ -48,7 +48,7 @@
 		<Button
 			android:id="@+id/send_button"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="100dp"
 			android:layout_weight="1"
 			style="?android:attr/borderlessButtonStyle"
 			android:text="@string/action_send" />

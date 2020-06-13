@@ -22,14 +22,14 @@
 	android:orientation="vertical"
 	android:padding="@dimen/dialog_padding_view">
 
-    <TextView
+	<TextView
 		android:id="@+id/comment"
+		style="?android:attr/textAppearanceListItemSmall"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="12dp"
 		android:paddingLeft="4dp"
-		android:paddingRight="4dp"
-		style="?android:attr/textAppearanceListItemSmall" />
+		android:paddingRight="4dp" />
 
 	<include layout="@layout/widget_common_captcha_block" />
 

@@ -30,7 +30,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.ContextThemeWrapper;
 import com.mishiranu.dashchan.C;
 import com.mishiranu.dashchan.R;

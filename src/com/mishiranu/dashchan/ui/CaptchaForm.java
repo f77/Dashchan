@@ -59,7 +59,7 @@ public class CaptchaForm implements View.OnClickListener, View.OnLongClickListen
 	private ChanConfiguration.Captcha.Input captchaInput;
 
 	public interface Callback {
-		public void onRefreshCapctha(boolean forceRefresh);
+		public void onRefreshCaptcha(boolean forceRefresh);
 		public void onConfirmCaptcha();
 	}
 
@@ -135,9 +135,9 @@ public class CaptchaForm implements View.OnClickListener, View.OnLongClickListen
 	@Override
 	public void onClick(View v) {
 		if (v == loadButton) {
-			callback.onRefreshCapctha(true);
+			callback.onRefreshCaptcha(true);
 		} else if (v == blockParentView || v == refreshButton) {
-			callback.onRefreshCapctha(false);
+			callback.onRefreshCaptcha(false);
 		} else if (inputParentView != null && v == inputParentView) {
 			inputView.requestFocus();
 			InputMethodManager inputMethodManager = (InputMethodManager) v.getContext()
@@ -151,7 +151,7 @@ public class CaptchaForm implements View.OnClickListener, View.OnLongClickListen
 	@Override
 	public boolean onLongClick(View v) {
 		if (v == blockParentView || v == refreshButton) {
-			callback.onRefreshCapctha(true);
+			callback.onRefreshCaptcha(true);
 			return true;
 		}
 		return false;
@@ -175,8 +175,15 @@ public class CaptchaForm implements View.OnClickListener, View.OnLongClickListen
 			case SKIP:
 			case NEED_LOAD: {
 				boolean needLoad = captchaState == ChanPerformer.CaptchaState.NEED_LOAD;
-				skipTextView.setText(needLoad ? R.string.action_load_captcha
-						: R.string.message_can_skip_captcha);
+				if (needLoad) {
+					blockParentView.setVisibility(View.VISIBLE);
+					inputView.setVisibility(View.VISIBLE);
+					skipTextView.setText(R.string.action_load_captcha);
+				} else {
+					blockParentView.setVisibility(View.GONE);
+					inputView.setVisibility(View.GONE);
+					skipTextView.setText(R.string.message_can_skip_captcha);
+				}
 				loadButton.setVisibility(View.GONE);
 				switchToCaptchaView(CaptchaViewType.SKIP, null, false);
 				break;

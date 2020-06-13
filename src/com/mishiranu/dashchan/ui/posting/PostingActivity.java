@@ -576,7 +576,7 @@ public class PostingActivity extends StateActivity implements View.OnClickListen
 	}
 
 	@Override
-	public void onRefreshCapctha(boolean forceRefresh) {
+	public void onRefreshCaptcha(boolean forceRefresh) {
 		refreshCaptcha(forceRefresh, false, true);
 	}
 

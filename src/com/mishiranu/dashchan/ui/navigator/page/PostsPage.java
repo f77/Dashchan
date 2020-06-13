@@ -26,7 +26,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Parcel;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.ActionMode;
@@ -340,7 +340,7 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
         menu.add(0, OPTIONS_MENU_SEARCH, 0, R.string.action_search);
         menu.add(0, OPTIONS_MENU_GALLERY, 0, R.string.action_gallery);
         menu.add(0, OPTIONS_MENU_SELECT, 0, R.string.action_select);
-        menu.add(0, OPTIONS_MENU_REFRESH, 0, R.string.action_refresh).setIcon(obtainIcon(R.attr.actionRefresh))
+        menu.add(0, THREAD_OPTIONS_MENU_RELOAD, 0, R.string.action_refresh).setIcon(obtainIcon(R.attr.actionRefresh))
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         menu.addSubMenu(0, OPTIONS_MENU_APPEARANCE, 0, R.string.action_appearance);
         SubMenu threadOptions = menu.addSubMenu(0, OPTIONS_MENU_THREAD_OPTIONS, 0, R.string.action_thread_options);
@@ -353,7 +353,7 @@ public class PostsPage extends ListPage<PostsAdapter> implements FavoritesStorag
         menu.add(0, OPTIONS_MENU_OPEN_ORIGINAL_THREAD, 0, R.string.action_open_the_original);
         menu.add(0, OPTIONS_MENU_ARCHIVE, 0, R.string.action_archive_add);
 
-        threadOptions.add(0, THREAD_OPTIONS_MENU_RELOAD, 0, R.string.action_reload);
+        //threadOptions.add(0, THREAD_OPTIONS_MENU_RELOAD, 0, R.string.action_reload);
         threadOptions.add(0, THREAD_OPTIONS_MENU_AUTO_REFRESH, 0, R.string.action_auto_refresh).setCheckable(true);
         threadOptions.add(0, THREAD_OPTIONS_MENU_HIDDEN_POSTS, 0, R.string.action_hidden_posts);
         threadOptions.add(0, THREAD_OPTIONS_MENU_CLEAR_DELETED, 0, R.string.action_clear_deleted);

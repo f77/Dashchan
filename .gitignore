@@ -6,6 +6,7 @@
 !/src-api
 !/src-external
 !/update
+!/player-lib
 !/.gitattributes
 !/.gitignore
 !/AndroidManifest.xml

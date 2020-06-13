@@ -589,6 +589,10 @@
 	<string name="preference_use_video_player_summary">Воспроизводить вложенные WebM видео</string>
 	<string name="preference_use_video_player_warning">Для работы видеоплеера необходимо установить
 		библиотеки декодирования.</string>
+	<string name="preference_use_exo_player">Использовать ExoPlayer</string>
+	<string name="preference_use_exo_player_summary">Воспроизводить вложенные видео</string>
+	<string name="preference_is_hide_exo_player_system_ui">Скрыть системный UI</string>
+	<string name="preference_is_hide_exo_player_system_ui_summary">Скрыть элементы интерфейса (запустить в полноэкранном режиме)</string>
 	<string name="preference_user_authorization">Авторизация пользователя</string>
 	<string name="preference_verify_certificate">Проверять сертификат</string>
 	<string name="preference_verify_certificate_summary">Соединение будет разорвано, если сертификат

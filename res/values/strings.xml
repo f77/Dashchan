@@ -568,6 +568,10 @@
 	<string name="preference_use_video_player_summary">Play WebM video attachments</string>
 	<string name="preference_use_video_player_warning">You must install decoding libraries to enable
 		video player.</string>
+	<string name="preference_use_exo_player">Use ExoPlayer</string>
+	<string name="preference_use_exo_player_summary">Play video attachments</string>
+	<string name="preference_is_hide_exo_player_system_ui">Hide system UI</string>
+	<string name="preference_is_hide_exo_player_system_ui_summary">Hide ui elements (run in fullscreen mode)</string>
 	<string name="preference_user_authorization">User authorization</string>
 	<string name="preference_verify_certificate">Verify certificate</string>
 	<string name="preference_verify_certificate_summary">Connection will be terminated if the certificate

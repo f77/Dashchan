@@ -1026,10 +1026,22 @@ public class Preferences {
 
 	public static final String KEY_USE_VIDEO_PLAYER = "use_video_player";
 	public static final boolean DEFAULT_USE_VIDEO_PLAYER = false;
-
 	public static boolean isUseVideoPlayer() {
 		return PREFERENCES.getBoolean(KEY_USE_VIDEO_PLAYER, DEFAULT_USE_VIDEO_PLAYER);
 	}
+
+	public static final String KEY_USE_EXOPLAYER = "use_exoplayer";
+	public static final boolean DEFAULT_USE_EXOPLAYER = true;
+	public static boolean isUseExoplayer() {
+		return PREFERENCES.getBoolean(KEY_USE_EXOPLAYER, DEFAULT_USE_EXOPLAYER);
+	}
+
+	public static final String KEY_IS_HIDE_EXOPLAYER_SYSTEM_UI= "is_hide_exoplayer_system_ui";
+	public static final boolean DEFAULT_IS_HIDE_EXOPLAYER_SYSTEM_UI = false;
+	public static boolean isHideExoplayerSystemUi() {
+		return PREFERENCES.getBoolean(KEY_IS_HIDE_EXOPLAYER_SYSTEM_UI, DEFAULT_IS_HIDE_EXOPLAYER_SYSTEM_UI);
+	}
+
 
 	public static final ChanKey KEY_USER_AUTHORIZATION = new ChanKey("%s_user_authorization");
 

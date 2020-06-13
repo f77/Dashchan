@@ -19,6 +19,10 @@ package com.mishiranu.dashchan.ui.gallery;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -29,6 +33,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +41,7 @@ import android.widget.FrameLayout;
 
 import chan.util.StringUtils;
 
+import com.mishiranu.exoplayer.PlayerActivity;
 import com.mishiranu.dashchan.R;
 import com.mishiranu.dashchan.content.CacheManager;
 import com.mishiranu.dashchan.content.ImageLoader;
@@ -289,6 +295,25 @@ public class PagerUnit implements PagerInstance.Callback, ImageLoader.Observer {
 		}
 		holder.playButton.setVisibility(View.GONE);
 		Uri uri = galleryItem.getFileUri(galleryInstance.locator);
+
+
+		boolean isExoplayer = Preferences.isUseExoplayer();
+		if (isVideo && isExoplayer) {
+			imageUnit.interrupt(true);
+			Log.d("EXOPLAYER_VIDEO_STARTED", uri.toString());
+
+			Intent intent = new Intent(galleryInstance.context, PlayerActivity.class);
+			intent.putExtra(PlayerActivity.STATE_KEY_URL, uri.toString());
+			intent.putExtra(PlayerActivity.STATE_KEY_HIDE_SYSTEM_UI, Preferences.isHideExoplayerSystemUi());
+			intent.putExtra(PlayerActivity.STATE_KEY_IS_REPEAT,
+					Preferences.getVideoCompletionMode() == Preferences.VIDEO_COMPLETION_MODE_LOOP);
+			galleryInstance.context.startActivity(intent);
+
+			// Костыль, чтобы скрыть нескрывшийся просмотр thumbnail.
+			getActivity(galleryInstance.context).onBackPressed();
+			return;
+		}
+
 		File cachedFile = cacheManager.getMediaFile(uri, true);
 		if (cachedFile == null) {
 			showError(holder, galleryInstance.context.getString(R.string.message_cache_unavailable));
@@ -673,5 +698,26 @@ public class PagerUnit implements PagerInstance.Callback, ImageLoader.Observer {
 			currentPopupDialogMenu.dismiss();
 			displayPopupMenu();
 		}
+	}
+
+	protected Activity getActivity(Context context)
+	{
+		if (context == null)
+		{
+			return null;
+		}
+		else if (context instanceof ContextWrapper)
+		{
+			if (context instanceof Activity)
+			{
+				return (Activity) context;
+			}
+			else
+			{
+				return getActivity(((ContextWrapper) context).getBaseContext());
+			}
+		}
+
+		return null;
 	}
 }

@@ -114,20 +114,30 @@ public class ContentsFragment extends BasePreferenceFragment implements DialogIn
 		if (!playerAvailable) {
 			makeButton(videoPlayerCategory, 0, R.string.preference_use_video_player_warning, true).setSelectable(false);
 		}
+
+		makeCheckBox(videoPlayerCategory, true, Preferences.KEY_USE_EXOPLAYER, Preferences.DEFAULT_USE_EXOPLAYER,
+				R.string.preference_use_exo_player, R.string.preference_use_exo_player_summary);
+		makeCheckBox(videoPlayerCategory, true, Preferences.KEY_IS_HIDE_EXOPLAYER_SYSTEM_UI,
+				Preferences.DEFAULT_IS_HIDE_EXOPLAYER_SYSTEM_UI,
+				R.string.preference_is_hide_exo_player_system_ui, R.string.preference_is_hide_exo_player_system_ui_summary);
+
 		makeCheckBox(videoPlayerCategory, true, Preferences.KEY_USE_VIDEO_PLAYER, Preferences.DEFAULT_USE_VIDEO_PLAYER,
 				R.string.preference_use_video_player, R.string.preference_use_video_player_summary)
 				.setEnabled(playerAvailable);
 		makeList(videoPlayerCategory, Preferences.KEY_VIDEO_COMPLETION, Preferences.VALUES_VIDEO_COMPLETION,
 				Preferences.DEFAULT_VIDEO_COMPLETION, R.string.preference_video_completion,
-				R.array.preference_video_completion_choices).setEnabled(playerAvailable);
+				R.array.preference_video_completion_choices);
 		makeCheckBox(videoPlayerCategory, true, Preferences.KEY_VIDEO_PLAY_AFTER_SCROLL,
 				Preferences.DEFAULT_VIDEO_PLAY_AFTER_SCROLL, R.string.preference_video_play_after_scroll,
 				R.string.preference_video_play_after_scroll_summary).setEnabled(playerAvailable);
 		makeCheckBox(videoPlayerCategory, true, Preferences.KEY_VIDEO_SEEK_ANY_FRAME,
 				Preferences.DEFAULT_VIDEO_SEEK_ANY_FRAME, R.string.preference_video_seek_any_frame,
 				R.string.preference_video_seek_any_frame_summary).setEnabled(playerAvailable);
+
+		// Add dependencies.
+		addDependency(Preferences.KEY_IS_HIDE_EXOPLAYER_SYSTEM_UI, Preferences.KEY_USE_EXOPLAYER, true);
+
 		if (playerAvailable) {
-			addDependency(Preferences.KEY_VIDEO_COMPLETION, Preferences.KEY_USE_VIDEO_PLAYER, true);
 			addDependency(Preferences.KEY_VIDEO_PLAY_AFTER_SCROLL, Preferences.KEY_USE_VIDEO_PLAYER, true);
 			addDependency(Preferences.KEY_VIDEO_SEEK_ANY_FRAME, Preferences.KEY_USE_VIDEO_PLAYER, true);
 		}

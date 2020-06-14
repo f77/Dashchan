@@ -16,9 +16,6 @@
 
 package com.mishiranu.dashchan.ui.gallery;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -39,9 +36,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import chan.util.StringUtils;
-
-import com.mishiranu.exoplayer.PlayerActivity;
 import com.mishiranu.dashchan.R;
 import com.mishiranu.dashchan.content.CacheManager;
 import com.mishiranu.dashchan.content.ImageLoader;
@@ -56,6 +50,13 @@ import com.mishiranu.dashchan.util.ResourceUtils;
 import com.mishiranu.dashchan.util.ToastUtils;
 import com.mishiranu.dashchan.widget.PhotoView;
 import com.mishiranu.dashchan.widget.PhotoViewPager;
+import com.mishiranu.exoplayer.PlayerActivity;
+import com.mishiranu.exoplayer.Playlist;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import chan.util.StringUtils;
 
 public class PagerUnit implements PagerInstance.Callback, ImageLoader.Observer {
 	private final GalleryInstance galleryInstance;
@@ -302,8 +303,13 @@ public class PagerUnit implements PagerInstance.Callback, ImageLoader.Observer {
 			imageUnit.interrupt(true);
 			Log.d("EXOPLAYER_VIDEO_STARTED", uri.toString());
 
+			// Create the playlist.
+			ArrayList<Uri> URIs = galleryInstance.getGalleryURIs(true);
+			int position = URIs.indexOf(galleryItem.getFileUri(galleryInstance.locator));
+			Playlist playlist = new Playlist(URIs, position);
+
 			Intent intent = new Intent(galleryInstance.context, PlayerActivity.class);
-			intent.putExtra(PlayerActivity.STATE_KEY_URL, uri.toString());
+			intent.putExtra(PlayerActivity.STATE_PLAYLIST, playlist);
 			intent.putExtra(PlayerActivity.STATE_KEY_HIDE_SYSTEM_UI, Preferences.isHideExoplayerSystemUi());
 			intent.putExtra(PlayerActivity.STATE_KEY_IS_REPEAT,
 					Preferences.getVideoCompletionMode() == Preferences.VIDEO_COMPLETION_MODE_LOOP);

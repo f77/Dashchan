@@ -16,17 +16,21 @@
 package com.mishiranu.exoplayer;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
@@ -39,7 +43,7 @@ import com.google.android.exoplayer2.util.Util;
  * A fullscreen activity to play audio or video streams.
  */
 public class PlayerActivity extends AppCompatActivity {
-    public static final String STATE_KEY_URL = "url";
+    public static final String STATE_PLAYLIST = "playlist";
     public static final String STATE_KEY_HIDE_SYSTEM_UI = "hide_system_ui";
     public static final String STATE_KEY_IS_REPEAT = "is_repeat";
 
@@ -48,27 +52,61 @@ public class PlayerActivity extends AppCompatActivity {
 
     private PlayerView playerView;
     private SimpleExoPlayer player;
-    private String url;
     private boolean playWhenReady = true;
-    private int currentWindow = 0;
+    private int currentWindow;
     private long playbackPosition = 0;
+    private boolean isControllerShowedNow = false;
 
+    private Playlist playlist;
     private boolean isHideSystemUi;
     private boolean isRepeat;
+
+    private GestureDetectorCompat gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-
+        gestureDetector = new GestureDetectorCompat(this, new MyGestureListener());
         playerView = findViewById(R.id.video_view);
+        initPlayerView(playerView);
+
+        // https://github.com/google/ExoPlayer/issues/5725#issuecomment-493431401
+        playerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
 
         playbackStateListener = new PlaybackStateListener();
 
         // Get state data.
-        url = getIntent().getStringExtra(STATE_KEY_URL);
-        isHideSystemUi = getIntent().getBooleanExtra(STATE_KEY_HIDE_SYSTEM_UI, false);
-        isRepeat = getIntent().getBooleanExtra(STATE_KEY_IS_REPEAT, true);
+        initState(getIntent());
+
+        // Set position.
+        currentWindow = playlist.getCurrentPosition();
+    }
+
+    /**
+     * Initialise activity state.
+     *
+     * @param intent Intent.
+     */
+    protected void initState(Intent intent) {
+        playlist = intent.getParcelableExtra(STATE_PLAYLIST);
+        isHideSystemUi = intent.getBooleanExtra(STATE_KEY_HIDE_SYSTEM_UI, false);
+        isRepeat = intent.getBooleanExtra(STATE_KEY_IS_REPEAT, true);
+    }
+
+    /**
+     * Initialize PlayerView.
+     *
+     * @param playerView PlayerView.
+     */
+    protected void initPlayerView(PlayerView playerView) {
+        playerView.setControllerHideOnTouch(false);
     }
 
     @Override
@@ -115,8 +153,7 @@ public class PlayerActivity extends AppCompatActivity {
         }
 
         playerView.setPlayer(player);
-        Uri uri = Uri.parse(url);
-        MediaSource mediaSource = buildMediaSource(uri);
+        MediaSource mediaSource = buildMediaSource(playlist);
 
         player.setPlayWhenReady(playWhenReady);
         player.seekTo(currentWindow, playbackPosition);
@@ -136,10 +173,22 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
-    private MediaSource buildMediaSource(Uri uri) {
+    private MediaSource buildMediaSource(Playlist playlist) {
+        // These factories are used to construct two media sources below.
         DataSource.Factory dataSourceFactory =
-                new DefaultDataSourceFactory(this, "exoplayer-codelab");
-        return new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+                new DefaultDataSourceFactory(this, "exoplayer-dashchan");
+        ProgressiveMediaSource.Factory mediaSourceFactory =
+                new ProgressiveMediaSource.Factory(dataSourceFactory);
+
+        // Result media source.
+        ConcatenatingMediaSource concatenatingMediaSource = new ConcatenatingMediaSource();
+
+        // Add single sources.
+        for (Uri uri : playlist.getURIs()) {
+            concatenatingMediaSource.addMediaSource(mediaSourceFactory.createMediaSource(uri));
+        }
+
+        return concatenatingMediaSource;
     }
 
     @SuppressLint("InlinedApi")
@@ -150,6 +199,18 @@ public class PlayerActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    /**
+     * Reverse current status of the controller.
+     */
+    protected void changeControllerVisibility() {
+        isControllerShowedNow = !isControllerShowedNow;
+        if (isControllerShowedNow) {
+            playerView.hideController();
+        } else {
+            playerView.showController();
+        }
     }
 
     private class PlaybackStateListener implements Player.EventListener {
@@ -180,4 +241,34 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
+    class MyGestureListener extends OnSwipeListener {
+        private static final String DEBUG_TAG = "EXOPLAYER_GESTURES";
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            Log.d(DEBUG_TAG, "SINGLE TAP");
+            changeControllerVisibility();
+            return super.onSingleTapConfirmed(e);
+        }
+
+        @Override
+        public boolean onSwipe(Direction direction) {
+            Log.d(DEBUG_TAG, "SWIPE TO: " + direction.name());
+            switch (direction) {
+                case up:
+                    finish();
+                    break;
+                case down:
+                    break;
+                case left:
+                    player.next();
+                    break;
+                case right:
+                    player.previous();
+                    break;
+            }
+
+            return super.onSwipe(direction);
+        }
+    }
 }

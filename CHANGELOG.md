@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.18.0] - 2020-06-14
+### Added
+- Added whole thread's playlist playing in the exoplayer (exoplayer supports navigation between videos now).
+- Added touch gestures in the exoplayer (left and right swipes for navigation and up swipe to close the player).
+### Fixed
+- Fixed appearing of the second app icon.
+
 ## [2.17.0] - 2020-06-14
 ### Added
 - Added test support of ExoPlayer. Enabled by default. You can disable it in "Preferences -> Contents -> Video Player -> Use ExoPlayer".
@@ -141,6 +148,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added this changelog.
 - Rebuilt to a new Android SDK (29).
 
+[2.18.0]: https://github.com/f77/Dashchan/compare/2.17.0...2.18.0
 [2.17.0]: https://github.com/f77/Dashchan/compare/2.16.0...2.17.0
 [2.16.0]: https://github.com/f77/Dashchan/compare/2.15.0...2.16.0
 [2.15.0]: https://github.com/f77/Dashchan/compare/2.14.0...2.15.0

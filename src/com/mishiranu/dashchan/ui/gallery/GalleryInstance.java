@@ -19,6 +19,7 @@ package com.mishiranu.dashchan.ui.gallery;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.net.Uri;
 
 import chan.content.ChanLocator;
 
@@ -41,6 +42,23 @@ public class GalleryInstance {
 	public GalleryInstance(Context context, Callback callback) {
 		this.context = context;
 		this.callback = callback;
+	}
+
+	/**
+	 * Get URIs of the all gallery items.
+	 * @param isOnlyVideos Get only videos?
+	 * @return URIs.
+	 */
+	public ArrayList<Uri> getGalleryURIs (boolean isOnlyVideos) {
+		ArrayList<Uri> URIs = new ArrayList<>();
+		for (GalleryItem item: galleryItems) {
+			if (isOnlyVideos && !item.isVideo(locator)) {
+				continue;
+			}
+
+			URIs.add(item.getFileUri(locator));
+		}
+		return URIs;
 	}
 
 	public interface Callback {

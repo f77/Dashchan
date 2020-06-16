@@ -33,7 +33,9 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -48,7 +50,7 @@ public class PlayerActivity extends AppCompatActivity {
     public static final String STATE_KEY_IS_REPEAT = "is_repeat";
 
     private PlaybackStateListener playbackStateListener;
-    private static final String TAG = PlayerActivity.class.getName();
+    private static final String DEBUG_TAG = PlayerActivity.class.getName();
 
     private PlayerView playerView;
     private SimpleExoPlayer player;
@@ -214,30 +216,46 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private class PlaybackStateListener implements Player.EventListener {
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            if (playbackState == Player.STATE_IDLE || playbackState == Player.STATE_ENDED || !playWhenReady) {
+                // Can sleep.
+                playerView.setKeepScreenOn(false);
+            } else { // STATE_BUFFERING, STATE_READY, playWhenReady is true
+                // Prevent sleep.
+                playerView.setKeepScreenOn(true);
+            }
+
+            Log.d(DEBUG_TAG, "changed STATE to " + stateToString(playbackState) + " playWhenReady: " + playWhenReady);
+        }
 
         @Override
-        public void onPlayerStateChanged(boolean playWhenReady,
-                                         int playbackState) {
-            String stateString;
+        public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+            Log.d(DEBUG_TAG, "currentWindowIndex changed to " + player.getCurrentWindowIndex());
+        }
+
+        /**
+         * Convert playbackState to string.
+         *
+         * @param playbackState playbackState.
+         * @return Description.
+         */
+        protected String stateToString(int playbackState) {
             switch (playbackState) {
                 case ExoPlayer.STATE_IDLE:
-                    stateString = "ExoPlayer.STATE_IDLE      -";
-                    break;
+                    return "ExoPlayer.STATE_IDLE      -";
+
                 case ExoPlayer.STATE_BUFFERING:
-                    stateString = "ExoPlayer.STATE_BUFFERING -";
-                    break;
+                    return "ExoPlayer.STATE_BUFFERING -";
+
                 case ExoPlayer.STATE_READY:
-                    stateString = "ExoPlayer.STATE_READY     -";
-                    break;
+                    return "ExoPlayer.STATE_READY     -";
+
                 case ExoPlayer.STATE_ENDED:
-                    stateString = "ExoPlayer.STATE_ENDED     -";
-                    break;
+                    return "ExoPlayer.STATE_ENDED     -";
                 default:
-                    stateString = "UNKNOWN_STATE             -";
-                    break;
+                    return "UNKNOWN_STATE             -";
             }
-            Log.d(TAG, "changed state to " + stateString
-                    + " playWhenReady: " + playWhenReady);
         }
     }
 

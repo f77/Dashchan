@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.19.0] - 2020-06-14
+### Changed
+- Prevent sleep mode when playing with exoplayer.
+
 ## [2.18.0] - 2020-06-14
 ### Added
 - Added whole thread's playlist playing in the exoplayer (exoplayer supports navigation between videos now).
@@ -148,6 +152,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added this changelog.
 - Rebuilt to a new Android SDK (29).
 
+[2.19.0]: https://github.com/f77/Dashchan/compare/2.18.0...2.19.0
 [2.18.0]: https://github.com/f77/Dashchan/compare/2.17.0...2.18.0
 [2.17.0]: https://github.com/f77/Dashchan/compare/2.16.0...2.17.0
 [2.16.0]: https://github.com/f77/Dashchan/compare/2.15.0...2.16.0

@@ -25,28 +25,28 @@ import com.mishiranu.dashchan.graphics.ColorScheme;
 import com.mishiranu.dashchan.util.GraphicsUtils;
 
 public class GainedColorSpan extends CharacterStyle implements UpdateAppearance, ColorScheme.Span {
-	private final int foregroundColor;
-	private float colorGainFactor;
+    private final int foregroundColor;
+    private float colorGainFactor;
 
-	public GainedColorSpan(int foregroundColor) {
-		this.foregroundColor = foregroundColor;
-	}
+    public GainedColorSpan(int foregroundColor) {
+        this.foregroundColor = foregroundColor;
+    }
 
-	@Override
-	public void applyColorScheme(ColorScheme colorScheme) {
-		if (colorScheme != null) {
-			colorGainFactor = colorScheme.colorGainFactor;
-		}
-	}
+    @Override
+    public void applyColorScheme(ColorScheme colorScheme) {
+        if (colorScheme != null) {
+            colorGainFactor = colorScheme.colorGainFactor;
+        }
+    }
 
-	public int getForegroundColor() {
-		return foregroundColor;
-	}
+    public int getForegroundColor() {
+        return foregroundColor;
+    }
 
-	@Override
-	public void updateDrawState(TextPaint paint) {
-		if (paint.getColor() != Color.TRANSPARENT) {
-			paint.setColor(GraphicsUtils.modifyColorGain(foregroundColor, colorGainFactor));
-		}
-	}
+    @Override
+    public void updateDrawState(TextPaint paint) {
+        if (paint.getColor() != Color.TRANSPARENT) {
+            paint.setColor(GraphicsUtils.modifyColorGain(foregroundColor, colorGainFactor));
+        }
+    }
 }

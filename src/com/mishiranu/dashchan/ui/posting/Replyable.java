@@ -20,40 +20,40 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public interface Replyable {
-	public void onRequestReply(ReplyData... data);
+    public void onRequestReply(ReplyData... data);
 
-	public static class ReplyData implements Parcelable {
-		public final String postNumber;
-		public final String comment;
+    public static class ReplyData implements Parcelable {
+        public final String postNumber;
+        public final String comment;
 
-		public ReplyData(String postNumber, String comment) {
-			this.postNumber = postNumber;
-			this.comment = comment;
-		}
+        public ReplyData(String postNumber, String comment) {
+            this.postNumber = postNumber;
+            this.comment = comment;
+        }
 
-		@Override
-		public int describeContents() {
-			return 0;
-		}
+        @Override
+        public int describeContents() {
+            return 0;
+        }
 
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {
-			dest.writeString(postNumber);
-			dest.writeString(comment);
-		}
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(postNumber);
+            dest.writeString(comment);
+        }
 
-		public static final Creator<ReplyData> CREATOR = new Creator<ReplyData>() {
-			@Override
-			public ReplyData createFromParcel(Parcel source) {
-				String postNumber = source.readString();
-				String comment = source.readString();
-				return new ReplyData(postNumber, comment);
-			}
+        public static final Creator<ReplyData> CREATOR = new Creator<ReplyData>() {
+            @Override
+            public ReplyData createFromParcel(Parcel source) {
+                String postNumber = source.readString();
+                String comment = source.readString();
+                return new ReplyData(postNumber, comment);
+            }
 
-			@Override
-			public ReplyData[] newArray(int size) {
-				return new ReplyData[size];
-			}
-		};
-	}
+            @Override
+            public ReplyData[] newArray(int size) {
+                return new ReplyData[size];
+            }
+        };
+    }
 }

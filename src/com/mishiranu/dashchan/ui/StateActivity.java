@@ -26,71 +26,72 @@ import com.mishiranu.dashchan.content.LocaleManager;
 
 @SuppressLint("Registered")
 public class StateActivity extends Activity {
-	public static class InstanceFragment extends Fragment {
-		@Override
-		public void onDetach() {
-			((StateActivity) getActivity()).callOnFinish(true);
-			super.onDetach();
-		}
-	}
+    public static class InstanceFragment extends Fragment {
+        @Override
+        public void onDetach() {
+            ((StateActivity) getActivity()).callOnFinish(true);
+            super.onDetach();
+        }
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		LocaleManager.getInstance().apply(this);
-		super.onCreate(savedInstanceState);
-		String tag = "instance";
-		FragmentManager fragmentManager = getFragmentManager();
-		InstanceFragment fragment = (InstanceFragment) fragmentManager.findFragmentByTag(tag);
-		if (fragment == null) {
-			fragment = new InstanceFragment();
-			fragment.setRetainInstance(true);
-			fragmentManager.beginTransaction().add(fragment, tag).commit();
-		}
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        LocaleManager.getInstance().apply(this);
+        super.onCreate(savedInstanceState);
+        String tag = "instance";
+        FragmentManager fragmentManager = getFragmentManager();
+        InstanceFragment fragment = (InstanceFragment) fragmentManager.findFragmentByTag(tag);
+        if (fragment == null) {
+            fragment = new InstanceFragment();
+            fragment.setRetainInstance(true);
+            fragmentManager.beginTransaction().add(fragment, tag).commit();
+        }
+    }
 
-	private boolean isRecreateCalled = false;
+    private boolean isRecreateCalled = false;
 
-	public void postRecreate() {
-		isRecreateCalled = true;
-		getWindow().getDecorView().post(() -> recreate());
-	}
+    public void postRecreate() {
+        isRecreateCalled = true;
+        getWindow().getDecorView().post(() -> recreate());
+    }
 
-	public boolean isRecreateCalled() {
-		return isRecreateCalled;
-	}
+    public boolean isRecreateCalled() {
+        return isRecreateCalled;
+    }
 
-	private boolean onFinishCalled = false;
+    private boolean onFinishCalled = false;
 
-	@Override
-	public void recreate() {
-		super.recreate();
-		callOnFinish(true);
-	}
+    @Override
+    public void recreate() {
+        super.recreate();
+        callOnFinish(true);
+    }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		callOnFinish(false);
-	}
+    @Override
+    protected void onPause() {
+        super.onPause();
+        callOnFinish(false);
+    }
 
-	@Override
-	protected void onStop() {
-		super.onStop();
-		callOnFinish(false);
-	}
+    @Override
+    protected void onStop() {
+        super.onStop();
+        callOnFinish(false);
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		callOnFinish(false);
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        callOnFinish(false);
+    }
 
-	private void callOnFinish(boolean force) {
-		if (!onFinishCalled && (isFinishing() || force)) {
-			onFinish();
-			onFinishCalled = true;
-		}
-	}
+    private void callOnFinish(boolean force) {
+        if (!onFinishCalled && (isFinishing() || force)) {
+            onFinish();
+            onFinishCalled = true;
+        }
+    }
 
-	protected void onFinish() {}
+    protected void onFinish() {
+    }
 }

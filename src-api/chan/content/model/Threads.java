@@ -27,36 +27,36 @@ import chan.util.CommonUtils;
 // Added: 24.08.16 03:39
 @Public
 public final class Threads {
-	private Posts[] threads;
-	private int boardSpeed;
+    private Posts[] threads;
+    private int boardSpeed;
 
-	public Posts[] getThreads() {
-		return threads;
-	}
+    public Posts[] getThreads() {
+        return threads;
+    }
 
-	public Threads setThreads(Posts[] threads) {
-		this.threads = threads;
-		return this;
-	}
+    public Threads setThreads(Posts[] threads) {
+        this.threads = threads;
+        return this;
+    }
 
-	@Public
-	public int getBoardSpeed() {
-		return boardSpeed;
-	}
+    @Public
+    public int getBoardSpeed() {
+        return boardSpeed;
+    }
 
-	@Public
-	public Threads setBoardSpeed(int boardSpeed) {
-		this.boardSpeed = boardSpeed;
-		return this;
-	}
+    @Public
+    public Threads setBoardSpeed(int boardSpeed) {
+        this.boardSpeed = boardSpeed;
+        return this;
+    }
 
-	@Public
-	public Threads(Posts... threads) {
-		setThreads(CommonUtils.removeNullItems(threads, Posts.class));
-	}
+    @Public
+    public Threads(Posts... threads) {
+        setThreads(CommonUtils.removeNullItems(threads, Posts.class));
+    }
 
-	@Public
-	public Threads(Collection<? extends Posts> threads) {
-		this(CommonUtils.toArray(threads, Posts.class));
-	}
+    @Public
+    public Threads(Collection<? extends Posts> threads) {
+        this(CommonUtils.toArray(threads, Posts.class));
+    }
 }

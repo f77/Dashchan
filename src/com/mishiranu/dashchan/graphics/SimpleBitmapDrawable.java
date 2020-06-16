@@ -24,49 +24,51 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
 public class SimpleBitmapDrawable extends Drawable {
-	private final Bitmap bitmap;
-	private final int width;
-	private final int height;
+    private final Bitmap bitmap;
+    private final int width;
+    private final int height;
 
-	private final Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+    private final Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
-	public SimpleBitmapDrawable(Bitmap bitmap, int width, int height) {
-		this.bitmap = bitmap;
-		this.width = width;
-		this.height = height;
-	}
+    public SimpleBitmapDrawable(Bitmap bitmap, int width, int height) {
+        this.bitmap = bitmap;
+        this.width = width;
+        this.height = height;
+    }
 
-	public SimpleBitmapDrawable(Bitmap bitmap) {
-		this(bitmap, bitmap.getWidth(), bitmap.getHeight());
-	}
+    public SimpleBitmapDrawable(Bitmap bitmap) {
+        this(bitmap, bitmap.getWidth(), bitmap.getHeight());
+    }
 
-	@Override
-	public void draw(Canvas canvas) {
-		canvas.drawBitmap(bitmap, null, getBounds(), paint);
-	}
+    @Override
+    public void draw(Canvas canvas) {
+        canvas.drawBitmap(bitmap, null, getBounds(), paint);
+    }
 
-	@Override
-	public int getOpacity() {
-		return PixelFormat.TRANSLUCENT;
-	}
+    @Override
+    public int getOpacity() {
+        return PixelFormat.TRANSLUCENT;
+    }
 
-	@Override
-	public void setAlpha(int alpha) {}
+    @Override
+    public void setAlpha(int alpha) {
+    }
 
-	@Override
-	public void setColorFilter(ColorFilter colorFilter) {}
+    @Override
+    public void setColorFilter(ColorFilter colorFilter) {
+    }
 
-	@Override
-	public int getIntrinsicWidth() {
-		return width;
-	}
+    @Override
+    public int getIntrinsicWidth() {
+        return width;
+    }
 
-	@Override
-	public int getIntrinsicHeight() {
-		return height;
-	}
+    @Override
+    public int getIntrinsicHeight() {
+        return height;
+    }
 
-	public void recycle() {
-		bitmap.recycle();
-	}
+    public void recycle() {
+        bitmap.recycle();
+    }
 }

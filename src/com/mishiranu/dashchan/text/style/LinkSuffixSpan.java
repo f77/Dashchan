@@ -25,71 +25,71 @@ import com.mishiranu.dashchan.util.FlagUtils;
 import com.mishiranu.dashchan.util.GraphicsUtils;
 
 public class LinkSuffixSpan extends ReplacementSpan implements ColorScheme.Span {
-	private int suffix;
-	private final String postNumber;
+    private int suffix;
+    private final String postNumber;
 
-	public static final int SUFFIX_ORIGINAL_POSTER = 0x00000001;
-	public static final int SUFFIX_DIFFERENT_THREAD = 0x00000002;
-	public static final int SUFFIX_USER_POST = 0x00000004;
+    public static final int SUFFIX_ORIGINAL_POSTER = 0x00000001;
+    public static final int SUFFIX_DIFFERENT_THREAD = 0x00000002;
+    public static final int SUFFIX_USER_POST = 0x00000004;
 
-	private int foregroundColor;
+    private int foregroundColor;
 
-	public LinkSuffixSpan(int suffix, String postNumber) {
-		this.postNumber = postNumber;
-		this.suffix = suffix;
-	}
+    public LinkSuffixSpan(int suffix, String postNumber) {
+        this.postNumber = postNumber;
+        this.suffix = suffix;
+    }
 
-	public boolean isSuffixPresent(int suffix) {
-		return FlagUtils.get(this.suffix, suffix);
-	}
+    public boolean isSuffixPresent(int suffix) {
+        return FlagUtils.get(this.suffix, suffix);
+    }
 
-	public void setSuffix(int suffix, boolean present) {
-		this.suffix = FlagUtils.set(this.suffix, suffix, present);
-	}
+    public void setSuffix(int suffix, boolean present) {
+        this.suffix = FlagUtils.set(this.suffix, suffix, present);
+    }
 
-	public String getPostNumber() {
-		return postNumber;
-	}
+    public String getPostNumber() {
+        return postNumber;
+    }
 
-	private String getSuffixText() {
-		if (isSuffixPresent(SUFFIX_ORIGINAL_POSTER)) {
-			return "OP";
-		} else if (isSuffixPresent(SUFFIX_DIFFERENT_THREAD)) {
-			return "DT";
-		} else if (isSuffixPresent(SUFFIX_USER_POST)) {
-			return "Y";
-		}
-		return null;
-	}
+    private String getSuffixText() {
+        if (isSuffixPresent(SUFFIX_ORIGINAL_POSTER)) {
+            return "OP";
+        } else if (isSuffixPresent(SUFFIX_DIFFERENT_THREAD)) {
+            return "DT";
+        } else if (isSuffixPresent(SUFFIX_USER_POST)) {
+            return "Y";
+        }
+        return null;
+    }
 
-	@Override
-	public void applyColorScheme(ColorScheme colorScheme) {
-		if (colorScheme != null) {
-			foregroundColor = colorScheme.linkColor;
-		}
-	}
+    @Override
+    public void applyColorScheme(ColorScheme colorScheme) {
+        if (colorScheme != null) {
+            foregroundColor = colorScheme.linkColor;
+        }
+    }
 
-	@Override
-	public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
-		String suffixText = getSuffixText();
-		if (suffixText == null) {
-			return 0;
-		}
-		char after = end >= text.length() ? '\n' : text.charAt(end);
-		boolean addSpace = after > ' ' && after != '.' && after != ',' && after != '!' && after != '?' && after != ')'
-				&& after != ']' && after != ']' && after != ':' && after != ';';
-		paint.setTypeface(GraphicsUtils.TYPEFACE_MEDIUM);
-		return (int) paint.measureText(" " + suffixText + (addSpace ? " " : ""));
-	}
+    @Override
+    public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
+        String suffixText = getSuffixText();
+        if (suffixText == null) {
+            return 0;
+        }
+        char after = end >= text.length() ? '\n' : text.charAt(end);
+        boolean addSpace = after > ' ' && after != '.' && after != ',' && after != '!' && after != '?' && after != ')'
+                && after != ']' && after != ']' && after != ':' && after != ';';
+        paint.setTypeface(GraphicsUtils.TYPEFACE_MEDIUM);
+        return (int) paint.measureText(" " + suffixText + (addSpace ? " " : ""));
+    }
 
-	@Override
-	public void draw(Canvas canvas, CharSequence text, int start, int end,
-			float x, int top, int y, int bottom, Paint paint) {
-		String suffixText = getSuffixText();
-		if (suffixText != null) {
-			paint.setTypeface(GraphicsUtils.TYPEFACE_MEDIUM);
-			paint.setColor(foregroundColor);
-			canvas.drawText(" " + suffixText, x, y, paint);
-		}
-	}
+    @Override
+    public void draw(Canvas canvas, CharSequence text, int start, int end,
+                     float x, int top, int y, int bottom, Paint paint) {
+        String suffixText = getSuffixText();
+        if (suffixText != null) {
+            paint.setTypeface(GraphicsUtils.TYPEFACE_MEDIUM);
+            paint.setColor(foregroundColor);
+            canvas.drawText(" " + suffixText, x, y, paint);
+        }
+    }
 }

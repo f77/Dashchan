@@ -17,35 +17,35 @@
 -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-	<FrameLayout
-		android:id="@+id/surface_parent"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent" />
+    <FrameLayout
+        android:id="@+id/surface_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-	<com.mishiranu.dashchan.widget.PhotoView
-		android:id="@+id/photo_view"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent" />
+    <com.mishiranu.dashchan.widget.PhotoView
+        android:id="@+id/photo_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-	<include
-		android:id="@+id/error"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		layout="@layout/widget_error" />
+    <include
+        android:id="@+id/error"
+        layout="@layout/widget_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-	<com.mishiranu.dashchan.widget.CircularProgressBar
-		android:id="@android:id/progress"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center" />
+    <com.mishiranu.dashchan.widget.CircularProgressBar
+        android:id="@android:id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
-	<View
-		android:id="@+id/play"
-		android:layout_width="72dp"
-		android:layout_height="72dp"
-		android:layout_gravity="center" />
+    <View
+        android:id="@+id/play"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center" />
 
 </FrameLayout>

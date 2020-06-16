@@ -16,6 +16,9 @@
 
 package chan.http;
 
+import com.mishiranu.dashchan.content.model.FileHolder;
+import com.mishiranu.dashchan.util.MimeTypes;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,282 +31,285 @@ import chan.annotation.Extendable;
 import chan.annotation.Public;
 import chan.util.StringUtils;
 
-import com.mishiranu.dashchan.content.model.FileHolder;
-import com.mishiranu.dashchan.util.MimeTypes;
-
 @Extendable
 public class MultipartEntity implements RequestEntity {
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
+    private static final Random RANDOM = new Random(System.currentTimeMillis());
 
-	private final ArrayList<Part> parts = new ArrayList<>();
-	private final String boundary;
+    private final ArrayList<Part> parts = new ArrayList<>();
+    private final String boundary;
 
-	private String charsetName = "UTF-8";
+    private String charsetName = "UTF-8";
 
-	@Public
-	public MultipartEntity() {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < 27; i++) {
-			builder.append('-');
-		}
-		for (int i = 0; i < 11; i++) {
-			builder.append(RANDOM.nextInt(10));
-		}
-		boundary = builder.toString();
-	}
+    @Public
+    public MultipartEntity() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 27; i++) {
+            builder.append('-');
+        }
+        for (int i = 0; i < 11; i++) {
+            builder.append(RANDOM.nextInt(10));
+        }
+        boundary = builder.toString();
+    }
 
-	@Public
-	public MultipartEntity(String... alternation) {
-		this();
-		for (int i = 0; i < alternation.length; i += 2) {
-			add(alternation[i], alternation[i + 1]);
-		}
-	}
+    @Public
+    public MultipartEntity(String... alternation) {
+        this();
+        for (int i = 0; i < alternation.length; i += 2) {
+            add(alternation[i], alternation[i + 1]);
+        }
+    }
 
-	@Public
-	public void setEncoding(String charsetName) {
-		this.charsetName = charsetName;
-	}
+    @Public
+    public void setEncoding(String charsetName) {
+        this.charsetName = charsetName;
+    }
 
-	@Override
-	public void add(String name, String value) {
-		if (value != null) {
-			parts.add(new StringPart(name, value, charsetName));
-		}
-	}
+    @Override
+    public void add(String name, String value) {
+        if (value != null) {
+            parts.add(new StringPart(name, value, charsetName));
+        }
+    }
 
-	@Extendable
-	public void add(String name, File file) {
-		add(name, new FileHolderOpenable(FileHolder.obtain(file)), null);
-	}
+    @Extendable
+    public void add(String name, File file) {
+        add(name, new FileHolderOpenable(FileHolder.obtain(file)), null);
+    }
 
-	public final void add(String name, Openable openable, OpenableOutputListener listener) {
-		if (name == null) {
-			throw new NullPointerException("Name is null");
-		}
-		parts.add(new OpenablePart(name, openable, listener));
-	}
+    public final void add(String name, Openable openable, OpenableOutputListener listener) {
+        if (name == null) {
+            throw new NullPointerException("Name is null");
+        }
+        parts.add(new OpenablePart(name, openable, listener));
+    }
 
-	@Override
-	public String getContentType() {
-		return "multipart/form-data; boundary=" + boundary;
-	}
+    @Override
+    public String getContentType() {
+        return "multipart/form-data; boundary=" + boundary;
+    }
 
-	@Override
-	public long getContentLength() {
-		try {
-			long contentLength = 0L;
-			int boundaryLength = boundary.length();
-			int dashesLength = BYTES_TWO_DASHES.length;
-			int lineLength = BYTES_NEW_LINE.length;
-			for (Part part : parts) {
-				contentLength += dashesLength + boundaryLength + lineLength;
-				contentLength += 39 + part.getName().getBytes(charsetName).length;
-				String fileName = part.getFileName();
-				if (fileName != null) {
-					contentLength += 13 + fileName.getBytes(charsetName).length;
-				}
-				contentLength += lineLength;
-				String contentType = part.getContentType();
-				if (contentType != null) {
-					contentLength += 14 + contentType.length() + lineLength;
-				}
-				contentLength += lineLength + part.getContentLength() + lineLength;
-			}
-			contentLength += dashesLength + boundaryLength + dashesLength + lineLength;
-			return contentLength;
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    @Override
+    public long getContentLength() {
+        try {
+            long contentLength = 0L;
+            int boundaryLength = boundary.length();
+            int dashesLength = BYTES_TWO_DASHES.length;
+            int lineLength = BYTES_NEW_LINE.length;
+            for (Part part : parts) {
+                contentLength += dashesLength + boundaryLength + lineLength;
+                contentLength += 39 + part.getName().getBytes(charsetName).length;
+                String fileName = part.getFileName();
+                if (fileName != null) {
+                    contentLength += 13 + fileName.getBytes(charsetName).length;
+                }
+                contentLength += lineLength;
+                String contentType = part.getContentType();
+                if (contentType != null) {
+                    contentLength += 14 + contentType.length() + lineLength;
+                }
+                contentLength += lineLength + part.getContentLength() + lineLength;
+            }
+            contentLength += dashesLength + boundaryLength + dashesLength + lineLength;
+            return contentLength;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	private static final byte[] BYTES_TWO_DASHES = {0x2d, 0x2d};
-	private static final byte[] BYTES_NEW_LINE = {0x0d, 0x0a};
+    private static final byte[] BYTES_TWO_DASHES = {0x2d, 0x2d};
+    private static final byte[] BYTES_NEW_LINE = {0x0d, 0x0a};
 
-	@Override
-	public void write(OutputStream output) throws IOException {
-		byte[] boundary = this.boundary.getBytes("ISO-8859-1");
-		for (Part part : parts) {
-			output.write(BYTES_TWO_DASHES);
-			output.write(boundary);
-			output.write(BYTES_NEW_LINE);
-			output.write("Content-Disposition: form-data; name=\"".getBytes());
-			output.write(part.getName().getBytes(charsetName));
-			output.write('"');
-			String fileName = part.getFileName();
-			if (fileName != null) {
-				output.write("; filename=\"".getBytes());
-				output.write(fileName.getBytes(charsetName));
-				output.write('"');
-			}
-			output.write(BYTES_NEW_LINE);
-			String contentType = part.getContentType();
-			if (contentType != null) {
-				output.write(("Content-Type: " + contentType).getBytes("ISO-8859-1"));
-				output.write(BYTES_NEW_LINE);
-			}
-			output.write(BYTES_NEW_LINE);
-			part.write(output);
-			output.write(BYTES_NEW_LINE);
-		}
-		output.write(BYTES_TWO_DASHES);
-		output.write(boundary);
-		output.write(BYTES_TWO_DASHES);
-		output.write(BYTES_NEW_LINE);
-		output.flush();
-	}
+    @Override
+    public void write(OutputStream output) throws IOException {
+        byte[] boundary = this.boundary.getBytes("ISO-8859-1");
+        for (Part part : parts) {
+            output.write(BYTES_TWO_DASHES);
+            output.write(boundary);
+            output.write(BYTES_NEW_LINE);
+            output.write("Content-Disposition: form-data; name=\"".getBytes());
+            output.write(part.getName().getBytes(charsetName));
+            output.write('"');
+            String fileName = part.getFileName();
+            if (fileName != null) {
+                output.write("; filename=\"".getBytes());
+                output.write(fileName.getBytes(charsetName));
+                output.write('"');
+            }
+            output.write(BYTES_NEW_LINE);
+            String contentType = part.getContentType();
+            if (contentType != null) {
+                output.write(("Content-Type: " + contentType).getBytes("ISO-8859-1"));
+                output.write(BYTES_NEW_LINE);
+            }
+            output.write(BYTES_NEW_LINE);
+            part.write(output);
+            output.write(BYTES_NEW_LINE);
+        }
+        output.write(BYTES_TWO_DASHES);
+        output.write(boundary);
+        output.write(BYTES_TWO_DASHES);
+        output.write(BYTES_NEW_LINE);
+        output.flush();
+    }
 
-	@Override
-	public MultipartEntity copy() {
-		MultipartEntity entity = new MultipartEntity();
-		entity.setEncoding(charsetName);
-		entity.parts.addAll(parts);
-		return entity;
-	}
+    @Override
+    public MultipartEntity copy() {
+        MultipartEntity entity = new MultipartEntity();
+        entity.setEncoding(charsetName);
+        entity.parts.addAll(parts);
+        return entity;
+    }
 
-	private static abstract class Part {
-		private final String name;
+    private static abstract class Part {
+        private final String name;
 
-		public Part(String name) {
-			this.name = name;
-		}
+        public Part(String name) {
+            this.name = name;
+        }
 
-		public String getName() {
-			return name;
-		}
+        public String getName() {
+            return name;
+        }
 
-		public abstract String getFileName();
-		public abstract String getContentType();
-		public abstract long getContentLength();
-		public abstract void write(OutputStream output) throws IOException;
-	}
+        public abstract String getFileName();
 
-	private static class StringPart extends Part {
-		private final byte[] bytes;
+        public abstract String getContentType();
 
-		public StringPart(String name, String value, String charset) {
-			super(name);
-			try {
-				bytes = value.getBytes(charset);
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException(e);
-			}
-		}
+        public abstract long getContentLength();
 
-		@Override
-		public String getFileName() {
-			return null;
-		}
+        public abstract void write(OutputStream output) throws IOException;
+    }
 
-		@Override
-		public String getContentType() {
-			return null;
-		}
+    private static class StringPart extends Part {
+        private final byte[] bytes;
 
-		@Override
-		public long getContentLength() {
-			return bytes.length;
-		}
+        public StringPart(String name, String value, String charset) {
+            super(name);
+            try {
+                bytes = value.getBytes(charset);
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-		@Override
-		public void write(OutputStream output) throws IOException {
-			output.write(bytes);
-		}
-	}
+        @Override
+        public String getFileName() {
+            return null;
+        }
 
-	private static class OpenablePart extends Part {
-		private final Openable openable;
-		private final OpenableOutputListener listener;
+        @Override
+        public String getContentType() {
+            return null;
+        }
 
-		public OpenablePart(String name, Openable openable, OpenableOutputListener listener) {
-			super(name);
-			this.openable = openable;
-			this.listener = listener;
-		}
+        @Override
+        public long getContentLength() {
+            return bytes.length;
+        }
 
-		@Override
-		public String getFileName() {
-			return openable.getFileName();
-		}
+        @Override
+        public void write(OutputStream output) throws IOException {
+            output.write(bytes);
+        }
+    }
 
-		@Override
-		public String getContentType() {
-			return openable.getMimeType();
-		}
+    private static class OpenablePart extends Part {
+        private final Openable openable;
+        private final OpenableOutputListener listener;
 
-		@Override
-		public long getContentLength() {
-			return openable.getSize();
-		}
+        public OpenablePart(String name, Openable openable, OpenableOutputListener listener) {
+            super(name);
+            this.openable = openable;
+            this.listener = listener;
+        }
 
-		@Override
-		public void write(OutputStream output) throws IOException {
-			InputStream input = openable.openInputStream();
-			try {
-				long progress = 0L;
-				long progressMax = openable.getSize();
-				if (listener != null) {
-					listener.onOutputProgressChange(openable, 0L, progressMax);
-				}
-				byte[] buffer = new byte[4096];
-				int count;
-				while ((count = input.read(buffer)) > 0) {
-					output.write(buffer, 0, count);
-					progress += count;
-					if (listener != null) {
-						listener.onOutputProgressChange(openable, progress, progressMax);
-					}
-				}
-			} finally {
-				input.close();
-			}
-		}
-	}
+        @Override
+        public String getFileName() {
+            return openable.getFileName();
+        }
 
-	public interface Openable {
-		public String getFileName();
-		public String getMimeType();
-		public InputStream openInputStream() throws IOException;
-		public long getSize();
-	}
+        @Override
+        public String getContentType() {
+            return openable.getMimeType();
+        }
 
-	private static class FileHolderOpenable implements Openable {
-		private final FileHolder fileHolder;
-		private final String fileName;
-		private final String mimeType;
+        @Override
+        public long getContentLength() {
+            return openable.getSize();
+        }
 
-		public FileHolderOpenable(FileHolder fileHolder) {
-			this.fileHolder = fileHolder;
-			fileName = fileHolder.getName();
-			mimeType = obtainMimeType(fileName);
-		}
+        @Override
+        public void write(OutputStream output) throws IOException {
+            InputStream input = openable.openInputStream();
+            try {
+                long progress = 0L;
+                long progressMax = openable.getSize();
+                if (listener != null) {
+                    listener.onOutputProgressChange(openable, 0L, progressMax);
+                }
+                byte[] buffer = new byte[4096];
+                int count;
+                while ((count = input.read(buffer)) > 0) {
+                    output.write(buffer, 0, count);
+                    progress += count;
+                    if (listener != null) {
+                        listener.onOutputProgressChange(openable, progress, progressMax);
+                    }
+                }
+            } finally {
+                input.close();
+            }
+        }
+    }
 
-		@Override
-		public String getFileName() {
-			return fileName;
-		}
+    public interface Openable {
+        public String getFileName();
 
-		@Override
-		public String getMimeType() {
-			return mimeType;
-		}
+        public String getMimeType();
 
-		@Override
-		public InputStream openInputStream() throws IOException {
-			return fileHolder.openInputStream();
-		}
+        public InputStream openInputStream() throws IOException;
 
-		@Override
-		public long getSize() {
-			return fileHolder.getSize();
-		}
-	}
+        public long getSize();
+    }
 
-	static String obtainMimeType(String fileName) {
-		return MimeTypes.forExtension(StringUtils.getFileExtension(fileName), "application/octet-stream");
-	}
+    private static class FileHolderOpenable implements Openable {
+        private final FileHolder fileHolder;
+        private final String fileName;
+        private final String mimeType;
 
-	public interface OpenableOutputListener {
-		public void onOutputProgressChange(Openable openable, long progress, long progressMax);
-	}
+        public FileHolderOpenable(FileHolder fileHolder) {
+            this.fileHolder = fileHolder;
+            fileName = fileHolder.getName();
+            mimeType = obtainMimeType(fileName);
+        }
+
+        @Override
+        public String getFileName() {
+            return fileName;
+        }
+
+        @Override
+        public String getMimeType() {
+            return mimeType;
+        }
+
+        @Override
+        public InputStream openInputStream() throws IOException {
+            return fileHolder.openInputStream();
+        }
+
+        @Override
+        public long getSize() {
+            return fileHolder.getSize();
+        }
+    }
+
+    static String obtainMimeType(String fileName) {
+        return MimeTypes.forExtension(StringUtils.getFileExtension(fileName), "application/octet-stream");
+    }
+
+    public interface OpenableOutputListener {
+        public void onOutputProgressChange(Openable openable, long progress, long progressMax);
+    }
 }

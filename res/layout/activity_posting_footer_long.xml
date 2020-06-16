@@ -17,73 +17,73 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/captcha_input_parent"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:divider="?android:attr/dividerVertical"
-	android:showDividers="@integer/show_dividers"
-	android:orientation="horizontal"
-	android:gravity="center_vertical"
-	android:paddingTop="8dp"
-	android:paddingBottom="8dp">
+    android:id="@+id/captcha_input_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="?android:attr/dividerVertical"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:showDividers="@integer/show_dividers">
 
-	<FrameLayout
-		android:id="@+id/captcha_block_parent"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_weight="1"
-		android:background="?android:attr/selectableItemBackground">
+    <FrameLayout
+        android:id="@+id/captcha_block_parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground">
 
-		<FrameLayout
-			android:id="@+id/captcha_block"
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
+        <FrameLayout
+            android:id="@+id/captcha_block"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
 
-			<ImageView
-				android:id="@+id/captcha_image"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_gravity="center"
-				android:scaleType="fitCenter" />
+            <ImageView
+                android:id="@+id/captcha_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter" />
 
-			<View
-				android:id="@+id/refresh_button"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:background="?android:attr/selectableItemBackground" />
+            <View
+                android:id="@+id/refresh_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" />
 
-			<ProgressBar
-				android:id="@+id/captcha_loading"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				style="?android:attr/progressBarStyle"
-				android:indeterminate="true" />
+            <ProgressBar
+                android:id="@+id/captcha_loading"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true" />
 
-		</FrameLayout>
+        </FrameLayout>
 
-		<include layout="@layout/widget_skip_captcha" />
+        <include layout="@layout/widget_skip_captcha" />
 
-	</FrameLayout>
+    </FrameLayout>
 
-	<com.mishiranu.dashchan.widget.SafePasteEditText
-		android:id="@+id/captcha_input"
-		android:layout_width="120dp"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="12dp"
-		android:layout_marginRight="12dp"
-		android:hint="@string/text_captcha"
-		android:gravity="center"
-		android:imeOptions="flagNoExtractUi|flagNoFullscreen"
-		android:singleLine="true" />
+    <com.mishiranu.dashchan.widget.SafePasteEditText
+        android:id="@+id/captcha_input"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:gravity="center"
+        android:hint="@string/text_captcha"
+        android:imeOptions="flagNoExtractUi|flagNoFullscreen"
+        android:singleLine="true" />
 
-	<Button
-		android:id="@+id/send_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:paddingLeft="32dp"
-		android:paddingRight="32dp"
-		style="?android:attr/borderlessButtonStyle"
-		android:text="@string/action_send" />
+    <Button
+        android:id="@+id/send_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="@string/action_send" />
 
 </LinearLayout>

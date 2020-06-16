@@ -20,22 +20,22 @@ import chan.http.HttpHolder;
 
 @SuppressWarnings("unchecked")
 public abstract class HttpHolderTask<Params, Progress, Result> extends CancellableTask<Params, Progress, Result> {
-	private final HttpHolder holder = new HttpHolder();
+    private final HttpHolder holder = new HttpHolder();
 
-	@Override
-	protected final Result doInBackground(Params... params) {
-		try {
-			return doInBackground(holder, params);
-		} finally {
-			holder.cleanup();
-		}
-	}
+    @Override
+    protected final Result doInBackground(Params... params) {
+        try {
+            return doInBackground(holder, params);
+        } finally {
+            holder.cleanup();
+        }
+    }
 
-	protected abstract Result doInBackground(HttpHolder holder, Params... params);
+    protected abstract Result doInBackground(HttpHolder holder, Params... params);
 
-	@Override
-	public void cancel() {
-		cancel(true);
-		holder.interrupt();
-	}
+    @Override
+    public void cancel() {
+        cancel(true);
+        holder.interrupt();
+    }
 }

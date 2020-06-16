@@ -21,51 +21,52 @@ import chan.util.StringUtils;
 
 @Public
 public final class CookieBuilder {
-	private final StringBuilder builder = new StringBuilder();
+    private final StringBuilder builder = new StringBuilder();
 
-	@Public
-	public CookieBuilder() {}
+    @Public
+    public CookieBuilder() {
+    }
 
-	public CookieBuilder(CookieBuilder builder) {
-		append(builder);
-	}
+    public CookieBuilder(CookieBuilder builder) {
+        append(builder);
+    }
 
-	@Public
-	public CookieBuilder append(String name, String value) {
-		if (!StringUtils.isEmpty(value)) {
-			if (builder.length() > 0) {
-				builder.append("; ");
-			}
-			builder.append(name).append("=").append(value);
-		}
-		return this;
-	}
+    @Public
+    public CookieBuilder append(String name, String value) {
+        if (!StringUtils.isEmpty(value)) {
+            if (builder.length() > 0) {
+                builder.append("; ");
+            }
+            builder.append(name).append("=").append(value);
+        }
+        return this;
+    }
 
-	public CookieBuilder append(String cookie) {
-		if (!StringUtils.isEmpty(cookie)) {
-			if (cookie.matches(".*; *")) {
-				cookie = cookie.substring(0, cookie.lastIndexOf(';'));
-			}
-			if (builder.length() > 0) {
-				builder.append("; ");
-			}
-			builder.append(cookie);
-		}
-		return this;
-	}
+    public CookieBuilder append(String cookie) {
+        if (!StringUtils.isEmpty(cookie)) {
+            if (cookie.matches(".*; *")) {
+                cookie = cookie.substring(0, cookie.lastIndexOf(';'));
+            }
+            if (builder.length() > 0) {
+                builder.append("; ");
+            }
+            builder.append(cookie);
+        }
+        return this;
+    }
 
-	public CookieBuilder append(CookieBuilder builder) {
-		if (builder != null) {
-			if (this.builder.length() > 0) {
-				this.builder.append("; ");
-			}
-			this.builder.append(builder.builder);
-		}
-		return this;
-	}
+    public CookieBuilder append(CookieBuilder builder) {
+        if (builder != null) {
+            if (this.builder.length() > 0) {
+                this.builder.append("; ");
+            }
+            this.builder.append(builder.builder);
+        }
+        return this;
+    }
 
-	@Public
-	public String build() {
-		return builder.toString();
-	}
+    @Public
+    public String build() {
+        return builder.toString();
+    }
 }

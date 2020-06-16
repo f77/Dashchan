@@ -24,49 +24,50 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 public class MessageDialog extends DialogFragment implements DialogInterface.OnClickListener {
-	private static final String TAG = MessageDialog.class.getName();
+    private static final String TAG = MessageDialog.class.getName();
 
-	private static final String EXTRA_MESSAGE = "message";
-	private static final String EXTRA_FINISH_ACTIVITY = "finishActivity";
+    private static final String EXTRA_MESSAGE = "message";
+    private static final String EXTRA_FINISH_ACTIVITY = "finishActivity";
 
-	public MessageDialog() {}
+    public MessageDialog() {
+    }
 
-	public static void create(Fragment fragment, CharSequence message, boolean finishActivity) {
-		dismissIfOpen(fragment);
-		MessageDialog dialog = new MessageDialog();
-		Bundle args = new Bundle();
-		args.putCharSequence(EXTRA_MESSAGE, message);
-		args.putBoolean(EXTRA_FINISH_ACTIVITY, finishActivity);
-		dialog.setArguments(args);
-		dialog.show(fragment.getFragmentManager(), TAG);
-	}
+    public static void create(Fragment fragment, CharSequence message, boolean finishActivity) {
+        dismissIfOpen(fragment);
+        MessageDialog dialog = new MessageDialog();
+        Bundle args = new Bundle();
+        args.putCharSequence(EXTRA_MESSAGE, message);
+        args.putBoolean(EXTRA_FINISH_ACTIVITY, finishActivity);
+        dialog.setArguments(args);
+        dialog.show(fragment.getFragmentManager(), TAG);
+    }
 
-	public static void dismissIfOpen(Fragment fragment) {
-		MessageDialog dialog = (MessageDialog) fragment.getFragmentManager().findFragmentByTag(MessageDialog.TAG);
-		if (dialog != null) {
-			dialog.dismissAllowingStateLoss();
-		}
-	}
+    public static void dismissIfOpen(Fragment fragment) {
+        MessageDialog dialog = (MessageDialog) fragment.getFragmentManager().findFragmentByTag(MessageDialog.TAG);
+        if (dialog != null) {
+            dialog.dismissAllowingStateLoss();
+        }
+    }
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		return new AlertDialog.Builder(getActivity()).setMessage(getArguments().getCharSequence(EXTRA_MESSAGE))
-				.setPositiveButton(android.R.string.ok, this).create();
-	}
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new AlertDialog.Builder(getActivity()).setMessage(getArguments().getCharSequence(EXTRA_MESSAGE))
+                .setPositiveButton(android.R.string.ok, this).create();
+    }
 
-	private void checkFinish() {
-		if (getArguments().getBoolean(EXTRA_FINISH_ACTIVITY)) {
-			getActivity().finish();
-		}
-	}
+    private void checkFinish() {
+        if (getArguments().getBoolean(EXTRA_FINISH_ACTIVITY)) {
+            getActivity().finish();
+        }
+    }
 
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		checkFinish();
-	}
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        checkFinish();
+    }
 
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		checkFinish();
-	}
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        checkFinish();
+    }
 }

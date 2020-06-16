@@ -27,26 +27,26 @@ import com.mishiranu.dashchan.C;
 import com.mishiranu.dashchan.content.MainApplication;
 
 public class WebViewUtils {
-	@SuppressWarnings("deprecation")
-	public static void clearCookie() {
-		CookieManager.getInstance().removeAllCookie();
-	}
+    @SuppressWarnings("deprecation")
+    public static void clearCookie() {
+        CookieManager.getInstance().removeAllCookie();
+    }
 
-	public static void clearAll(WebView webView) {
-		clearCookie();
-		if (webView != null) {
-			webView.clearCache(true);
-		}
-		WebViewDatabase webViewDatabase = WebViewDatabase.getInstance(MainApplication.getInstance());
-		webViewDatabase.clearFormData();
-		webViewDatabase.clearHttpAuthUsernamePassword();
-		WebStorage.getInstance().deleteAllData();
-	}
+    public static void clearAll(WebView webView) {
+        clearCookie();
+        if (webView != null) {
+            webView.clearCache(true);
+        }
+        WebViewDatabase webViewDatabase = WebViewDatabase.getInstance(MainApplication.getInstance());
+        webViewDatabase.clearFormData();
+        webViewDatabase.clearHttpAuthUsernamePassword();
+        WebStorage.getInstance().deleteAllData();
+    }
 
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public static void setThirdPartyCookiesEnabled(WebView webView) {
-		if (C.API_LOLLIPOP) {
-			CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
-		}
-	}
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setThirdPartyCookiesEnabled(WebView webView) {
+        if (C.API_LOLLIPOP) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
+        }
+    }
 }

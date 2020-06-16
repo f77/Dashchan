@@ -16,6 +16,10 @@
 
 package com.mishiranu.dashchan.content.async;
 
+import com.mishiranu.dashchan.content.model.ErrorItem;
+import com.mishiranu.dashchan.content.model.PostItem;
+import com.mishiranu.dashchan.content.net.YouTubeTitlesReader;
+
 import java.net.HttpURLConnection;
 import java.util.Collections;
 
@@ -28,62 +32,59 @@ import chan.http.HttpException;
 import chan.http.HttpHolder;
 import chan.util.CommonUtils;
 
-import com.mishiranu.dashchan.content.model.ErrorItem;
-import com.mishiranu.dashchan.content.model.PostItem;
-import com.mishiranu.dashchan.content.net.YouTubeTitlesReader;
-
 public class ReadSinglePostTask extends HttpHolderTask<Void, Void, PostItem> {
-	private final Callback callback;
-	private final String boardName;
-	private final String chanName;
-	private final String postNumber;
+    private final Callback callback;
+    private final String boardName;
+    private final String chanName;
+    private final String postNumber;
 
-	private ErrorItem errorItem;
+    private ErrorItem errorItem;
 
-	public interface Callback {
-		public void onReadSinglePostSuccess(PostItem postItem);
-		public void onReadSinglePostFail(ErrorItem errorItem);
-	}
+    public interface Callback {
+        public void onReadSinglePostSuccess(PostItem postItem);
 
-	public ReadSinglePostTask(Callback callback, String chanName, String boardName, String postNumber) {
-		this.callback = callback;
-		this.boardName = boardName;
-		this.chanName = chanName;
-		this.postNumber = postNumber;
-	}
+        public void onReadSinglePostFail(ErrorItem errorItem);
+    }
 
-	@Override
-	protected PostItem doInBackground(HttpHolder holder, Void... params) {
-		long startTime = System.currentTimeMillis();
-		try {
-			ChanPerformer performer = ChanPerformer.get(chanName);
-			ChanPerformer.ReadSinglePostResult result = performer.safe().onReadSinglePost(new ChanPerformer
-					.ReadSinglePostData(boardName, postNumber, holder));
-			Post post = result != null ? result.post : null;
-			YouTubeTitlesReader.getInstance().readAndApplyIfNecessary(Collections.singletonList(post), holder);
-			startTime = 0L;
-			return new PostItem(post, chanName, boardName);
-		} catch (HttpException e) {
-			errorItem = e.getErrorItemAndHandle();
-			if (errorItem.httpResponseCode == HttpURLConnection.HTTP_NOT_FOUND ||
-					errorItem.httpResponseCode == HttpURLConnection.HTTP_GONE) {
-				errorItem = new ErrorItem(ErrorItem.TYPE_POST_NOT_FOUND);
-			}
-		} catch (ExtensionException | InvalidResponseException e) {
-			errorItem = e.getErrorItemAndHandle();
-		} finally {
-			ChanConfiguration.get(chanName).commit();
-			CommonUtils.sleepMaxTime(startTime, 500);
-		}
-		return null;
-	}
+    public ReadSinglePostTask(Callback callback, String chanName, String boardName, String postNumber) {
+        this.callback = callback;
+        this.boardName = boardName;
+        this.chanName = chanName;
+        this.postNumber = postNumber;
+    }
 
-	@Override
-	protected void onPostExecute(PostItem result) {
-		if (result != null) {
-			callback.onReadSinglePostSuccess(result);
-		} else {
-			callback.onReadSinglePostFail(errorItem);
-		}
-	}
+    @Override
+    protected PostItem doInBackground(HttpHolder holder, Void... params) {
+        long startTime = System.currentTimeMillis();
+        try {
+            ChanPerformer performer = ChanPerformer.get(chanName);
+            ChanPerformer.ReadSinglePostResult result = performer.safe().onReadSinglePost(new ChanPerformer
+                    .ReadSinglePostData(boardName, postNumber, holder));
+            Post post = result != null ? result.post : null;
+            YouTubeTitlesReader.getInstance().readAndApplyIfNecessary(Collections.singletonList(post), holder);
+            startTime = 0L;
+            return new PostItem(post, chanName, boardName);
+        } catch (HttpException e) {
+            errorItem = e.getErrorItemAndHandle();
+            if (errorItem.httpResponseCode == HttpURLConnection.HTTP_NOT_FOUND ||
+                    errorItem.httpResponseCode == HttpURLConnection.HTTP_GONE) {
+                errorItem = new ErrorItem(ErrorItem.TYPE_POST_NOT_FOUND);
+            }
+        } catch (ExtensionException | InvalidResponseException e) {
+            errorItem = e.getErrorItemAndHandle();
+        } finally {
+            ChanConfiguration.get(chanName).commit();
+            CommonUtils.sleepMaxTime(startTime, 500);
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(PostItem result) {
+        if (result != null) {
+            callback.onReadSinglePostSuccess(result);
+        } else {
+            callback.onReadSinglePostFail(errorItem);
+        }
+    }
 }

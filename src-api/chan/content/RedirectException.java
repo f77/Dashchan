@@ -22,87 +22,87 @@ import chan.annotation.Public;
 
 @Public
 public final class RedirectException extends Exception {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final Uri uri;
-	private final String boardName;
-	private final String threadNumber;
-	private final String postNumber;
+    private final Uri uri;
+    private final String boardName;
+    private final String threadNumber;
+    private final String postNumber;
 
-	private RedirectException(String boardName, String threadNumber, String postNumber) {
-		this.uri = null;
-		this.boardName = boardName;
-		this.threadNumber = threadNumber;
-		this.postNumber = postNumber;
-	}
+    private RedirectException(String boardName, String threadNumber, String postNumber) {
+        this.uri = null;
+        this.boardName = boardName;
+        this.threadNumber = threadNumber;
+        this.postNumber = postNumber;
+    }
 
-	private RedirectException(Uri uri) {
-		this.uri = uri;
-		this.boardName = null;
-		this.threadNumber = null;
-		this.postNumber = null;
-	}
+    private RedirectException(Uri uri) {
+        this.uri = uri;
+        this.boardName = null;
+        this.threadNumber = null;
+        this.postNumber = null;
+    }
 
-	@Public
-	public static RedirectException toUri(Uri uri) {
-		if (uri == null) {
-			throw new NullPointerException("uri must not be null");
-		}
-		return new RedirectException(uri);
-	}
+    @Public
+    public static RedirectException toUri(Uri uri) {
+        if (uri == null) {
+            throw new NullPointerException("uri must not be null");
+        }
+        return new RedirectException(uri);
+    }
 
-	@Public
-	public static RedirectException toBoard(String boardName) {
-		return new RedirectException(boardName, null, null);
-	}
+    @Public
+    public static RedirectException toBoard(String boardName) {
+        return new RedirectException(boardName, null, null);
+    }
 
-	@Public
-	public static RedirectException toThread(String boardName, String threadNumber, String postNumber) {
-		if (threadNumber == null) {
-			throw new NullPointerException("threadNumber must not be null");
-		}
-		return new RedirectException(boardName, threadNumber, postNumber);
-	}
+    @Public
+    public static RedirectException toThread(String boardName, String threadNumber, String postNumber) {
+        if (threadNumber == null) {
+            throw new NullPointerException("threadNumber must not be null");
+        }
+        return new RedirectException(boardName, threadNumber, postNumber);
+    }
 
-	public static class Target {
-		public final String chanName;
-		public final String boardName;
-		public final String threadNumber;
-		public final String postNumber;
+    public static class Target {
+        public final String chanName;
+        public final String boardName;
+        public final String threadNumber;
+        public final String postNumber;
 
-		private Target(String chanName, String boardName, String threadNumber, String postNumber) {
-			this.chanName = chanName;
-			this.boardName = boardName;
-			this.threadNumber = threadNumber;
-			this.postNumber = postNumber;
-		}
-	}
+        private Target(String chanName, String boardName, String threadNumber, String postNumber) {
+            this.chanName = chanName;
+            this.boardName = boardName;
+            this.threadNumber = threadNumber;
+            this.postNumber = postNumber;
+        }
+    }
 
-	public final Target obtainTarget(String chanName) throws ExtensionException {
-		if (uri != null) {
-			chanName = ChanManager.getInstance().getChanNameByHost(uri.getHost());
-			if (chanName != null) {
-				ChanLocator locator = ChanLocator.get(chanName);
-				try {
-					if (locator.isBoardUri(uri)) {
-						String boardName = locator.getBoardName(uri);
-						return new Target(chanName, boardName, null, null);
-					} else if (locator.isThreadUri(uri)) {
-						String boardName = locator.getBoardName(uri);
-						String threadNumber = locator.getThreadNumber(uri);
-						String postNumber = locator.getPostNumber(uri);
-						return new Target(chanName, boardName, threadNumber, postNumber);
-					} else {
-						return null;
-					}
-				} catch (LinkageError | RuntimeException e) {
-					throw new ExtensionException(e);
-				}
-			} else {
-				return null;
-			}
-		} else {
-			return new Target(chanName, boardName, threadNumber, postNumber);
-		}
-	}
+    public final Target obtainTarget(String chanName) throws ExtensionException {
+        if (uri != null) {
+            chanName = ChanManager.getInstance().getChanNameByHost(uri.getHost());
+            if (chanName != null) {
+                ChanLocator locator = ChanLocator.get(chanName);
+                try {
+                    if (locator.isBoardUri(uri)) {
+                        String boardName = locator.getBoardName(uri);
+                        return new Target(chanName, boardName, null, null);
+                    } else if (locator.isThreadUri(uri)) {
+                        String boardName = locator.getBoardName(uri);
+                        String threadNumber = locator.getThreadNumber(uri);
+                        String postNumber = locator.getPostNumber(uri);
+                        return new Target(chanName, boardName, threadNumber, postNumber);
+                    } else {
+                        return null;
+                    }
+                } catch (LinkageError | RuntimeException e) {
+                    throw new ExtensionException(e);
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return new Target(chanName, boardName, threadNumber, postNumber);
+        }
+    }
 }

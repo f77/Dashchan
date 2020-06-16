@@ -17,36 +17,36 @@
 -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-	<com.mishiranu.dashchan.widget.PullableListView
-		android:id="@android:id/list"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:scrollingCache="false"
-		android:animationCache="false"
-		android:splitMotionEvents="false"
-		android:color="?attr/colorAccentSupport" />
+    <com.mishiranu.dashchan.widget.PullableListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animationCache="false"
+        android:color="?attr/colorAccentSupport"
+        android:scrollingCache="false"
+        android:splitMotionEvents="false" />
 
-	<LinearLayout
-		android:id="@+id/progress"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:gravity="center"
-		android:visibility="gone">
+    <LinearLayout
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
 
-		<ProgressBar
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<include
-		android:id="@+id/error"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		layout="@layout/widget_error"
-		android:visibility="gone" />
+    <include
+        android:id="@+id/error"
+        layout="@layout/widget_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </FrameLayout>

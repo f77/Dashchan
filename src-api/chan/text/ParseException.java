@@ -21,19 +21,19 @@ import chan.annotation.Public;
 
 @Extendable
 public class ParseException extends Exception {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Public
-	public ParseException() {
-		super();
-	}
+    @Public
+    public ParseException() {
+        super();
+    }
 
-	public ParseException(String detailMessage) {
-		super(detailMessage);
-	}
+    public ParseException(String detailMessage) {
+        super(detailMessage);
+    }
 
-	@Public
-	public ParseException(Throwable throwable) {
-		super(throwable);
-	}
+    @Public
+    public ParseException(Throwable throwable) {
+        super(throwable);
+    }
 }

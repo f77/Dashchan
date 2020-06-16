@@ -17,26 +17,26 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-	<Toolbar
-		android:id="@+id/toolbar"
-		android:layout_width="match_parent"
-		android:layout_height="?android:attr/actionBarSize"
-		style="?android:attr/actionBarStyle"
-		android:theme="?android:attr/actionBarTheme" />
+    <Toolbar
+        android:id="@+id/toolbar"
+        style="?android:attr/actionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:theme="?android:attr/actionBarTheme" />
 
-	<LinearLayout
-		android:id="@+id/text_format_view"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		style="?android:attr/actionBarStyle"
-		android:theme="?android:attr/actionBarTheme"
-		android:orientation="horizontal"
-		android:paddingLeft="8dp"
-		android:paddingRight="8dp"
-		android:paddingBottom="4dp" />
+    <LinearLayout
+        android:id="@+id/text_format_view"
+        style="?android:attr/actionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
+        android:theme="?android:attr/actionBarTheme" />
 
 </LinearLayout>

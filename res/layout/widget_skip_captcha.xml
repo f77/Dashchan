@@ -17,31 +17,31 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/captcha_skip_block"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_gravity="center"
-	android:orientation="horizontal"
-	android:gravity="center_vertical"
-	android:visibility="gone"
-	android:layout_marginLeft="-40dp"
-	android:layout_marginRight="-40dp">
+    android:id="@+id/captcha_skip_block"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="-40dp"
+    android:layout_marginRight="-40dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:visibility="gone">
 
-	<TextView
-		android:id="@+id/captcha_skip_text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:paddingLeft="20dp"
-		android:paddingRight="20dp"
-		android:textAppearance="?android:attr/textAppearance" />
+    <TextView
+        android:id="@+id/captcha_skip_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textAppearance="?android:attr/textAppearance" />
 
-	<ImageButton
-		android:id="@+id/captcha_load_button"
-		android:layout_width="48dp"
-		android:layout_height="48dp"
-		android:layout_marginLeft="-16dp"
-		style="?android:attr/buttonBarButtonStyle"
-		android:scaleType="center"
-		android:src="?attr/buttonCancel" />
+    <ImageButton
+        android:id="@+id/captcha_load_button"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="-16dp"
+        android:scaleType="center"
+        android:src="?attr/buttonCancel" />
 
 </LinearLayout>

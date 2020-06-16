@@ -24,27 +24,27 @@ import chan.annotation.Public;
 // Added: 13.10.16 14:55
 @Public
 public final class ThreadRedirectException extends Exception {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final String boardName;
-	private final String threadNumber;
-	private final String postNumber;
+    private final String boardName;
+    private final String threadNumber;
+    private final String postNumber;
 
-	@Public
-	public ThreadRedirectException(String boardName, String threadNumber, String postNumber) {
-		this.boardName = boardName;
-		this.threadNumber = threadNumber;
-		this.postNumber = postNumber;
-	}
+    @Public
+    public ThreadRedirectException(String boardName, String threadNumber, String postNumber) {
+        this.boardName = boardName;
+        this.threadNumber = threadNumber;
+        this.postNumber = postNumber;
+    }
 
-	@Public
-	public ThreadRedirectException(String threadNumber, String postNumber) {
-		this(null, threadNumber, postNumber);
-	}
+    @Public
+    public ThreadRedirectException(String threadNumber, String postNumber) {
+        this(null, threadNumber, postNumber);
+    }
 
-	@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
-	public RedirectException.Target obtainTarget(String chanName, String boardName) throws ExtensionException {
-		return RedirectException.toThread(this.boardName != null ? this.boardName : boardName,
-				threadNumber, postNumber).obtainTarget(chanName);
-	}
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+    public RedirectException.Target obtainTarget(String chanName, String boardName) throws ExtensionException {
+        return RedirectException.toThread(this.boardName != null ? this.boardName : boardName,
+                threadNumber, postNumber).obtainTarget(chanName);
+    }
 }

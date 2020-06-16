@@ -16,6 +16,21 @@
 
 package com.mishiranu.dashchan.content;
 
+import android.content.Context;
+import android.text.format.DateFormat;
+import android.util.Pair;
+
+import com.mishiranu.dashchan.R;
+import com.mishiranu.dashchan.content.storage.AutohideStorage;
+import com.mishiranu.dashchan.content.storage.DatabaseHelper;
+import com.mishiranu.dashchan.content.storage.FavoritesStorage;
+import com.mishiranu.dashchan.content.storage.StatisticsStorage;
+import com.mishiranu.dashchan.preference.Preferences;
+import com.mishiranu.dashchan.util.IOUtils;
+import com.mishiranu.dashchan.util.Log;
+import com.mishiranu.dashchan.util.NavigationUtils;
+import com.mishiranu.dashchan.util.ToastUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,124 +47,109 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import android.content.Context;
-import android.text.format.DateFormat;
-import android.util.Pair;
-
-import com.mishiranu.dashchan.R;
-import com.mishiranu.dashchan.content.storage.AutohideStorage;
-import com.mishiranu.dashchan.content.storage.DatabaseHelper;
-import com.mishiranu.dashchan.content.storage.FavoritesStorage;
-import com.mishiranu.dashchan.content.storage.StatisticsStorage;
-import com.mishiranu.dashchan.preference.Preferences;
-import com.mishiranu.dashchan.util.IOUtils;
-import com.mishiranu.dashchan.util.Log;
-import com.mishiranu.dashchan.util.NavigationUtils;
-import com.mishiranu.dashchan.util.ToastUtils;
-
 public class BackupManager {
-	private static final Pattern NAME_PATTERN = Pattern.compile("backup-(\\d+)\\.zip");
-	private static final Comparator<File> COMPARATOR = (lhs, rhs) -> rhs.getName().compareTo(lhs.getName());
+    private static final Pattern NAME_PATTERN = Pattern.compile("backup-(\\d+)\\.zip");
+    private static final Comparator<File> COMPARATOR = (lhs, rhs) -> rhs.getName().compareTo(lhs.getName());
 
-	public static LinkedHashMap<File, String> getAvailableBackups(Context context) {
-		LinkedHashMap<File, String> backups = new LinkedHashMap<>();
-		File[] files = Preferences.getDownloadDirectory().listFiles();
-		if (files != null) {
-			Arrays.sort(files, COMPARATOR);
-			java.text.DateFormat timeFormat = DateFormat.getTimeFormat(context);
-			java.text.DateFormat dateFormat = DateFormat.getDateFormat(context);
-			for (File file : files) {
-				Matcher matcher = NAME_PATTERN.matcher(file.getName());
-				if (matcher.matches()) {
-					long date = Long.parseLong(matcher.group(1));
-					String dateString = dateFormat.format(date) + " " + timeFormat.format(date);
-					backups.put(file, dateString);
-				}
-			}
-		}
-		return backups;
-	}
+    public static LinkedHashMap<File, String> getAvailableBackups(Context context) {
+        LinkedHashMap<File, String> backups = new LinkedHashMap<>();
+        File[] files = Preferences.getDownloadDirectory().listFiles();
+        if (files != null) {
+            Arrays.sort(files, COMPARATOR);
+            java.text.DateFormat timeFormat = DateFormat.getTimeFormat(context);
+            java.text.DateFormat dateFormat = DateFormat.getDateFormat(context);
+            for (File file : files) {
+                Matcher matcher = NAME_PATTERN.matcher(file.getName());
+                if (matcher.matches()) {
+                    long date = Long.parseLong(matcher.group(1));
+                    String dateString = dateFormat.format(date) + " " + timeFormat.format(date);
+                    backups.put(file, dateString);
+                }
+            }
+        }
+        return backups;
+    }
 
-	private static void addFileToMap(LinkedHashMap<String, Pair<File, Boolean>> files, File file, boolean mustExist) {
-		files.put(file.getName(), new Pair<>(file, mustExist));
-	}
+    private static void addFileToMap(LinkedHashMap<String, Pair<File, Boolean>> files, File file, boolean mustExist) {
+        files.put(file.getName(), new Pair<>(file, mustExist));
+    }
 
-	private static LinkedHashMap<String, Pair<File, Boolean>> obtainBackupFiles() {
-		LinkedHashMap<String, Pair<File, Boolean>> files = new LinkedHashMap<>();
-		addFileToMap(files, Preferences.getPreferencesFile(), true);
-		addFileToMap(files, DatabaseHelper.getDatabaseFile(), true);
-		addFileToMap(files, FavoritesStorage.getInstance().getFile(), false);
-		addFileToMap(files, AutohideStorage.getInstance().getFile(), false);
-		addFileToMap(files, StatisticsStorage.getInstance().getFile(), false);
-		return files;
-	}
+    private static LinkedHashMap<String, Pair<File, Boolean>> obtainBackupFiles() {
+        LinkedHashMap<String, Pair<File, Boolean>> files = new LinkedHashMap<>();
+        addFileToMap(files, Preferences.getPreferencesFile(), true);
+        addFileToMap(files, DatabaseHelper.getDatabaseFile(), true);
+        addFileToMap(files, FavoritesStorage.getInstance().getFile(), false);
+        addFileToMap(files, AutohideStorage.getInstance().getFile(), false);
+        addFileToMap(files, StatisticsStorage.getInstance().getFile(), false);
+        return files;
+    }
 
-	public static void makeBackup(Context context) {
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		ZipOutputStream zip = new ZipOutputStream(output);
-		LinkedHashMap<String, Pair<File, Boolean>> files = obtainBackupFiles();
-		boolean success = true;
-		for (Pair<File, Boolean> pair : files.values()) {
-			if (pair.first.exists()) {
-				FileInputStream input = null;
-				try {
-					zip.putNextEntry(new ZipEntry(pair.first.getName()));
-					input = new FileInputStream(pair.first);
-					IOUtils.copyStream(input, zip);
-					zip.closeEntry();
-				} catch (IOException e) {
-					Log.persistent().write(e);
-					success = false;
-					break;
-				} finally {
-					IOUtils.close(input);
-				}
-			} else if (pair.second) {
-				success = false;
-				break;
-			}
-		}
-		if (success) {
-			IOUtils.close(zip);
-			ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
-			DownloadManager.getInstance().saveStreamStorage(context, input, null, null, null, null,
-					"backup-" + System.currentTimeMillis() + ".zip", true);
-		} else {
-			ToastUtils.show(context, R.string.message_no_access);
-		}
-	}
+    public static void makeBackup(Context context) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        ZipOutputStream zip = new ZipOutputStream(output);
+        LinkedHashMap<String, Pair<File, Boolean>> files = obtainBackupFiles();
+        boolean success = true;
+        for (Pair<File, Boolean> pair : files.values()) {
+            if (pair.first.exists()) {
+                FileInputStream input = null;
+                try {
+                    zip.putNextEntry(new ZipEntry(pair.first.getName()));
+                    input = new FileInputStream(pair.first);
+                    IOUtils.copyStream(input, zip);
+                    zip.closeEntry();
+                } catch (IOException e) {
+                    Log.persistent().write(e);
+                    success = false;
+                    break;
+                } finally {
+                    IOUtils.close(input);
+                }
+            } else if (pair.second) {
+                success = false;
+                break;
+            }
+        }
+        if (success) {
+            IOUtils.close(zip);
+            ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
+            DownloadManager.getInstance().saveStreamStorage(context, input, null, null, null, null,
+                    "backup-" + System.currentTimeMillis() + ".zip", true);
+        } else {
+            ToastUtils.show(context, R.string.message_no_access);
+        }
+    }
 
-	public static void loadBackup(Context context, File file) {
-		LinkedHashMap<String, Pair<File, Boolean>> files = obtainBackupFiles();
-		ZipInputStream zip = null;
-		boolean success = true;
-		try {
-			zip = new ZipInputStream(new FileInputStream(file));
-			ZipEntry entry;
-			while ((entry = zip.getNextEntry()) != null) {
-				String name = entry.getName();
-				Pair<File, Boolean> pair = files.get(name);
-				if (pair != null) {
-					OutputStream output = null;
-					try {
-						output = new FileOutputStream(pair.first);
-						IOUtils.copyStream(zip, output);
-						zip.closeEntry();
-					} finally {
-						IOUtils.close(output);
-					}
-				}
-			}
-		} catch (IOException e) {
-			Log.persistent().stack(e);
-			success = false;
-		} finally {
-			IOUtils.close(zip);
-		}
-		if (success) {
-			NavigationUtils.restartApplication(context);
-		} else {
-			ToastUtils.show(context, R.string.message_no_access);
-		}
-	}
+    public static void loadBackup(Context context, File file) {
+        LinkedHashMap<String, Pair<File, Boolean>> files = obtainBackupFiles();
+        ZipInputStream zip = null;
+        boolean success = true;
+        try {
+            zip = new ZipInputStream(new FileInputStream(file));
+            ZipEntry entry;
+            while ((entry = zip.getNextEntry()) != null) {
+                String name = entry.getName();
+                Pair<File, Boolean> pair = files.get(name);
+                if (pair != null) {
+                    OutputStream output = null;
+                    try {
+                        output = new FileOutputStream(pair.first);
+                        IOUtils.copyStream(zip, output);
+                        zip.closeEntry();
+                    } finally {
+                        IOUtils.close(output);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            Log.persistent().stack(e);
+            success = false;
+        } finally {
+            IOUtils.close(zip);
+        }
+        if (success) {
+            NavigationUtils.restartApplication(context);
+        } else {
+            ToastUtils.show(context, R.string.message_no_access);
+        }
+    }
 }

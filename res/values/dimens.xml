@@ -16,10 +16,10 @@
 	limitations under the License.
 -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
-	<item name="dialog_padding_text" type="dimen">16dp</item>
-	<item name="dialog_padding_text_half" type="dimen">8dp</item>
-	<item name="dialog_padding_view" type="dimen">12dp</item>
+    <item name="dialog_padding_text" type="dimen">16dp</item>
+    <item name="dialog_padding_text_half" type="dimen">8dp</item>
+    <item name="dialog_padding_view" type="dimen">12dp</item>
 
 </resources>

@@ -23,18 +23,18 @@ import chan.annotation.Extendable;
 
 @Extendable
 public interface RequestEntity extends Cloneable {
-	@Extendable
-	public abstract void add(String name, String value);
+    @Extendable
+    public abstract void add(String name, String value);
 
-	@Extendable
-	public abstract String getContentType();
+    @Extendable
+    public abstract String getContentType();
 
-	@Extendable
-	public abstract long getContentLength();
+    @Extendable
+    public abstract long getContentLength();
 
-	@Extendable
-	public abstract void write(OutputStream output) throws IOException;
+    @Extendable
+    public abstract void write(OutputStream output) throws IOException;
 
-	@Extendable
-	public abstract RequestEntity copy();
+    @Extendable
+    public abstract RequestEntity copy();
 }

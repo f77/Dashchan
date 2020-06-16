@@ -16,6 +16,19 @@
 
 package chan.content;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.util.Pair;
+
+import com.mishiranu.dashchan.R;
+import com.mishiranu.dashchan.content.MainApplication;
+import com.mishiranu.dashchan.preference.Preferences;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,24 +40,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.util.Log;
-import android.util.Pair;
-
 import chan.annotation.Extendable;
 import chan.annotation.Public;
 import chan.content.model.BoardCategory;
 import chan.util.StringUtils;
-
-import com.mishiranu.dashchan.R;
-import com.mishiranu.dashchan.content.MainApplication;
-import com.mishiranu.dashchan.preference.Preferences;
 
 @Extendable
 public class ChanConfiguration implements ChanManager.Linked {

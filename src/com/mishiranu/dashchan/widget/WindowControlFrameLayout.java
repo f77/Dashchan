@@ -26,70 +26,70 @@ import android.widget.FrameLayout;
 import com.mishiranu.dashchan.C;
 
 public class WindowControlFrameLayout extends FrameLayout {
-	public interface OnApplyWindowPaddingsListener {
-		public void onApplyWindowPaddings(WindowControlFrameLayout view, Rect rect);
-	}
+    public interface OnApplyWindowPaddingsListener {
+        public void onApplyWindowPaddings(WindowControlFrameLayout view, Rect rect);
+    }
 
-	private OnApplyWindowPaddingsListener onApplyWindowPaddingsListener;
+    private OnApplyWindowPaddingsListener onApplyWindowPaddingsListener;
 
-	public WindowControlFrameLayout(Context context) {
-		super(context);
-		super.setFitsSystemWindows(true);
-		super.setClipToPadding(false);
-	}
+    public WindowControlFrameLayout(Context context) {
+        super(context);
+        super.setFitsSystemWindows(true);
+        super.setClipToPadding(false);
+    }
 
-	public void setOnApplyWindowPaddingsListener(OnApplyWindowPaddingsListener listener) {
-		onApplyWindowPaddingsListener = listener;
-	}
+    public void setOnApplyWindowPaddingsListener(OnApplyWindowPaddingsListener listener) {
+        onApplyWindowPaddingsListener = listener;
+    }
 
-	@Override
-	public void setFitsSystemWindows(boolean fitSystemWindows) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void setFitsSystemWindows(boolean fitSystemWindows) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public void setClipToPadding(boolean clipToPadding) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void setClipToPadding(boolean clipToPadding) {
+        throw new UnsupportedOperationException();
+    }
 
-	private Rect previousRect;
+    private Rect previousRect;
 
-	private void onSystemWindowInsetsChangedInternal(Rect rect) {
-		if (previousRect != null && previousRect.equals(rect)) {
-			return;
-		}
-		previousRect = rect;
-		if (onApplyWindowPaddingsListener != null) {
-			onApplyWindowPaddingsListener.onApplyWindowPaddings(this, rect);
-		}
-	}
+    private void onSystemWindowInsetsChangedInternal(Rect rect) {
+        if (previousRect != null && previousRect.equals(rect)) {
+            return;
+        }
+        previousRect = rect;
+        if (onApplyWindowPaddingsListener != null) {
+            onApplyWindowPaddingsListener.onApplyWindowPaddings(this, rect);
+        }
+    }
 
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	@Override
-	public WindowInsets onApplyWindowInsets(WindowInsets insets) {
-		try {
-			return super.onApplyWindowInsets(insets);
-		} finally {
-			if (C.API_LOLLIPOP) {
-				setPadding(0, 0, 0, 0);
-				onSystemWindowInsetsChangedInternal(new Rect(insets.getSystemWindowInsetLeft(),
-						insets.getSystemWindowInsetTop(), insets.getSystemWindowInsetRight(),
-						insets.getSystemWindowInsetBottom()));
-			}
-		}
-	}
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
+        try {
+            return super.onApplyWindowInsets(insets);
+        } finally {
+            if (C.API_LOLLIPOP) {
+                setPadding(0, 0, 0, 0);
+                onSystemWindowInsetsChangedInternal(new Rect(insets.getSystemWindowInsetLeft(),
+                        insets.getSystemWindowInsetTop(), insets.getSystemWindowInsetRight(),
+                        insets.getSystemWindowInsetBottom()));
+            }
+        }
+    }
 
-	@SuppressWarnings("deprecation")
-	@Override
-	protected boolean fitSystemWindows(Rect insets) {
-		Rect rect = !C.API_LOLLIPOP ? new Rect(insets) : null;
-		try {
-			return super.fitSystemWindows(insets);
-		} finally {
-			if (!C.API_LOLLIPOP) {
-				setPadding(0, 0, 0, 0);
-				onSystemWindowInsetsChangedInternal(rect);
-			}
-		}
-	}
+    @SuppressWarnings("deprecation")
+    @Override
+    protected boolean fitSystemWindows(Rect insets) {
+        Rect rect = !C.API_LOLLIPOP ? new Rect(insets) : null;
+        try {
+            return super.fitSystemWindows(insets);
+        } finally {
+            if (!C.API_LOLLIPOP) {
+                setPadding(0, 0, 0, 0);
+                onSystemWindowInsetsChangedInternal(rect);
+            }
+        }
+    }
 }

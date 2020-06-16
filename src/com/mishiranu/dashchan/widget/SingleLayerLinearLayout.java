@@ -21,48 +21,48 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 public class SingleLayerLinearLayout extends LinearLayout {
-	public SingleLayerLinearLayout(Context context) {
-		super(context);
-	}
+    public SingleLayerLinearLayout(Context context) {
+        super(context);
+    }
 
-	public SingleLayerLinearLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public SingleLayerLinearLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	public SingleLayerLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
-	}
+    public SingleLayerLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
 
-	@Override
-	public boolean hasOverlappingRendering() {
-		// Makes setAlpha faster, see https://plus.google.com/+RomanNurik/posts/NSgQvbfXGQN
-		// Thumbnails will become strange with alpha because background alpha and image alpha are separate now
-		return false;
-	}
+    @Override
+    public boolean hasOverlappingRendering() {
+        // Makes setAlpha faster, see https://plus.google.com/+RomanNurik/posts/NSgQvbfXGQN
+        // Thumbnails will become strange with alpha because background alpha and image alpha are separate now
+        return false;
+    }
 
-	public interface OnTemporaryDetatchListener {
-		public void onTemporaryDetatch(SingleLayerLinearLayout view, boolean start);
-	}
+    public interface OnTemporaryDetatchListener {
+        public void onTemporaryDetatch(SingleLayerLinearLayout view, boolean start);
+    }
 
-	private OnTemporaryDetatchListener onTemporaryDetatchListener;
+    private OnTemporaryDetatchListener onTemporaryDetatchListener;
 
-	public void setOnTemporaryDetatchListener(OnTemporaryDetatchListener listener) {
-		onTemporaryDetatchListener = listener;
-	}
+    public void setOnTemporaryDetatchListener(OnTemporaryDetatchListener listener) {
+        onTemporaryDetatchListener = listener;
+    }
 
-	@Override
-	public void onStartTemporaryDetach() {
-		super.onStartTemporaryDetach();
-		if (onTemporaryDetatchListener != null) {
-			onTemporaryDetatchListener.onTemporaryDetatch(this, true);
-		}
-	}
+    @Override
+    public void onStartTemporaryDetach() {
+        super.onStartTemporaryDetach();
+        if (onTemporaryDetatchListener != null) {
+            onTemporaryDetatchListener.onTemporaryDetatch(this, true);
+        }
+    }
 
-	@Override
-	public void onFinishTemporaryDetach() {
-		super.onFinishTemporaryDetach();
-		if (onTemporaryDetatchListener != null) {
-			onTemporaryDetatchListener.onTemporaryDetatch(this, false);
-		}
-	}
+    @Override
+    public void onFinishTemporaryDetach() {
+        super.onFinishTemporaryDetach();
+        if (onTemporaryDetatchListener != null) {
+            onTemporaryDetatchListener.onTemporaryDetatch(this, false);
+        }
+    }
 }

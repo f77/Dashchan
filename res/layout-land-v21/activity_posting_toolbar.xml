@@ -17,24 +17,24 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-	<Toolbar
-		android:id="@+id/toolbar"
-		android:layout_width="match_parent"
-		android:layout_height="?android:attr/actionBarSize"
-		style="?android:attr/actionBarStyle"
-		android:theme="?android:attr/actionBarTheme"
-		android:gravity="center_vertical">
+    <Toolbar
+        android:id="@+id/toolbar"
+        style="?android:attr/actionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:gravity="center_vertical"
+        android:theme="?android:attr/actionBarTheme">
 
-		<LinearLayout
-			android:id="@+id/text_format_view"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal" />
+        <LinearLayout
+            android:id="@+id/text_format_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
 
-	</Toolbar>
+    </Toolbar>
 
 </LinearLayout>

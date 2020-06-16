@@ -17,151 +17,151 @@
 -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:focusable="true"
-		android:focusableInTouchMode="true"
-		android:descendantFocusability="beforeDescendants"
-		android:paddingTop="@dimen/dialog_padding_text_half"
-		android:paddingBottom="@dimen/dialog_padding_text_half">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dialog_padding_text_half"
+        android:paddingBottom="@dimen/dialog_padding_text_half">
 
-		<TextView
-			android:id="@+id/chan_name"
-			android:layout_width="match_parent"
-			android:layout_height="40dp"
-			android:gravity="center_vertical"
-			android:background="?android:attr/selectableItemBackground"
-			android:textAppearance="?android:attr/textAppearanceListItem"
-			android:layout_marginLeft="@dimen/dialog_padding_text_half"
-			android:layout_marginRight="@dimen/dialog_padding_text_half"
-			android:layout_marginBottom="8dp"
-			android:paddingLeft="@dimen/dialog_padding_text_half"
-			android:paddingRight="@dimen/dialog_padding_text_half"
-			android:fontFamily="sans-serif-medium" />
+        <TextView
+            android:id="@+id/chan_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/dialog_padding_text_half"
+            android:layout_marginRight="@dimen/dialog_padding_text_half"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dialog_padding_text_half"
+            android:paddingRight="@dimen/dialog_padding_text_half"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:layout_marginLeft="@dimen/dialog_padding_view"
-			android:layout_marginRight="@dimen/dialog_padding_view">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dialog_padding_view"
+            android:layout_marginRight="@dimen/dialog_padding_view"
+            android:orientation="horizontal">
 
-			<com.mishiranu.dashchan.widget.SafePasteEditText
-				android:id="@+id/board_name"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:hint="@string/text_board"
-				android:gravity="center"
-				android:imeOptions="flagNoExtractUi|flagNoFullscreen"
-				android:singleLine="true" />
+            <com.mishiranu.dashchan.widget.SafePasteEditText
+                android:id="@+id/board_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="@string/text_board"
+                android:imeOptions="flagNoExtractUi|flagNoFullscreen"
+                android:singleLine="true" />
 
-			<com.mishiranu.dashchan.widget.SafePasteEditText
-				android:id="@+id/thread_number"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:hint="@string/text_thread"
-				android:gravity="center"
-				android:imeOptions="flagNoExtractUi|flagNoFullscreen"
-				android:inputType="number"
-				android:singleLine="true" />
+            <com.mishiranu.dashchan.widget.SafePasteEditText
+                android:id="@+id/thread_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="@string/text_thread"
+                android:imeOptions="flagNoExtractUi|flagNoFullscreen"
+                android:inputType="number"
+                android:singleLine="true" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:paddingTop="8dp"
-			android:layout_marginLeft="@dimen/dialog_padding_view"
-			android:layout_marginRight="@dimen/dialog_padding_view">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dialog_padding_view"
+            android:layout_marginRight="@dimen/dialog_padding_view"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
 
-			<CheckBox
-				android:id="@+id/autohide_original_post"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/text_autohide_original_post"
-				android:textAppearance="?android:attr/textAppearanceSmall" />
+            <CheckBox
+                android:id="@+id/autohide_original_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_autohide_original_post"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<CheckBox
-				android:id="@+id/autohide_sage"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/text_autohide_sage"
-				android:textAppearance="?android:attr/textAppearanceSmall" />
+            <CheckBox
+                android:id="@+id/autohide_sage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_autohide_sage"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<CheckBox
-				android:id="@+id/autohide_subject"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
-				android:text="@string/text_autohide_subject"
-				android:textAppearance="?android:attr/textAppearanceSmall" />
+            <CheckBox
+                android:id="@+id/autohide_subject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/text_autohide_subject"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<CheckBox
-				android:id="@+id/autohide_comment"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/text_autohide_comment"
-				android:textAppearance="?android:attr/textAppearanceSmall" />
+            <CheckBox
+                android:id="@+id/autohide_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_autohide_comment"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<CheckBox
-				android:id="@+id/autohide_name"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/text_autohide_name"
-				android:textAppearance="?android:attr/textAppearanceSmall" />
+            <CheckBox
+                android:id="@+id/autohide_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_autohide_name"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<com.mishiranu.dashchan.widget.SafePasteEditText
-			android:id="@+id/value"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="@dimen/dialog_padding_view"
-			android:layout_marginRight="@dimen/dialog_padding_view"
-			android:hint="@string/text_regex" />
+        <com.mishiranu.dashchan.widget.SafePasteEditText
+            android:id="@+id/value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dialog_padding_view"
+            android:layout_marginRight="@dimen/dialog_padding_view"
+            android:hint="@string/text_regex" />
 
-		<TextView
-			android:id="@+id/error_text"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			style="?android:attr/textAppearance"
-			android:paddingLeft="@dimen/dialog_padding_text"
-			android:paddingRight="@dimen/dialog_padding_text"
-			android:textColor="?attr/colorTextError"
-			android:textSize="14sp"
-			android:visibility="gone" />
+        <TextView
+            android:id="@+id/error_text"
+            style="?android:attr/textAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dialog_padding_text"
+            android:paddingRight="@dimen/dialog_padding_text"
+            android:textColor="?attr/colorTextError"
+            android:textSize="14sp"
+            android:visibility="gone" />
 
-		<TextView
-			android:id="@+id/matcher_result"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			style="?android:attr/textAppearance"
-			android:paddingTop="8dp"
-			android:paddingLeft="@dimen/dialog_padding_text"
-			android:paddingRight="@dimen/dialog_padding_text"
-			android:textSize="14sp"
-			android:singleLine="true" />
+        <TextView
+            android:id="@+id/matcher_result"
+            style="?android:attr/textAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dialog_padding_text"
+            android:paddingTop="8dp"
+            android:paddingRight="@dimen/dialog_padding_text"
+            android:singleLine="true"
+            android:textSize="14sp" />
 
-		<com.mishiranu.dashchan.widget.SafePasteEditText
-			android:id="@+id/test_string"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="@dimen/dialog_padding_view"
-			android:layout_marginRight="@dimen/dialog_padding_view"
-			android:hint="@string/text_test_string" />
+        <com.mishiranu.dashchan.widget.SafePasteEditText
+            android:id="@+id/test_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dialog_padding_view"
+            android:layout_marginRight="@dimen/dialog_padding_view"
+            android:hint="@string/text_test_string" />
 
-		<View
-			android:layout_width="320dp"
-			android:layout_height="0dp" />
+        <View
+            android:layout_width="320dp"
+            android:layout_height="0dp" />
 
-	</LinearLayout>
+    </LinearLayout>
 
 </ScrollView>

@@ -26,66 +26,67 @@ import chan.util.StringUtils;
 
 @Extendable
 public class SimpleEntity implements RequestEntity {
-	private byte[] data;
-	private String contentType = "text/plain";
+    private byte[] data;
+    private String contentType = "text/plain";
 
-	@Public
-	public SimpleEntity() {}
+    @Public
+    public SimpleEntity() {
+    }
 
-	@Override
-	public void add(String name, String value) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void add(String name, String value) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Extendable
-	public void setData(String data) {
-		setData(data, "UTF-8");
-	}
+    @Extendable
+    public void setData(String data) {
+        setData(data, "UTF-8");
+    }
 
-	@Extendable
-	public void setData(String data, String charsetName) {
-		try {
-			setData(data != null ? data.getBytes(charsetName) : null);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    @Extendable
+    public void setData(String data, String charsetName) {
+        try {
+            setData(data != null ? data.getBytes(charsetName) : null);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Extendable
-	public void setData(byte[] data) {
-		this.data = data;
-	}
+    @Extendable
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 
-	@Extendable
-	public void setContentType(String contentType) {
-		if (StringUtils.isEmpty(contentType)) {
-			throw new IllegalArgumentException("Invalid content type");
-		}
-		this.contentType = contentType;
-	}
+    @Extendable
+    public void setContentType(String contentType) {
+        if (StringUtils.isEmpty(contentType)) {
+            throw new IllegalArgumentException("Invalid content type");
+        }
+        this.contentType = contentType;
+    }
 
-	@Override
-	public String getContentType() {
-		return contentType;
-	}
+    @Override
+    public String getContentType() {
+        return contentType;
+    }
 
-	@Override
-	public long getContentLength() {
-		return data != null ? data.length : 0;
-	}
+    @Override
+    public long getContentLength() {
+        return data != null ? data.length : 0;
+    }
 
-	@Override
-	public void write(OutputStream output) throws IOException {
-		if (data != null) {
-			output.write(data);
-		}
-	}
+    @Override
+    public void write(OutputStream output) throws IOException {
+        if (data != null) {
+            output.write(data);
+        }
+    }
 
-	@Override
-	public RequestEntity copy() {
-		SimpleEntity entity = new SimpleEntity();
-		entity.setData(data);
-		entity.setContentType(contentType);
-		return entity;
-	}
+    @Override
+    public RequestEntity copy() {
+        SimpleEntity entity = new SimpleEntity();
+        entity.setData(data);
+        entity.setContentType(contentType);
+        return entity;
+    }
 }

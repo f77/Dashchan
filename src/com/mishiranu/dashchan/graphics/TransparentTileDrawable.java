@@ -29,39 +29,40 @@ import com.mishiranu.dashchan.util.GraphicsUtils;
 import com.mishiranu.dashchan.util.ResourceUtils;
 
 public class TransparentTileDrawable extends Drawable {
-	private static final int COLOR_MIN = 0xe0;
-	private static final int COLOR_MAX = 0xf0;
+    private static final int COLOR_MIN = 0xe0;
+    private static final int COLOR_MAX = 0xf0;
 
-	private final Paint paint;
+    private final Paint paint;
 
-	public TransparentTileDrawable(Context context, boolean large) {
-		paint = new Paint();
-		float density = ResourceUtils.obtainDensity(context);
-		Bitmap bitmap = GraphicsUtils.generateNoise(large ? 80 : 40, (int) density, COLOR_MIN << 24 | 0x00ffffff,
-				COLOR_MAX << 24 | 0x00ffffff);
-		paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
-	}
+    public TransparentTileDrawable(Context context, boolean large) {
+        paint = new Paint();
+        float density = ResourceUtils.obtainDensity(context);
+        Bitmap bitmap = GraphicsUtils.generateNoise(large ? 80 : 40, (int) density, COLOR_MIN << 24 | 0x00ffffff,
+                COLOR_MAX << 24 | 0x00ffffff);
+        paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
+    }
 
-	@Override
-	public void draw(Canvas canvas) {
-		canvas.drawRect(getBounds(), paint);
-	}
+    @Override
+    public void draw(Canvas canvas) {
+        canvas.drawRect(getBounds(), paint);
+    }
 
-	@Override
-	public int getOpacity() {
-		return PixelFormat.OPAQUE;
-	}
+    @Override
+    public int getOpacity() {
+        return PixelFormat.OPAQUE;
+    }
 
-	@Override
-	public int getAlpha() {
-		return paint.getAlpha();
-	}
+    @Override
+    public int getAlpha() {
+        return paint.getAlpha();
+    }
 
-	@Override
-	public void setAlpha(int alpha) {
-		paint.setAlpha(alpha);
-	}
+    @Override
+    public void setAlpha(int alpha) {
+        paint.setAlpha(alpha);
+    }
 
-	@Override
-	public void setColorFilter(ColorFilter cf) {}
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+    }
 }

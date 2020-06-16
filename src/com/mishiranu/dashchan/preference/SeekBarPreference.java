@@ -24,62 +24,62 @@ import android.view.View;
 import com.mishiranu.dashchan.ui.SeekBarForm;
 
 public class SeekBarPreference extends DialogPreference {
-	private final SeekBarForm seekBarForm;
-	private int defaultValue;
+    private final SeekBarForm seekBarForm;
+    private int defaultValue;
 
-	public SeekBarPreference(Context context) {
-		super(context, null);
-		seekBarForm = new SeekBarForm(false);
-	}
+    public SeekBarPreference(Context context) {
+        super(context, null);
+        seekBarForm = new SeekBarForm(false);
+    }
 
-	public void setSeekBarConfiguration(int minValue, int maxValue, int step, float multiplier) {
-		seekBarForm.setConfiguration(minValue, maxValue, step, multiplier);
-	}
+    public void setSeekBarConfiguration(int minValue, int maxValue, int step, float multiplier) {
+        seekBarForm.setConfiguration(minValue, maxValue, step, multiplier);
+    }
 
-	@Override
-	public void setSummary(CharSequence summary) {
-		super.setSummary(summary);
-		seekBarForm.setValueFormat(summary != null ? summary.toString() : null);
-	}
+    @Override
+    public void setSummary(CharSequence summary) {
+        super.setSummary(summary);
+        seekBarForm.setValueFormat(summary != null ? summary.toString() : null);
+    }
 
-	@Override
-	public void setDefaultValue(Object defaultValue) {
-		super.setDefaultValue(defaultValue);
-		this.defaultValue = (int) defaultValue;
-	}
+    @Override
+    public void setDefaultValue(Object defaultValue) {
+        super.setDefaultValue(defaultValue);
+        this.defaultValue = (int) defaultValue;
+    }
 
-	@Override
-	protected Object onGetDefaultValue(TypedArray a, int index) {
-		int defaultValue = a.getInt(index, 50);
-		this.defaultValue = defaultValue;
-		return defaultValue;
-	}
+    @Override
+    protected Object onGetDefaultValue(TypedArray a, int index) {
+        int defaultValue = a.getInt(index, 50);
+        this.defaultValue = defaultValue;
+        return defaultValue;
+    }
 
-	@Override
-	protected View onCreateDialogView() {
-		seekBarForm.setCurrentValue(getPersistedInt(defaultValue));
-		return seekBarForm.inflate(getContext());
-	}
+    @Override
+    protected View onCreateDialogView() {
+        seekBarForm.setCurrentValue(getPersistedInt(defaultValue));
+        return seekBarForm.inflate(getContext());
+    }
 
-	@Override
-	protected void onDialogClosed(boolean positiveResult) {
-		super.onDialogClosed(positiveResult);
-		if (!positiveResult) {
-			return;
-		}
-		if (shouldPersist()) {
-			persistInt(seekBarForm.getCurrentValue());
-		}
-		notifyChanged();
-	}
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+        if (!positiveResult) {
+            return;
+        }
+        if (shouldPersist()) {
+            persistInt(seekBarForm.getCurrentValue());
+        }
+        notifyChanged();
+    }
 
-	@Override
-	public CharSequence getSummary() {
-		String summary = super.getSummary().toString();
-		if (summary != null) {
-			int value = (int) (getPersistedInt(defaultValue) * seekBarForm.getMultipler());
-			return String.format(summary, value);
-		}
-		return summary;
-	}
+    @Override
+    public CharSequence getSummary() {
+        String summary = super.getSummary().toString();
+        if (summary != null) {
+            int value = (int) (getPersistedInt(defaultValue) * seekBarForm.getMultipler());
+            return String.format(summary, value);
+        }
+        return summary;
+    }
 }

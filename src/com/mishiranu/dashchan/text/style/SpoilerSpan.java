@@ -26,44 +26,44 @@ import com.mishiranu.dashchan.util.GraphicsUtils;
 import com.mishiranu.dashchan.widget.CommentTextView;
 
 public class SpoilerSpan extends CharacterStyle implements UpdateAppearance, CommentTextView.ClickableSpan,
-		ColorScheme.Span {
-	private int backgroundColor, clickedColor;
-	private boolean clicked, enabled, visible;
+        ColorScheme.Span {
+    private int backgroundColor, clickedColor;
+    private boolean clicked, enabled, visible;
 
-	@Override
-	public void applyColorScheme(ColorScheme colorScheme) {
-		if (colorScheme != null) {
-			backgroundColor = colorScheme.spoilerTopBackgroundColor;
-			clickedColor = colorScheme.clickedColor;
-		}
-	}
+    @Override
+    public void applyColorScheme(ColorScheme colorScheme) {
+        if (colorScheme != null) {
+            backgroundColor = colorScheme.spoilerTopBackgroundColor;
+            clickedColor = colorScheme.clickedColor;
+        }
+    }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
-	public boolean isVisible() {
-		return visible;
-	}
+    public boolean isVisible() {
+        return visible;
+    }
 
-	@Override
-	public void updateDrawState(TextPaint paint) {
-		if (!enabled || visible) {
-			if (enabled && clicked) {
-				paint.bgColor = GraphicsUtils.mixColors(clickedColor, paint.bgColor);
-			}
-		} else {
-			paint.bgColor = clicked ? GraphicsUtils.mixColors(backgroundColor, clickedColor) : backgroundColor;
-			paint.setColor(Color.TRANSPARENT);
-		}
-	}
+    @Override
+    public void updateDrawState(TextPaint paint) {
+        if (!enabled || visible) {
+            if (enabled && clicked) {
+                paint.bgColor = GraphicsUtils.mixColors(clickedColor, paint.bgColor);
+            }
+        } else {
+            paint.bgColor = clicked ? GraphicsUtils.mixColors(backgroundColor, clickedColor) : backgroundColor;
+            paint.setColor(Color.TRANSPARENT);
+        }
+    }
 
-	@Override
-	public void setClicked(boolean clicked) {
-		this.clicked = clicked;
-	}
+    @Override
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
 }

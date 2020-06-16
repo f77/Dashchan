@@ -21,40 +21,42 @@ import chan.http.HttpRequest;
 import chan.http.MultipartEntity;
 
 public class TimedProgressHandler implements HttpHolder.InputListener, HttpRequest.OutputListener,
-		MultipartEntity.OpenableOutputListener {
-	private final long[] lastProgressUpdate = new long[3];
+        MultipartEntity.OpenableOutputListener {
+    private final long[] lastProgressUpdate = new long[3];
 
-	private boolean checkNeedToUpdate(int index, long progress, long progressMax) {
-		long time = System.currentTimeMillis();
-		if (time - lastProgressUpdate[index] >= 200 || progress == 0 || progress == progressMax) {
-			lastProgressUpdate[index] = time;
-			return true;
-		}
-		return false;
-	}
+    private boolean checkNeedToUpdate(int index, long progress, long progressMax) {
+        long time = System.currentTimeMillis();
+        if (time - lastProgressUpdate[index] >= 200 || progress == 0 || progress == progressMax) {
+            lastProgressUpdate[index] = time;
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	public final void onInputProgressChange(long progress, long progressMax) {
-		if (checkNeedToUpdate(0, progress, progressMax)) {
-			onProgressChange(progress, progressMax);
-		}
-	}
+    @Override
+    public final void onInputProgressChange(long progress, long progressMax) {
+        if (checkNeedToUpdate(0, progress, progressMax)) {
+            onProgressChange(progress, progressMax);
+        }
+    }
 
-	@Override
-	public final void onOutputProgressChange(long progress, long progressMax) {
-		if (checkNeedToUpdate(1, progress, progressMax)) {
-			onProgressChange(progress, progressMax);
-		}
-	}
+    @Override
+    public final void onOutputProgressChange(long progress, long progressMax) {
+        if (checkNeedToUpdate(1, progress, progressMax)) {
+            onProgressChange(progress, progressMax);
+        }
+    }
 
-	@Override
-	public final void onOutputProgressChange(MultipartEntity.Openable openable, long progress, long progressMax) {
-		if (checkNeedToUpdate(2, progress, progressMax)) {
-			onProgressChange(openable, progress, progressMax);
-		}
-	}
+    @Override
+    public final void onOutputProgressChange(MultipartEntity.Openable openable, long progress, long progressMax) {
+        if (checkNeedToUpdate(2, progress, progressMax)) {
+            onProgressChange(openable, progress, progressMax);
+        }
+    }
 
-	public void onProgressChange(long progress, long progressMax) {}
+    public void onProgressChange(long progress, long progressMax) {
+    }
 
-	public void onProgressChange(MultipartEntity.Openable openable, long progress, long progressMax) {}
+    public void onProgressChange(MultipartEntity.Openable openable, long progress, long progressMax) {
+    }
 }

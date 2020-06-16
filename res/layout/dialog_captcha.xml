@@ -17,29 +17,29 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:padding="@dimen/dialog_padding_view">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dialog_padding_view">
 
-	<TextView
-		android:id="@+id/comment"
-		style="?android:attr/textAppearanceListItemSmall"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="12dp"
-		android:paddingLeft="4dp"
-		android:paddingRight="4dp" />
+    <TextView
+        android:id="@+id/comment"
+        style="?android:attr/textAppearanceListItemSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp" />
 
-	<include layout="@layout/widget_common_captcha_block" />
+    <include layout="@layout/widget_common_captcha_block" />
 
-	<com.mishiranu.dashchan.widget.SafePasteEditText
-		android:id="@+id/captcha_input"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="@string/text_captcha"
-		android:imeOptions="flagNoExtractUi|flagNoFullscreen"
-		android:inputType="textUri"
-		android:singleLine="true" />
+    <com.mishiranu.dashchan.widget.SafePasteEditText
+        android:id="@+id/captcha_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/text_captcha"
+        android:imeOptions="flagNoExtractUi|flagNoFullscreen"
+        android:inputType="textUri"
+        android:singleLine="true" />
 
 </LinearLayout>

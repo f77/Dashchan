@@ -42,116 +42,117 @@ import chan.content.ChanMarkup;
 import io.noties.markwon.Markwon;
 
 public class TextFragment extends Fragment implements View.OnClickListener {
-	private static final String EXTRA_TYPE = "type";
-	private static final String EXTRA_CONTENT = "content";
-	private static final String EXTRA_IS_MARKDOWN = "is_markdown";
+    private static final String EXTRA_TYPE = "type";
+    private static final String EXTRA_CONTENT = "content";
+    private static final String EXTRA_IS_MARKDOWN = "is_markdown";
 
-	public static final int TYPE_LICENSES = 0;
-	public static final int TYPE_CHANGELOG = 1;
+    public static final int TYPE_LICENSES = 0;
+    public static final int TYPE_CHANGELOG = 1;
 
-	private CommentTextView textView;
+    private CommentTextView textView;
 
-	public TextFragment() {}
+    public TextFragment() {
+    }
 
-	public static Bundle createArguments(int type, String content) {
-		return createArguments(type, content, false);
-	}
+    public static Bundle createArguments(int type, String content) {
+        return createArguments(type, content, false);
+    }
 
-	public static Bundle createArguments(int type, String content, boolean isMarkdown) {
-		Bundle args = new Bundle();
-		args.putInt(EXTRA_TYPE, type);
-		args.putString(EXTRA_CONTENT, content);
-		args.putBoolean(EXTRA_IS_MARKDOWN, isMarkdown);
-		return args;
-	}
+    public static Bundle createArguments(int type, String content, boolean isMarkdown) {
+        Bundle args = new Bundle();
+        args.putInt(EXTRA_TYPE, type);
+        args.putString(EXTRA_CONTENT, content);
+        args.putBoolean(EXTRA_IS_MARKDOWN, isMarkdown);
+        return args;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Bundle args = getArguments();
-		int type = args.getInt(EXTRA_TYPE);
-		String content = args.getString(EXTRA_CONTENT);
-		boolean isMarkdown = args.getBoolean(EXTRA_IS_MARKDOWN);
-		switch (type) {
-			case TYPE_LICENSES: {
-				InputStream input = null;
-				try {
-					input = getActivity().getAssets().open("licenses.txt");
-					ByteArrayOutputStream output = new ByteArrayOutputStream();
-					IOUtils.copyStream(input, output);
-					content = new String(output.toByteArray()).replaceAll("\r?\n", "<br/>");
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				} finally {
-					IOUtils.close(input);
-				}
-				break;
-			}
-		}
-		float density = ResourceUtils.obtainDensity(this);
-		textView = new CommentTextView(getActivity(), null, android.R.attr.textAppearanceLarge);
-		int padding = (int) (16f * density);
-		textView.setPadding(padding, padding, padding, padding);
-		textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-		if (isMarkdown) {
-			final Markwon markwon = Markwon.builder(getActivity().getApplicationContext()).build();
-			markwon.setMarkdown(textView, content);
-		} else {
-			CharSequence text = HtmlParser.spanify(content, new Markup(), null, null);
-			new ColorScheme(getActivity()).apply(text);
-			textView.setText(text);
-		}
-		ScrollView scrollView = new ScrollView(getActivity());
-		scrollView.setId(android.R.id.list);
-		FrameLayout frameLayout = new FrameLayout(getActivity());
-		frameLayout.setOnClickListener(this);
-		scrollView.addView(frameLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		frameLayout.addView(textView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		return scrollView;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        int type = args.getInt(EXTRA_TYPE);
+        String content = args.getString(EXTRA_CONTENT);
+        boolean isMarkdown = args.getBoolean(EXTRA_IS_MARKDOWN);
+        switch (type) {
+            case TYPE_LICENSES: {
+                InputStream input = null;
+                try {
+                    input = getActivity().getAssets().open("licenses.txt");
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    IOUtils.copyStream(input, output);
+                    content = new String(output.toByteArray()).replaceAll("\r?\n", "<br/>");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    IOUtils.close(input);
+                }
+                break;
+            }
+        }
+        float density = ResourceUtils.obtainDensity(this);
+        textView = new CommentTextView(getActivity(), null, android.R.attr.textAppearanceLarge);
+        int padding = (int) (16f * density);
+        textView.setPadding(padding, padding, padding, padding);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        if (isMarkdown) {
+            final Markwon markwon = Markwon.builder(getActivity().getApplicationContext()).build();
+            markwon.setMarkdown(textView, content);
+        } else {
+            CharSequence text = HtmlParser.spanify(content, new Markup(), null, null);
+            new ColorScheme(getActivity()).apply(text);
+            textView.setText(text);
+        }
+        ScrollView scrollView = new ScrollView(getActivity());
+        scrollView.setId(android.R.id.list);
+        FrameLayout frameLayout = new FrameLayout(getActivity());
+        frameLayout.setOnClickListener(this);
+        scrollView.addView(frameLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        frameLayout.addView(textView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        return scrollView;
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		if (!C.API_MARSHMALLOW) {
-			((View) getView().getParent()).setPadding(0, 0, 0, 0);
-		}
-		switch (getArguments().getInt(EXTRA_TYPE)) {
-			case TYPE_LICENSES: {
-				getActivity().setTitle(R.string.preference_licenses);
-				break;
-			}
-			case TYPE_CHANGELOG: {
-				getActivity().setTitle(R.string.preference_changelog);
-				break;
-			}
-		}
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (!C.API_MARSHMALLOW) {
+            ((View) getView().getParent()).setPadding(0, 0, 0, 0);
+        }
+        switch (getArguments().getInt(EXTRA_TYPE)) {
+            case TYPE_LICENSES: {
+                getActivity().setTitle(R.string.preference_licenses);
+                break;
+            }
+            case TYPE_CHANGELOG: {
+                getActivity().setTitle(R.string.preference_changelog);
+                break;
+            }
+        }
+    }
 
-	private long lastClickTime;
+    private long lastClickTime;
 
-	@Override
-	public void onClick(View v) {
-		long time = System.currentTimeMillis();
-		if (time - lastClickTime < ViewConfiguration.getDoubleTapTimeout()) {
-			lastClickTime = 0L;
-			textView.startSelection();
-		} else {
-			lastClickTime = time;
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        long time = System.currentTimeMillis();
+        if (time - lastClickTime < ViewConfiguration.getDoubleTapTimeout()) {
+            lastClickTime = 0L;
+            textView.startSelection();
+        } else {
+            lastClickTime = time;
+        }
+    }
 
-	private static class Markup extends ChanMarkup {
-		public Markup() {
-			super(false);
-			addTag("h1", TAG_HEADING);
-			addTag("h2", TAG_HEADING);
-			addTag("h3", TAG_HEADING);
-			addTag("h4", TAG_HEADING);
-			addTag("h5", TAG_HEADING);
-			addTag("h6", TAG_HEADING);
-			addTag("strong", TAG_BOLD);
-			addTag("em", TAG_ITALIC);
-			addTag("pre", TAG_CODE);
-		}
-	}
+    private static class Markup extends ChanMarkup {
+        public Markup() {
+            super(false);
+            addTag("h1", TAG_HEADING);
+            addTag("h2", TAG_HEADING);
+            addTag("h3", TAG_HEADING);
+            addTag("h4", TAG_HEADING);
+            addTag("h5", TAG_HEADING);
+            addTag("h6", TAG_HEADING);
+            addTag("strong", TAG_BOLD);
+            addTag("em", TAG_ITALIC);
+            addTag("pre", TAG_CODE);
+        }
+    }
 }

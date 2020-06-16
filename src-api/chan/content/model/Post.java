@@ -16,14 +16,14 @@
 
 package chan.content.model;
 
+import com.mishiranu.dashchan.util.FlagUtils;
+
 import java.io.Serializable;
 import java.util.Collection;
 
 import chan.annotation.Public;
 import chan.util.CommonUtils;
 import chan.util.StringUtils;
-
-import com.mishiranu.dashchan.util.FlagUtils;
 
 @Public
 public final class Post implements Serializable, Comparable<Post> {

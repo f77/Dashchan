@@ -16,6 +16,15 @@
 
 package chan.content;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.util.Pair;
+
+import com.mishiranu.dashchan.content.model.FileHolder;
+import com.mishiranu.dashchan.ui.ForegroundManager;
+import com.mishiranu.dashchan.util.ConcurrentUtils;
+import com.mishiranu.dashchan.util.GraphicsUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,10 +33,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.util.Pair;
 
 import chan.annotation.Extendable;
 import chan.annotation.Public;
@@ -46,11 +51,6 @@ import chan.http.HttpValidator;
 import chan.http.MultipartEntity;
 import chan.util.CommonUtils;
 import chan.util.StringUtils;
-
-import com.mishiranu.dashchan.content.model.FileHolder;
-import com.mishiranu.dashchan.ui.ForegroundManager;
-import com.mishiranu.dashchan.util.ConcurrentUtils;
-import com.mishiranu.dashchan.util.GraphicsUtils;
 
 @Extendable
 public class ChanPerformer implements ChanManager.Linked {

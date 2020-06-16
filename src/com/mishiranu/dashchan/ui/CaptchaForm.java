@@ -29,234 +29,235 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import chan.content.ChanConfiguration;
-import chan.content.ChanPerformer;
-
 import com.mishiranu.dashchan.C;
 import com.mishiranu.dashchan.R;
 import com.mishiranu.dashchan.preference.Preferences;
 import com.mishiranu.dashchan.util.GraphicsUtils;
 import com.mishiranu.dashchan.util.ResourceUtils;
 
+import chan.content.ChanConfiguration;
+import chan.content.ChanPerformer;
+
 public class CaptchaForm implements View.OnClickListener, View.OnLongClickListener,
-		TextView.OnEditorActionListener {
-	public enum CaptchaViewType {LOADING, IMAGE, SKIP, ERROR}
+        TextView.OnEditorActionListener {
+    public enum CaptchaViewType {LOADING, IMAGE, SKIP, ERROR}
 
-	private final Callback callback;
+    private final Callback callback;
 
-	private boolean applyHeight;
-	private View blockParentView;
-	private View blockView;
-	private View skipBlockView;
-	private TextView skipTextView;
-	private View loadingView;
-	private ImageView imageView;
-	private View inputParentView;
-	private EditText inputView;
-	private View loadButton;
-	private View refreshButton;
+    private boolean applyHeight;
+    private View blockParentView;
+    private View blockView;
+    private View skipBlockView;
+    private TextView skipTextView;
+    private View loadingView;
+    private ImageView imageView;
+    private View inputParentView;
+    private EditText inputView;
+    private View loadButton;
+    private View refreshButton;
 
-	private ChanConfiguration.Captcha.Input captchaInput;
+    private ChanConfiguration.Captcha.Input captchaInput;
 
-	public interface Callback {
-		public void onRefreshCaptcha(boolean forceRefresh);
-		public void onConfirmCaptcha();
-	}
+    public interface Callback {
+        public void onRefreshCaptcha(boolean forceRefresh);
 
-	public CaptchaForm(Callback callback) {
-		this.callback = callback;
-	}
+        public void onConfirmCaptcha();
+    }
 
-	public void setupViews(View container, View inputParentView, EditText inputView, boolean applyHeight,
-			ChanConfiguration.Captcha captcha) {
-		this.applyHeight = applyHeight;
-		blockParentView = container.findViewById(R.id.captcha_block_parent);
-		blockView = container.findViewById(R.id.captcha_block);
-		imageView = container.findViewById(R.id.captcha_image);
-		loadingView = container.findViewById(R.id.captcha_loading);
-		skipBlockView = container.findViewById(R.id.captcha_skip_block);
-		skipTextView = container.findViewById(R.id.captcha_skip_text);
-		this.inputParentView = inputParentView;
-		this.inputView = inputView;
-		loadButton = container.findViewById(R.id.captcha_load_button);
-		refreshButton = container.findViewById(R.id.refresh_button);
-		if (C.API_LOLLIPOP) {
-			skipTextView.setAllCaps(true);
-			skipTextView.setTypeface(GraphicsUtils.TYPEFACE_MEDIUM);
-			skipTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-		}
-		updateCaptchaHeight(false);
-		captchaInput = captcha.input;
-		if (captchaInput == null) {
-			captchaInput = ChanConfiguration.Captcha.Input.ALL;
-		}
-		updateCaptchaInput(captchaInput);
-		inputView.setFilters(new InputFilter[] {new InputFilter.LengthFilter(50)});
-		inputView.setOnEditorActionListener(this);
-		loadButton.setOnClickListener(this);
-		blockParentView.setOnClickListener(this);
-		blockParentView.setOnLongClickListener(this);
-		refreshButton.setOnClickListener(this);
-		refreshButton.setOnLongClickListener(this);
-		if (inputParentView != null) {
-			inputParentView.setOnClickListener(this);
-		}
-	}
+    public CaptchaForm(Callback callback) {
+        this.callback = callback;
+    }
 
-	private void updateCaptchaInput(ChanConfiguration.Captcha.Input input) {
-		switch (input) {
-			case ALL: {
-				inputView.setInputType(InputType.TYPE_CLASS_TEXT);
-				break;
-			}
-			case LATIN: {
-				inputView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
-				break;
-			}
-			case NUMERIC: {
-				inputView.setInputType(InputType.TYPE_CLASS_NUMBER);
-				break;
-			}
-		}
-	}
+    public void setupViews(View container, View inputParentView, EditText inputView, boolean applyHeight,
+                           ChanConfiguration.Captcha captcha) {
+        this.applyHeight = applyHeight;
+        blockParentView = container.findViewById(R.id.captcha_block_parent);
+        blockView = container.findViewById(R.id.captcha_block);
+        imageView = container.findViewById(R.id.captcha_image);
+        loadingView = container.findViewById(R.id.captcha_loading);
+        skipBlockView = container.findViewById(R.id.captcha_skip_block);
+        skipTextView = container.findViewById(R.id.captcha_skip_text);
+        this.inputParentView = inputParentView;
+        this.inputView = inputView;
+        loadButton = container.findViewById(R.id.captcha_load_button);
+        refreshButton = container.findViewById(R.id.refresh_button);
+        if (C.API_LOLLIPOP) {
+            skipTextView.setAllCaps(true);
+            skipTextView.setTypeface(GraphicsUtils.TYPEFACE_MEDIUM);
+            skipTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+        }
+        updateCaptchaHeight(false);
+        captchaInput = captcha.input;
+        if (captchaInput == null) {
+            captchaInput = ChanConfiguration.Captcha.Input.ALL;
+        }
+        updateCaptchaInput(captchaInput);
+        inputView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
+        inputView.setOnEditorActionListener(this);
+        loadButton.setOnClickListener(this);
+        blockParentView.setOnClickListener(this);
+        blockParentView.setOnLongClickListener(this);
+        refreshButton.setOnClickListener(this);
+        refreshButton.setOnLongClickListener(this);
+        if (inputParentView != null) {
+            inputParentView.setOnClickListener(this);
+        }
+    }
 
-	private void updateCaptchaHeight(boolean large) {
-		if (applyHeight) {
-			float density = ResourceUtils.obtainDensity(inputView);
-			int height = (int) ((Preferences.isHugeCaptcha() || large ? 96f : 48f) * density);
-			ViewGroup.LayoutParams layoutParams = blockView.getLayoutParams();
-			if (height != layoutParams.height) {
-				layoutParams.height = height;
-				blockView.requestLayout();
-			}
-		}
-	}
+    private void updateCaptchaInput(ChanConfiguration.Captcha.Input input) {
+        switch (input) {
+            case ALL: {
+                inputView.setInputType(InputType.TYPE_CLASS_TEXT);
+                break;
+            }
+            case LATIN: {
+                inputView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+                break;
+            }
+            case NUMERIC: {
+                inputView.setInputType(InputType.TYPE_CLASS_NUMBER);
+                break;
+            }
+        }
+    }
 
-	@Override
-	public void onClick(View v) {
-		if (v == loadButton) {
-			callback.onRefreshCaptcha(true);
-		} else if (v == blockParentView || v == refreshButton) {
-			callback.onRefreshCaptcha(false);
-		} else if (inputParentView != null && v == inputParentView) {
-			inputView.requestFocus();
-			InputMethodManager inputMethodManager = (InputMethodManager) v.getContext()
-					.getSystemService(Context.INPUT_METHOD_SERVICE);
-			if (inputMethodManager != null) {
-				inputMethodManager.showSoftInput(inputView, InputMethodManager.SHOW_IMPLICIT);
-			}
-		}
-	}
+    private void updateCaptchaHeight(boolean large) {
+        if (applyHeight) {
+            float density = ResourceUtils.obtainDensity(inputView);
+            int height = (int) ((Preferences.isHugeCaptcha() || large ? 96f : 48f) * density);
+            ViewGroup.LayoutParams layoutParams = blockView.getLayoutParams();
+            if (height != layoutParams.height) {
+                layoutParams.height = height;
+                blockView.requestLayout();
+            }
+        }
+    }
 
-	@Override
-	public boolean onLongClick(View v) {
-		if (v == blockParentView || v == refreshButton) {
-			callback.onRefreshCaptcha(true);
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public void onClick(View v) {
+        if (v == loadButton) {
+            callback.onRefreshCaptcha(true);
+        } else if (v == blockParentView || v == refreshButton) {
+            callback.onRefreshCaptcha(false);
+        } else if (inputParentView != null && v == inputParentView) {
+            inputView.requestFocus();
+            InputMethodManager inputMethodManager = (InputMethodManager) v.getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputMethodManager != null) {
+                inputMethodManager.showSoftInput(inputView, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }
+    }
 
-	@Override
-	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		callback.onConfirmCaptcha();
-		return true;
-	}
+    @Override
+    public boolean onLongClick(View v) {
+        if (v == blockParentView || v == refreshButton) {
+            callback.onRefreshCaptcha(true);
+            return true;
+        }
+        return false;
+    }
 
-	public void showCaptcha(ChanPerformer.CaptchaState captchaState, ChanConfiguration.Captcha.Input input,
-			Bitmap image, boolean large, boolean invertColors) {
-		switch (captchaState) {
-			case CAPTCHA: {
-				imageView.setImageBitmap(image);
-				imageView.setColorFilter(invertColors ? GraphicsUtils.INVERT_FILTER : null);
-				switchToCaptchaView(CaptchaViewType.IMAGE, input, large);
-				break;
-			}
-			case SKIP:
-			case NEED_LOAD: {
-				boolean needLoad = captchaState == ChanPerformer.CaptchaState.NEED_LOAD;
-				if (needLoad) {
-					blockParentView.setVisibility(View.VISIBLE);
-					inputView.setVisibility(View.VISIBLE);
-					skipTextView.setText(R.string.action_load_captcha);
-				} else {
-					blockParentView.setVisibility(View.GONE);
-					inputView.setVisibility(View.GONE);
-					skipTextView.setText(R.string.message_can_skip_captcha);
-				}
-				loadButton.setVisibility(View.GONE);
-				switchToCaptchaView(CaptchaViewType.SKIP, null, false);
-				break;
-			}
-			case PASS: {
-				skipTextView.setText(R.string.message_captcha_pass_allowed);
-				loadButton.setVisibility(View.VISIBLE);
-				switchToCaptchaView(CaptchaViewType.SKIP, null, false);
-				break;
-			}
-		}
-	}
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        callback.onConfirmCaptcha();
+        return true;
+    }
 
-	public void showError() {
-		imageView.setImageResource(android.R.color.transparent);
-		switchToCaptchaView(CaptchaViewType.ERROR, null, false);
-	}
+    public void showCaptcha(ChanPerformer.CaptchaState captchaState, ChanConfiguration.Captcha.Input input,
+                            Bitmap image, boolean large, boolean invertColors) {
+        switch (captchaState) {
+            case CAPTCHA: {
+                imageView.setImageBitmap(image);
+                imageView.setColorFilter(invertColors ? GraphicsUtils.INVERT_FILTER : null);
+                switchToCaptchaView(CaptchaViewType.IMAGE, input, large);
+                break;
+            }
+            case SKIP:
+            case NEED_LOAD: {
+                boolean needLoad = captchaState == ChanPerformer.CaptchaState.NEED_LOAD;
+                if (needLoad) {
+                    blockParentView.setVisibility(View.VISIBLE);
+                    inputView.setVisibility(View.VISIBLE);
+                    skipTextView.setText(R.string.action_load_captcha);
+                } else {
+                    blockParentView.setVisibility(View.GONE);
+                    inputView.setVisibility(View.GONE);
+                    skipTextView.setText(R.string.message_can_skip_captcha);
+                }
+                loadButton.setVisibility(View.GONE);
+                switchToCaptchaView(CaptchaViewType.SKIP, null, false);
+                break;
+            }
+            case PASS: {
+                skipTextView.setText(R.string.message_captcha_pass_allowed);
+                loadButton.setVisibility(View.VISIBLE);
+                switchToCaptchaView(CaptchaViewType.SKIP, null, false);
+                break;
+            }
+        }
+    }
 
-	public void showLoading() {
-		inputView.setText(null);
-		switchToCaptchaView(CaptchaViewType.LOADING, null, false);
-	}
+    public void showError() {
+        imageView.setImageResource(android.R.color.transparent);
+        switchToCaptchaView(CaptchaViewType.ERROR, null, false);
+    }
 
-	private void switchToCaptchaView(CaptchaViewType captchaViewType, ChanConfiguration.Captcha.Input input,
-			boolean large) {
-		switch (captchaViewType) {
-			case LOADING: {
-				blockView.setVisibility(View.VISIBLE);
-				imageView.setVisibility(View.GONE);
-				imageView.setImageResource(android.R.color.transparent);
-				loadingView.setVisibility(View.VISIBLE);
-				skipBlockView.setVisibility(View.GONE);
-				inputView.setEnabled(true);
-				updateCaptchaHeight(false);
-				break;
-			}
-			case ERROR: {
-				blockView.setVisibility(View.VISIBLE);
-				imageView.setVisibility(View.VISIBLE);
-				loadingView.setVisibility(View.GONE);
-				skipBlockView.setVisibility(View.GONE);
-				inputView.setEnabled(true);
-				updateCaptchaHeight(false);
-				break;
-			}
-			case IMAGE: {
-				blockView.setVisibility(View.VISIBLE);
-				imageView.setVisibility(View.VISIBLE);
-				loadingView.setVisibility(View.GONE);
-				skipBlockView.setVisibility(View.GONE);
-				inputView.setEnabled(true);
-				updateCaptchaInput(input != null ? input : captchaInput);
-				updateCaptchaHeight(large);
-				break;
-			}
-			case SKIP: {
-				blockView.setVisibility(View.INVISIBLE);
-				imageView.setVisibility(View.VISIBLE);
-				imageView.setImageResource(android.R.color.transparent);
-				loadingView.setVisibility(View.GONE);
-				skipBlockView.setVisibility(View.VISIBLE);
-				inputView.setEnabled(false);
-				updateCaptchaHeight(false);
-				break;
-			}
-		}
-	}
+    public void showLoading() {
+        inputView.setText(null);
+        switchToCaptchaView(CaptchaViewType.LOADING, null, false);
+    }
 
-	public void setText(String text) {
-		inputView.setText(text);
-	}
+    private void switchToCaptchaView(CaptchaViewType captchaViewType, ChanConfiguration.Captcha.Input input,
+                                     boolean large) {
+        switch (captchaViewType) {
+            case LOADING: {
+                blockView.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.GONE);
+                imageView.setImageResource(android.R.color.transparent);
+                loadingView.setVisibility(View.VISIBLE);
+                skipBlockView.setVisibility(View.GONE);
+                inputView.setEnabled(true);
+                updateCaptchaHeight(false);
+                break;
+            }
+            case ERROR: {
+                blockView.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.VISIBLE);
+                loadingView.setVisibility(View.GONE);
+                skipBlockView.setVisibility(View.GONE);
+                inputView.setEnabled(true);
+                updateCaptchaHeight(false);
+                break;
+            }
+            case IMAGE: {
+                blockView.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.VISIBLE);
+                loadingView.setVisibility(View.GONE);
+                skipBlockView.setVisibility(View.GONE);
+                inputView.setEnabled(true);
+                updateCaptchaInput(input != null ? input : captchaInput);
+                updateCaptchaHeight(large);
+                break;
+            }
+            case SKIP: {
+                blockView.setVisibility(View.INVISIBLE);
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setImageResource(android.R.color.transparent);
+                loadingView.setVisibility(View.GONE);
+                skipBlockView.setVisibility(View.VISIBLE);
+                inputView.setEnabled(false);
+                updateCaptchaHeight(false);
+                break;
+            }
+        }
+    }
 
-	public String getInput() {
-		return inputView.getText().toString();
-	}
+    public void setText(String text) {
+        inputView.setText(text);
+    }
+
+    public String getInput() {
+        return inputView.getText().toString();
+    }
 }

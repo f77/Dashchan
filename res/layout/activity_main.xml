@@ -17,30 +17,30 @@
 -->
 
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/drawer_layout"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-		<FrameLayout
-			android:id="@+id/drawer_wide"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			tools:ignore="Suspicious0dp" />
+        <FrameLayout
+            android:id="@+id/drawer_wide"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            tools:ignore="Suspicious0dp" />
 
-		<include layout="@layout/activity_common" />
+        <include layout="@layout/activity_common" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<FrameLayout
-		android:id="@+id/drawer_common"
-		android:layout_width="0dp"
-		android:layout_height="match_parent"
-		android:layout_gravity="start" />
+    <FrameLayout
+        android:id="@+id/drawer_common"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

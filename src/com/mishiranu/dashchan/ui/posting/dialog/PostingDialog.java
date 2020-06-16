@@ -16,56 +16,58 @@
 
 package com.mishiranu.dashchan.ui.posting.dialog;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.util.Pair;
 
-import chan.content.ChanConfiguration;
-
 import com.mishiranu.dashchan.ui.posting.AttachmentHolder;
 
+import java.util.List;
+
+import chan.content.ChanConfiguration;
+
 public class PostingDialog extends DialogFragment {
-	public interface Callback {
-		public AttachmentHolder getAttachmentHolder(int index);
-		public List<Pair<String, String>> getAttachmentRatingItems();
-		public ChanConfiguration.Posting getPostingConfiguration();
-	}
+    public interface Callback {
+        public AttachmentHolder getAttachmentHolder(int index);
 
-	private Callback callback;
+        public List<Pair<String, String>> getAttachmentRatingItems();
 
-	public PostingDialog bindCallback(Callback callback) {
-		this.callback = callback;
-		return this;
-	}
+        public ChanConfiguration.Posting getPostingConfiguration();
+    }
 
-	public PostingDialog bindCallback(PostingDialog dialog) {
-		return bindCallback(dialog.callback);
-	}
+    private Callback callback;
 
-	public static void bindCallback(Activity activity, String tag, Callback callback) {
-		PostingDialog dialog = (PostingDialog) activity.getFragmentManager().findFragmentByTag(tag);
-		if (dialog != null) {
-			dialog.bindCallback(callback);
-		}
-	}
+    public PostingDialog bindCallback(Callback callback) {
+        this.callback = callback;
+        return this;
+    }
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		callback = null;
-	}
+    public PostingDialog bindCallback(PostingDialog dialog) {
+        return bindCallback(dialog.callback);
+    }
 
-	public final AttachmentHolder getAttachmentHolder(String key) {
-		return callback.getAttachmentHolder(getArguments().getInt(key));
-	}
+    public static void bindCallback(Activity activity, String tag, Callback callback) {
+        PostingDialog dialog = (PostingDialog) activity.getFragmentManager().findFragmentByTag(tag);
+        if (dialog != null) {
+            dialog.bindCallback(callback);
+        }
+    }
 
-	public final List<Pair<String, String>> getAttachmentRatingItems() {
-		return callback.getAttachmentRatingItems();
-	}
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        callback = null;
+    }
 
-	public final ChanConfiguration.Posting getPostingConfiguration() {
-		return callback.getPostingConfiguration();
-	}
+    public final AttachmentHolder getAttachmentHolder(String key) {
+        return callback.getAttachmentHolder(getArguments().getInt(key));
+    }
+
+    public final List<Pair<String, String>> getAttachmentRatingItems() {
+        return callback.getAttachmentRatingItems();
+    }
+
+    public final ChanConfiguration.Posting getPostingConfiguration() {
+        return callback.getPostingConfiguration();
+    }
 }

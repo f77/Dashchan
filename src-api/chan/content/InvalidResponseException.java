@@ -16,26 +16,27 @@
 
 package chan.content;
 
-import chan.annotation.Public;
-
 import com.mishiranu.dashchan.content.model.ErrorItem;
 import com.mishiranu.dashchan.util.Log;
 
+import chan.annotation.Public;
+
 @Public
 public final class InvalidResponseException extends Exception implements ErrorItem.Holder {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Public
-	public InvalidResponseException() {}
+    @Public
+    public InvalidResponseException() {
+    }
 
-	@Public
-	public InvalidResponseException(Throwable throwable) {
-		super(throwable);
-	}
+    @Public
+    public InvalidResponseException(Throwable throwable) {
+        super(throwable);
+    }
 
-	@Override
-	public ErrorItem getErrorItemAndHandle() {
-		Log.persistent().stack(this);
-		return new ErrorItem(ErrorItem.TYPE_INVALID_RESPONSE);
-	}
+    @Override
+    public ErrorItem getErrorItemAndHandle() {
+        Log.persistent().stack(this);
+        return new ErrorItem(ErrorItem.TYPE_INVALID_RESPONSE);
+    }
 }

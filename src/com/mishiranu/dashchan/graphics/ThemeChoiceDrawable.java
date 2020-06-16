@@ -29,66 +29,68 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 
 public class ThemeChoiceDrawable extends Drawable {
-	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-	private final RectF rectF = new RectF();
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final RectF rectF = new RectF();
 
-	private final int background;
-	private final int primary;
-	private final int accent;
+    private final int background;
+    private final int primary;
+    private final int accent;
 
-	public ThemeChoiceDrawable(int colorBackground, int colorPrimary, int colorAccent) {
-		background = colorBackground;
-		primary = colorPrimary;
-		accent = colorAccent;
-	}
+    public ThemeChoiceDrawable(int colorBackground, int colorPrimary, int colorAccent) {
+        background = colorBackground;
+        primary = colorPrimary;
+        accent = colorAccent;
+    }
 
-	@Override
-	public void draw(Canvas canvas) {
-		Rect bounds = getBounds();
-		int radius = Math.min(bounds.width(), bounds.height()) / 2;
-		int cx = bounds.centerX();
-		int cy = bounds.centerY();
-		Paint paint = this.paint;
-		paint.setColor(background);
-		canvas.drawCircle(cx, cy, radius * 1f, paint);
-		if (accent != primary && accent != Color.TRANSPARENT) {
-			RectF rectF = this.rectF;
-			applyRectRadius(rectF, cx, cy, radius * 0.8f);
-			paint.setColor(accent);
-			canvas.drawArc(rectF, -20, 130, true, paint);
-			paint.setColor(background);
-			canvas.drawCircle(cx, cy, radius * 0.7f, paint);
-			paint.setColor(primary);
-			canvas.drawCircle(cx, cy, radius * 0.65f, paint);
-			canvas.drawArc(rectF, 114, 222, true, paint);
-		} else {
-			paint.setColor(primary);
-			canvas.drawCircle(cx, cy, radius * 0.8f, paint);
-		}
-	}
+    @Override
+    public void draw(Canvas canvas) {
+        Rect bounds = getBounds();
+        int radius = Math.min(bounds.width(), bounds.height()) / 2;
+        int cx = bounds.centerX();
+        int cy = bounds.centerY();
+        Paint paint = this.paint;
+        paint.setColor(background);
+        canvas.drawCircle(cx, cy, radius * 1f, paint);
+        if (accent != primary && accent != Color.TRANSPARENT) {
+            RectF rectF = this.rectF;
+            applyRectRadius(rectF, cx, cy, radius * 0.8f);
+            paint.setColor(accent);
+            canvas.drawArc(rectF, -20, 130, true, paint);
+            paint.setColor(background);
+            canvas.drawCircle(cx, cy, radius * 0.7f, paint);
+            paint.setColor(primary);
+            canvas.drawCircle(cx, cy, radius * 0.65f, paint);
+            canvas.drawArc(rectF, 114, 222, true, paint);
+        } else {
+            paint.setColor(primary);
+            canvas.drawCircle(cx, cy, radius * 0.8f, paint);
+        }
+    }
 
-	private static void applyRectRadius(RectF rectF, int cx, int cy, float radius) {
-		rectF.set(cx - radius, cy - radius, cx + radius, cy + radius);
-	}
+    private static void applyRectRadius(RectF rectF, int cx, int cy, float radius) {
+        rectF.set(cx - radius, cy - radius, cx + radius, cy + radius);
+    }
 
-	@Override
-	public int getOpacity() {
-		return PixelFormat.TRANSLUCENT;
-	}
+    @Override
+    public int getOpacity() {
+        return PixelFormat.TRANSLUCENT;
+    }
 
-	@Override
-	public void setAlpha(int alpha) {}
+    @Override
+    public void setAlpha(int alpha) {
+    }
 
-	@Override
-	public void setColorFilter(ColorFilter cf) {}
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+    }
 
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	@Override
-	public void getOutline(Outline outline) {
-		Rect bounds = getBounds();
-		int radius = (int) ((Math.min(bounds.width(), bounds.height()) / 2) * 0.95f);
-		int cx = bounds.centerX();
-		int cy = bounds.centerY();
-		outline.setOval(cx - radius, cy - radius, cx + radius, cy + radius);
-	}
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void getOutline(Outline outline) {
+        Rect bounds = getBounds();
+        int radius = (int) ((Math.min(bounds.width(), bounds.height()) / 2) * 0.95f);
+        int cx = bounds.centerX();
+        int cy = bounds.centerY();
+        outline.setOval(cx - radius, cy - radius, cx + radius, cy + radius);
+    }
 }

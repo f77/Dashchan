@@ -17,22 +17,22 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:orientation="horizontal">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <com.mishiranu.dashchan.widget.AttachmentView
-		android:id="@+id/thumbnail"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		android:layout_marginRight="8dp" />
+        android:id="@+id/thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginRight="8dp" />
 
-	<TextView
-		android:id="@+id/attachment_info"
-		android:layout_width="0dp"
-		android:layout_height="match_parent"
-		android:gravity="center_vertical"
-		android:lineSpacingMultiplier="1.15"
-		style="@style/Widget.HeaderText" />
+    <TextView
+        android:id="@+id/attachment_info"
+        style="@style/Widget.HeaderText"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:lineSpacingMultiplier="1.15" />
 
 </LinearLayout>

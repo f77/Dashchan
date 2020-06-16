@@ -21,66 +21,66 @@ import android.text.TextPaint;
 import android.text.style.CharacterStyle;
 import android.text.style.UpdateAppearance;
 
-import chan.util.StringUtils;
-
 import com.mishiranu.dashchan.graphics.ColorScheme;
 import com.mishiranu.dashchan.util.GraphicsUtils;
 import com.mishiranu.dashchan.widget.CommentTextView;
 
+import chan.util.StringUtils;
+
 public class LinkSpan extends CharacterStyle implements UpdateAppearance, CommentTextView.ClickableSpan,
-		ColorScheme.Span {
-	private final String uriString;
-	private final String postNumber;
+        ColorScheme.Span {
+    private final String uriString;
+    private final String postNumber;
 
-	private int foregroundColor, clickedColor;
+    private int foregroundColor, clickedColor;
 
-	private boolean clicked;
-	private boolean hidden;
+    private boolean clicked;
+    private boolean hidden;
 
-	public LinkSpan(String uriString, String postNumber) {
-		this.uriString = StringUtils.fixParsedUriString(uriString);
-		this.postNumber = postNumber;
-	}
+    public LinkSpan(String uriString, String postNumber) {
+        this.uriString = StringUtils.fixParsedUriString(uriString);
+        this.postNumber = postNumber;
+    }
 
-	@Override
-	public void applyColorScheme(ColorScheme colorScheme) {
-		if (colorScheme != null) {
-			foregroundColor = colorScheme.linkColor;
-			clickedColor = colorScheme.clickedColor;
-		}
-	}
+    @Override
+    public void applyColorScheme(ColorScheme colorScheme) {
+        if (colorScheme != null) {
+            foregroundColor = colorScheme.linkColor;
+            clickedColor = colorScheme.clickedColor;
+        }
+    }
 
-	@Override
-	public void updateDrawState(TextPaint paint) {
-		if (paint.getColor() != Color.TRANSPARENT) {
-			if (hidden) {
-				paint.setColor(foregroundColor & 0x00ffffff | Color.argb(Color.alpha(foregroundColor) / 2, 0, 0, 0));
-				paint.setStrikeThruText(true);
-			} else {
-				paint.setColor(foregroundColor);
-			}
-			paint.setUnderlineText(true);
-			if (clicked) {
-				paint.bgColor = Color.alpha(paint.bgColor) == 0x00 ? clickedColor
-						: GraphicsUtils.mixColors(paint.bgColor, clickedColor);
-			}
-		}
-	}
+    @Override
+    public void updateDrawState(TextPaint paint) {
+        if (paint.getColor() != Color.TRANSPARENT) {
+            if (hidden) {
+                paint.setColor(foregroundColor & 0x00ffffff | Color.argb(Color.alpha(foregroundColor) / 2, 0, 0, 0));
+                paint.setStrikeThruText(true);
+            } else {
+                paint.setColor(foregroundColor);
+            }
+            paint.setUnderlineText(true);
+            if (clicked) {
+                paint.bgColor = Color.alpha(paint.bgColor) == 0x00 ? clickedColor
+                        : GraphicsUtils.mixColors(paint.bgColor, clickedColor);
+            }
+        }
+    }
 
-	@Override
-	public void setClicked(boolean clicked) {
-		this.clicked = clicked;
-	}
+    @Override
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
 
-	public void setHidden(boolean hidden) {
-		this.hidden = hidden;
-	}
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
 
-	public String getUriString() {
-		return uriString;
-	}
+    public String getUriString() {
+        return uriString;
+    }
 
-	public String getPostNumber() {
-		return postNumber;
-	}
+    public String getPostNumber() {
+        return postNumber;
+    }
 }

@@ -24,19 +24,19 @@ import android.text.style.UpdateAppearance;
 import com.mishiranu.dashchan.graphics.ColorScheme;
 
 public class QuoteSpan extends CharacterStyle implements UpdateAppearance, ColorScheme.Span {
-	private int foregroundColor;
+    private int foregroundColor;
 
-	@Override
-	public void applyColorScheme(ColorScheme colorScheme) {
-		if (colorScheme != null) {
-			foregroundColor = colorScheme.quoteColor;
-		}
-	}
+    @Override
+    public void applyColorScheme(ColorScheme colorScheme) {
+        if (colorScheme != null) {
+            foregroundColor = colorScheme.quoteColor;
+        }
+    }
 
-	@Override
-	public void updateDrawState(TextPaint paint) {
-		if (paint.getColor() != Color.TRANSPARENT) {
-			paint.setColor(foregroundColor);
-		}
-	}
+    @Override
+    public void updateDrawState(TextPaint paint) {
+        if (paint.getColor() != Color.TRANSPARENT) {
+            paint.setColor(foregroundColor);
+        }
+    }
 }

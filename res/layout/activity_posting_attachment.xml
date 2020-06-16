@@ -17,94 +17,94 @@
 -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	tools:ignore="Overdraw"
-	android:layout_width="match_parent"
-	android:layout_height="48dp"
-	android:layout_marginTop="4dp"
-	android:background="#ff000000">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginTop="4dp"
+    android:background="#ff000000"
+    tools:ignore="Overdraw">
 
-	<ImageView
-		android:id="@+id/attachment_preview"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:scaleType="centerCrop"
-		android:visibility="gone" />
+    <ImageView
+        android:id="@+id/attachment_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
 
-	<View
-		android:layout_width="match_parent"
-		android:layout_height="48dp"
-		android:layout_gravity="bottom"
-		android:background="?attr/backgroundBlock" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:background="?attr/backgroundBlock" />
 
-	<View
-		android:id="@+id/attachment_options"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="?android:attr/selectableItemBackground" />
+    <View
+        android:id="@+id/attachment_options"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="48dp"
-		android:layout_gravity="bottom"
-		android:orientation="horizontal"
-		android:paddingLeft="8dp"
-		android:paddingRight="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
-		<LinearLayout
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:orientation="vertical"
-			android:paddingLeft="4dp"
-			android:paddingRight="8dp"
-			android:gravity="center_vertical">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="4dp"
+            android:paddingRight="8dp">
 
-			<TextView
-				android:id="@+id/attachment_name"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:textAppearance="?android:textAppearanceSmall" />
+            <TextView
+                android:id="@+id/attachment_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textAppearance="?android:textAppearanceSmall" />
 
-			<TextView
-				android:id="@+id/attachment_size"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:textAppearance="?android:textAppearanceSmall" />
+            <TextView
+                android:id="@+id/attachment_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textAppearance="?android:textAppearanceSmall" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<ImageButton
-			android:id="@+id/attachment_warning"
-			android:layout_width="48dp"
-			android:layout_height="match_parent"
-			android:layout_gravity="center_vertical"
-			android:background="?android:attr/selectableItemBackground"
-			android:scaleType="center"
-			android:src="?attr/buttonWarning" />
+        <ImageButton
+            android:id="@+id/attachment_warning"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="center"
+            android:src="?attr/buttonWarning" />
 
-		<ImageButton
-			android:id="@+id/attachment_rating"
-			android:layout_width="48dp"
-			android:layout_height="match_parent"
-			android:layout_gravity="center_vertical"
-			android:background="?android:attr/selectableItemBackground"
-			android:scaleType="center"
-			android:src="?attr/buttonRating" />
+        <ImageButton
+            android:id="@+id/attachment_rating"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="center"
+            android:src="?attr/buttonRating" />
 
-		<ImageButton
-			android:id="@+id/attachment_remove"
-			android:layout_width="48dp"
-			android:layout_height="match_parent"
-			android:layout_gravity="center_vertical"
-			android:background="?android:attr/selectableItemBackground"
-			android:scaleType="center"
-			android:src="?attr/buttonCancel" />
+        <ImageButton
+            android:id="@+id/attachment_remove"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="center"
+            android:src="?attr/buttonCancel" />
 
-	</LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

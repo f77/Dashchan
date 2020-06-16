@@ -23,34 +23,34 @@ import android.text.style.UpdateAppearance;
 import com.mishiranu.dashchan.graphics.ColorScheme;
 
 public class NameColorSpan extends CharacterStyle implements UpdateAppearance, ColorScheme.Span {
-	public static final int TYPE_TRIPCODE = 1;
-	public static final int TYPE_CAPCODE = 2;
+    public static final int TYPE_TRIPCODE = 1;
+    public static final int TYPE_CAPCODE = 2;
 
-	private final int type;
-	private int foregroundColor;
+    private final int type;
+    private int foregroundColor;
 
-	public NameColorSpan(int type) {
-		this.type = type;
-	}
+    public NameColorSpan(int type) {
+        this.type = type;
+    }
 
-	@Override
-	public void applyColorScheme(ColorScheme colorScheme) {
-		if (colorScheme != null) {
-			switch (type) {
-				case TYPE_TRIPCODE: {
-					foregroundColor = colorScheme.tripcodeColor;
-					break;
-				}
-				case TYPE_CAPCODE: {
-					foregroundColor = colorScheme.capcodeColor;
-					break;
-				}
-			}
-		}
-	}
+    @Override
+    public void applyColorScheme(ColorScheme colorScheme) {
+        if (colorScheme != null) {
+            switch (type) {
+                case TYPE_TRIPCODE: {
+                    foregroundColor = colorScheme.tripcodeColor;
+                    break;
+                }
+                case TYPE_CAPCODE: {
+                    foregroundColor = colorScheme.capcodeColor;
+                    break;
+                }
+            }
+        }
+    }
 
-	@Override
-	public void updateDrawState(TextPaint paint) {
-		paint.setColor(foregroundColor);
-	}
+    @Override
+    public void updateDrawState(TextPaint paint) {
+        paint.setColor(foregroundColor);
+    }
 }

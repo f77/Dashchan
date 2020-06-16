@@ -16,72 +16,81 @@
 
 package com.mishiranu.dashchan.ui.gallery;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.net.Uri;
 
-import chan.content.ChanLocator;
-
 import com.mishiranu.dashchan.content.model.GalleryItem;
 
+import java.util.ArrayList;
+
+import chan.content.ChanLocator;
+
 public class GalleryInstance {
-	public static final int FLAG_LOCKED_USER = 0x00000001;
-	public static final int FLAG_LOCKED_GRID = 0x00000002;
-	public static final int FLAG_LOCKED_ERROR = 0x00000004;
+    public static final int FLAG_LOCKED_USER = 0x00000001;
+    public static final int FLAG_LOCKED_GRID = 0x00000002;
+    public static final int FLAG_LOCKED_ERROR = 0x00000004;
 
-	public final Context context;
-	public final Callback callback;
+    public final Context context;
+    public final Callback callback;
 
-	public String chanName;
-	public ChanLocator locator;
-	public ArrayList<GalleryItem> galleryItems;
+    public String chanName;
+    public ChanLocator locator;
+    public ArrayList<GalleryItem> galleryItems;
 
-	public int actionBarColor;
+    public int actionBarColor;
 
-	public GalleryInstance(Context context, Callback callback) {
-		this.context = context;
-		this.callback = callback;
-	}
+    public GalleryInstance(Context context, Callback callback) {
+        this.context = context;
+        this.callback = callback;
+    }
 
-	/**
-	 * Get URIs of the all gallery items.
-	 * @param isOnlyVideos Get only videos?
-	 * @return URIs.
-	 */
-	public ArrayList<Uri> getGalleryURIs (boolean isOnlyVideos) {
-		ArrayList<Uri> URIs = new ArrayList<>();
-		for (GalleryItem item: galleryItems) {
-			if (isOnlyVideos && !item.isVideo(locator)) {
-				continue;
-			}
+    /**
+     * Get URIs of the all gallery items.
+     *
+     * @param isOnlyVideos Get only videos?
+     * @return URIs.
+     */
+    public ArrayList<Uri> getGalleryURIs(boolean isOnlyVideos) {
+        ArrayList<Uri> URIs = new ArrayList<>();
+        for (GalleryItem item : galleryItems) {
+            if (isOnlyVideos && !item.isVideo(locator)) {
+                continue;
+            }
 
-			URIs.add(item.getFileUri(locator));
-		}
-		return URIs;
-	}
+            URIs.add(item.getFileUri(locator));
+        }
+        return URIs;
+    }
 
-	public interface Callback {
-		public void downloadGalleryItem(GalleryItem galleryItem);
-		public void downloadGalleryItems(ArrayList<GalleryItem> galleryItems);
+    public interface Callback {
+        public void downloadGalleryItem(GalleryItem galleryItem);
 
-		public void modifyVerticalSwipeState(boolean ignoreIfGallery, float value);
-		public void updateTitle();
+        public void downloadGalleryItems(ArrayList<GalleryItem> galleryItems);
 
-		public void navigateGalleryOrFinish(boolean enableGalleryMode);
-		public void navigatePageFromList(int position);
-		public void navigatePost(GalleryItem galleryItem, boolean manually, boolean force);
+        public void modifyVerticalSwipeState(boolean ignoreIfGallery, float value);
 
-		public boolean isAllowNavigatePostManually(boolean fromPager);
+        public void updateTitle();
 
-		public void invalidateOptionsMenu();
-		public void setScreenOnFixed(boolean fixed);
+        public void navigateGalleryOrFinish(boolean enableGalleryMode);
 
-		public boolean isGalleryWindow();
-		public boolean isGalleryMode();
+        public void navigatePageFromList(int position);
 
-		public boolean isSystemUiVisible();
-		public void modifySystemUiVisibility(int flag, boolean value);
-		public void toggleSystemUIVisibility(int flag);
-	}
+        public void navigatePost(GalleryItem galleryItem, boolean manually, boolean force);
+
+        public boolean isAllowNavigatePostManually(boolean fromPager);
+
+        public void invalidateOptionsMenu();
+
+        public void setScreenOnFixed(boolean fixed);
+
+        public boolean isGalleryWindow();
+
+        public boolean isGalleryMode();
+
+        public boolean isSystemUiVisible();
+
+        public void modifySystemUiVisibility(int flag, boolean value);
+
+        public void toggleSystemUIVisibility(int flag);
+    }
 }

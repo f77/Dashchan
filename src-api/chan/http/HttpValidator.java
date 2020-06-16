@@ -16,14 +16,14 @@
 
 package chan.http;
 
-import java.io.Serializable;
-import java.net.HttpURLConnection;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
+import java.net.HttpURLConnection;
 
 import chan.annotation.Public;
 import chan.util.CommonUtils;
@@ -31,91 +31,91 @@ import chan.util.StringUtils;
 
 @Public
 public final class HttpValidator implements Parcelable, Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final String KEY_ETAG = "ETag";
-	private static final String KEY_LAST_MODIFIED = "LastModified";
+    private static final String KEY_ETAG = "ETag";
+    private static final String KEY_LAST_MODIFIED = "LastModified";
 
-	private final String eTag;
-	private final String lastModified;
+    private final String eTag;
+    private final String lastModified;
 
-	private HttpValidator(String eTag, String lastModified) {
-		this.eTag = eTag;
-		this.lastModified = lastModified;
-	}
+    private HttpValidator(String eTag, String lastModified) {
+        this.eTag = eTag;
+        this.lastModified = lastModified;
+    }
 
-	static HttpValidator obtain(HttpURLConnection connection) {
-		String eTag = connection.getHeaderField("ETag");
-		String lastModified = connection.getHeaderField("Last-Modified");
-		if (eTag != null || lastModified != null) {
-			return new HttpValidator(eTag, lastModified);
-		}
-		return null;
-	}
+    static HttpValidator obtain(HttpURLConnection connection) {
+        String eTag = connection.getHeaderField("ETag");
+        String lastModified = connection.getHeaderField("Last-Modified");
+        if (eTag != null || lastModified != null) {
+            return new HttpValidator(eTag, lastModified);
+        }
+        return null;
+    }
 
-	public void write(HttpURLConnection connection) {
-		if (eTag != null) {
-			connection.setRequestProperty("If-None-Match", eTag);
-		}
-		if (lastModified != null) {
-			connection.setRequestProperty("If-Modified-Since", lastModified);
-		}
-	}
+    public void write(HttpURLConnection connection) {
+        if (eTag != null) {
+            connection.setRequestProperty("If-None-Match", eTag);
+        }
+        if (lastModified != null) {
+            connection.setRequestProperty("If-Modified-Since", lastModified);
+        }
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(eTag);
-		dest.writeString(lastModified);
-	}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(eTag);
+        dest.writeString(lastModified);
+    }
 
-	public static final Creator<HttpValidator> CREATOR = new Creator<HttpValidator>() {
-		@Override
-		public HttpValidator createFromParcel(Parcel source) {
-			String eTag = source.readString();
-			String lastModified = source.readString();
-			return new HttpValidator(eTag, lastModified);
-		}
+    public static final Creator<HttpValidator> CREATOR = new Creator<HttpValidator>() {
+        @Override
+        public HttpValidator createFromParcel(Parcel source) {
+            String eTag = source.readString();
+            String lastModified = source.readString();
+            return new HttpValidator(eTag, lastModified);
+        }
 
-		@Override
-		public HttpValidator[] newArray(int size) {
-			return new HttpValidator[size];
-		}
-	};
+        @Override
+        public HttpValidator[] newArray(int size) {
+            return new HttpValidator[size];
+        }
+    };
 
-	public static HttpValidator fromString(String validator) {
-		if (validator != null) {
-			try {
-				JSONObject jsonObject = new JSONObject(validator);
-				String eTag = CommonUtils.optJsonString(jsonObject, KEY_ETAG);
-				String lastModified = CommonUtils.optJsonString(jsonObject, KEY_LAST_MODIFIED);
-				if (eTag != null || lastModified != null) {
-					return new HttpValidator(eTag, lastModified);
-				}
-			} catch (JSONException e) {
-				// Invalid data, ignore exception
-			}
-		}
-		return null;
-	}
+    public static HttpValidator fromString(String validator) {
+        if (validator != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(validator);
+                String eTag = CommonUtils.optJsonString(jsonObject, KEY_ETAG);
+                String lastModified = CommonUtils.optJsonString(jsonObject, KEY_LAST_MODIFIED);
+                if (eTag != null || lastModified != null) {
+                    return new HttpValidator(eTag, lastModified);
+                }
+            } catch (JSONException e) {
+                // Invalid data, ignore exception
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public String toString() {
-		JSONObject jsonObject = new JSONObject();
-		try {
-			if (!StringUtils.isEmpty(eTag)) {
-				jsonObject.put(KEY_ETAG, eTag);
-			}
-			if (!StringUtils.isEmpty(lastModified)) {
-				jsonObject.put(KEY_LAST_MODIFIED, lastModified);
-			}
-		} catch (JSONException e) {
-			throw new RuntimeException(e);
-		}
-		return jsonObject.toString();
-	}
+    @Override
+    public String toString() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            if (!StringUtils.isEmpty(eTag)) {
+                jsonObject.put(KEY_ETAG, eTag);
+            }
+            if (!StringUtils.isEmpty(lastModified)) {
+                jsonObject.put(KEY_LAST_MODIFIED, lastModified);
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonObject.toString();
+    }
 }

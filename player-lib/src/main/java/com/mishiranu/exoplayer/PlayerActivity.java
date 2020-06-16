@@ -16,6 +16,7 @@
 package com.mishiranu.exoplayer;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,12 +46,17 @@ import com.google.android.exoplayer2.util.Util;
  * A fullscreen activity to play audio or video streams.
  */
 public class PlayerActivity extends AppCompatActivity {
-    public static final String STATE_PLAYLIST = "playlist";
-    public static final String STATE_KEY_HIDE_SYSTEM_UI = "hide_system_ui";
-    public static final String STATE_KEY_IS_REPEAT = "is_repeat";
+    public static final String DEBUG_TAG = PlayerActivity.class.getName();
+
+    public static final String STATE_PLAYLIST = "state_playlist";
+    public static final String STATE_KEY_HIDE_SYSTEM_UI = "state_hide_system_ui";
+    public static final String STATE_KEY_IS_REPEAT = "state_is_repeat";
+
+    public static final String RESULT_KEY_POSITION = "result_position";
+
 
     private PlaybackStateListener playbackStateListener;
-    private static final String DEBUG_TAG = PlayerActivity.class.getName();
+    private GestureDetectorCompat gestureDetector;
 
     private PlayerView playerView;
     private SimpleExoPlayer player;
@@ -63,7 +69,7 @@ public class PlayerActivity extends AppCompatActivity {
     private boolean isHideSystemUi;
     private boolean isRepeat;
 
-    private GestureDetectorCompat gestureDetector;
+    private Intent resultIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,7 @@ public class PlayerActivity extends AppCompatActivity {
         });
 
         playbackStateListener = new PlaybackStateListener();
+        resultIntent = new Intent();
 
         // Get state data.
         initState(getIntent());
@@ -109,6 +116,12 @@ public class PlayerActivity extends AppCompatActivity {
      */
     protected void initPlayerView(PlayerView playerView) {
         playerView.setControllerHideOnTouch(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setResult(Activity.RESULT_OK, resultIntent);
     }
 
     @Override
@@ -232,6 +245,7 @@ public class PlayerActivity extends AppCompatActivity {
         @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
             Log.d(DEBUG_TAG, "currentWindowIndex changed to " + player.getCurrentWindowIndex());
+            resultIntent.putExtra(RESULT_KEY_POSITION, player.getCurrentWindowIndex());
         }
 
         /**

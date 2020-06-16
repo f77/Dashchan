@@ -20,21 +20,21 @@ import android.os.Handler;
 import android.widget.BaseAdapter;
 
 public class BaseAdapterNotifier implements Runnable {
-	private static final Handler HANDLER = new Handler();
+    private static final Handler HANDLER = new Handler();
 
-	private final BaseAdapter adapter;
+    private final BaseAdapter adapter;
 
-	public BaseAdapterNotifier(BaseAdapter adapter) {
-		this.adapter = adapter;
-	}
+    public BaseAdapterNotifier(BaseAdapter adapter) {
+        this.adapter = adapter;
+    }
 
-	public void postNotifyDataSetChanged() {
-		HANDLER.removeCallbacks(this);
-		HANDLER.post(this);
-	}
+    public void postNotifyDataSetChanged() {
+        HANDLER.removeCallbacks(this);
+        HANDLER.post(this);
+    }
 
-	@Override
-	public void run() {
-		adapter.notifyDataSetChanged();
-	}
+    @Override
+    public void run() {
+        adapter.notifyDataSetChanged();
+    }
 }

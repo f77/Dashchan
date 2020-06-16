@@ -21,26 +21,26 @@ import android.util.AttributeSet;
 import android.widget.AutoCompleteTextView;
 
 public class ForcedAutoCompleteTextView extends AutoCompleteTextView {
-	public ForcedAutoCompleteTextView(Context context) {
-		super(context);
-	}
+    public ForcedAutoCompleteTextView(Context context) {
+        super(context);
+    }
 
-	public ForcedAutoCompleteTextView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public ForcedAutoCompleteTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	@Override
-	public int getThreshold() {
-		return 0;
-	}
+    @Override
+    public int getThreshold() {
+        return 0;
+    }
 
-	@Override
-	public void setThreshold(int threshold) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void setThreshold(int threshold) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public boolean enoughToFilter() {
-		return isEnabled();
-	}
+    @Override
+    public boolean enoughToFilter() {
+        return isEnabled();
+    }
 }

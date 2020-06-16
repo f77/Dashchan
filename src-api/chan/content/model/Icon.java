@@ -16,9 +16,9 @@
 
 package chan.content.model;
 
-import java.io.Serializable;
-
 import android.net.Uri;
+
+import java.io.Serializable;
 
 import chan.annotation.Public;
 import chan.content.ChanLocator;
@@ -26,32 +26,32 @@ import chan.util.StringUtils;
 
 @Public
 public final class Icon implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final String mUriString;
-	private final String mTitle;
+    private final String mUriString;
+    private final String mTitle;
 
-	@Public
-	public Icon(ChanLocator locator, Uri uri, String title) {
-		mUriString = uri != null ? locator.makeRelative(uri).toString() : null;
-		mTitle = StringUtils.nullIfEmpty(title);
-	}
+    @Public
+    public Icon(ChanLocator locator, Uri uri, String title) {
+        mUriString = uri != null ? locator.makeRelative(uri).toString() : null;
+        mTitle = StringUtils.nullIfEmpty(title);
+    }
 
-	public Uri getRelativeUri() {
-		return mUriString != null ? Uri.parse(mUriString) : null;
-	}
+    public Uri getRelativeUri() {
+        return mUriString != null ? Uri.parse(mUriString) : null;
+    }
 
-	@Public
-	public Uri getUri(ChanLocator locator) {
-		return mUriString != null ? locator.convert(Uri.parse(mUriString)) : null;
-	}
+    @Public
+    public Uri getUri(ChanLocator locator) {
+        return mUriString != null ? locator.convert(Uri.parse(mUriString)) : null;
+    }
 
-	@Public
-	public String getTitle() {
-		return mTitle;
-	}
+    @Public
+    public String getTitle() {
+        return mTitle;
+    }
 
-	public boolean contentEquals(Icon o) {
-		return StringUtils.equals(mUriString, o.mUriString) && StringUtils.equals(mTitle, o.mTitle);
-	}
+    public boolean contentEquals(Icon o) {
+        return StringUtils.equals(mUriString, o.mUriString) && StringUtils.equals(mTitle, o.mTitle);
+    }
 }

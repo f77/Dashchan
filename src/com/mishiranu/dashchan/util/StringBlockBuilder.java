@@ -21,39 +21,39 @@ import java.util.ArrayList;
 import chan.util.StringUtils;
 
 public class StringBlockBuilder {
-	private final ArrayList<String> strings = new ArrayList<>();
+    private final ArrayList<String> strings = new ArrayList<>();
 
-	public void appendLine(String line) {
-		if (!StringUtils.isEmpty(line)) {
-			strings.add(line);
-		}
-	}
+    public void appendLine(String line) {
+        if (!StringUtils.isEmpty(line)) {
+            strings.add(line);
+        }
+    }
 
-	public void appendEmptyLine() {
-		strings.add(null);
-	}
+    public void appendEmptyLine() {
+        strings.add(null);
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		int linesToAppend = 0;
-		for (int i = 0, size = strings.size(); i < size; i++) {
-			String line = strings.get(i);
-			if (line == null) {
-				linesToAppend++;
-			} else {
-				if (builder.length() > 0) {
-					if (linesToAppend > 2) {
-						linesToAppend = 2;
-					}
-					for (int j = 0; j < linesToAppend; j++) {
-						builder.append('\n');
-					}
-				}
-				builder.append(line);
-				linesToAppend = 1;
-			}
-		}
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        int linesToAppend = 0;
+        for (int i = 0, size = strings.size(); i < size; i++) {
+            String line = strings.get(i);
+            if (line == null) {
+                linesToAppend++;
+            } else {
+                if (builder.length() > 0) {
+                    if (linesToAppend > 2) {
+                        linesToAppend = 2;
+                    }
+                    for (int j = 0; j < linesToAppend; j++) {
+                        builder.append('\n');
+                    }
+                }
+                builder.append(line);
+                linesToAppend = 1;
+            }
+        }
+        return builder.toString();
+    }
 }

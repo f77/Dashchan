@@ -23,21 +23,21 @@ import android.widget.TextView;
 import com.mishiranu.dashchan.util.GraphicsUtils;
 
 public class AttachmentHolder {
-	public View view;
-	public TextView fileName;
-	public TextView fileSize;
-	public View options;
-	public ImageView imageView;
-	public View warningButton;
-	public View ratingButton;
-	public View removeButton;
+    public View view;
+    public TextView fileName;
+    public TextView fileSize;
+    public View options;
+    public ImageView imageView;
+    public View warningButton;
+    public View ratingButton;
+    public View removeButton;
 
-	public String hash;
-	public String name;
-	public String rating;
-	public boolean optionUniqueHash = false;
-	public boolean optionRemoveMetadata = false;
-	public boolean optionRemoveFileName = false;
-	public boolean optionSpoiler = false;
-	public GraphicsUtils.Reencoding reencoding;
+    public String hash;
+    public String name;
+    public String rating;
+    public boolean optionUniqueHash = false;
+    public boolean optionRemoveMetadata = false;
+    public boolean optionRemoveFileName = false;
+    public boolean optionSpoiler = false;
+    public GraphicsUtils.Reencoding reencoding;
 }

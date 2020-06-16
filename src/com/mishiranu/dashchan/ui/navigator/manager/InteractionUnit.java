@@ -16,21 +16,12 @@
 
 package com.mishiranu.dashchan.ui.navigator.manager;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
-
-import chan.content.ChanConfiguration;
-import chan.content.ChanLocator;
-import chan.content.ChanManager;
-import chan.util.StringUtils;
 
 import com.mishiranu.dashchan.R;
 import com.mishiranu.dashchan.content.DownloadManager;
@@ -44,6 +35,14 @@ import com.mishiranu.dashchan.util.DialogMenu;
 import com.mishiranu.dashchan.util.ListViewUtils;
 import com.mishiranu.dashchan.util.NavigationUtils;
 import com.mishiranu.dashchan.widget.AttachmentView;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import chan.content.ChanConfiguration;
+import chan.content.ChanLocator;
+import chan.content.ChanManager;
+import chan.util.StringUtils;
 
 public class InteractionUnit {
     private final UiManager uiManager;
@@ -477,11 +476,11 @@ public class InteractionUnit {
                             break;
                         }
                         case MENU_RATING_UP: {
-                            uiManager.dialog().performChangePostRating(postItem.getChanName(), postItem.getBoardName(), postItem.getPost(),true);
+                            uiManager.dialog().performChangePostRating(postItem.getChanName(), postItem.getBoardName(), postItem.getPost(), true);
                             break;
                         }
                         case MENU_RATING_DOWN: {
-                            uiManager.dialog().performChangePostRating(postItem.getChanName(), postItem.getBoardName(), postItem.getPost(),false);
+                            uiManager.dialog().performChangePostRating(postItem.getChanName(), postItem.getBoardName(), postItem.getPost(), false);
                             break;
                         }
                         case MENU_DELETE: {

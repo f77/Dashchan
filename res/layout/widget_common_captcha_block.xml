@@ -17,41 +17,41 @@
 -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	tools:ignore="Overdraw"
-	android:id="@+id/captcha_block_parent"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="?android:attr/selectableItemBackground">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/captcha_block_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    tools:ignore="Overdraw">
 
-	<FrameLayout
-		android:id="@+id/captcha_block"
-		android:layout_width="match_parent"
-		android:layout_height="0dp">
+    <FrameLayout
+        android:id="@+id/captcha_block"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
 
-		<ImageView
-			android:id="@+id/captcha_image"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_gravity="center"
-			android:scaleType="fitCenter" />
+        <ImageView
+            android:id="@+id/captcha_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter" />
 
-		<View
-			android:id="@+id/refresh_button"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:background="?android:attr/selectableItemBackground" />
+        <View
+            android:id="@+id/refresh_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground" />
 
-		<ProgressBar
-			android:id="@+id/captcha_loading"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			style="?android:attr/progressBarStyle"
-			android:indeterminate="true" />
+        <ProgressBar
+            android:id="@+id/captcha_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
 
-	</FrameLayout>
+    </FrameLayout>
 
-	<include layout="@layout/widget_skip_captcha" />
+    <include layout="@layout/widget_skip_captcha" />
 
 </FrameLayout>

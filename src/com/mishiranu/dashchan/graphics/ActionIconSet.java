@@ -23,23 +23,23 @@ import android.util.SparseIntArray;
 import com.mishiranu.dashchan.R;
 
 public class ActionIconSet {
-	private final SparseIntArray ids = new SparseIntArray();
+    private final SparseIntArray ids = new SparseIntArray();
 
-	private static final int[] ATTRS = new int[] {R.attr.actionAttach, R.attr.actionAddPost, R.attr.actionAddRule,
-		R.attr.actionAddToFavorites, R.attr.actionBack, R.attr.actionDelete, R.attr.actionDownload,
-		R.attr.actionForward, R.attr.actionMakeThreadshot, R.attr.actionRefresh, R.attr.actionReport,
-		R.attr.actionRemoveFromFavorites, R.attr.actionSave, R.attr.actionSearch, R.attr.actionSelect,
-		R.attr.actionVolumeOff};
+    private static final int[] ATTRS = new int[]{R.attr.actionAttach, R.attr.actionAddPost, R.attr.actionAddRule,
+            R.attr.actionAddToFavorites, R.attr.actionBack, R.attr.actionDelete, R.attr.actionDownload,
+            R.attr.actionForward, R.attr.actionMakeThreadshot, R.attr.actionRefresh, R.attr.actionReport,
+            R.attr.actionRemoveFromFavorites, R.attr.actionSave, R.attr.actionSearch, R.attr.actionSelect,
+            R.attr.actionVolumeOff};
 
-	public ActionIconSet(Context context) {
-		TypedArray typedArray = context.obtainStyledAttributes(ATTRS);
-		for (int i = 0; i < typedArray.length(); i++) {
-			ids.append(ATTRS[i], typedArray.getResourceId(i, 0));
-		}
-		typedArray.recycle();
-	}
+    public ActionIconSet(Context context) {
+        TypedArray typedArray = context.obtainStyledAttributes(ATTRS);
+        for (int i = 0; i < typedArray.length(); i++) {
+            ids.append(ATTRS[i], typedArray.getResourceId(i, 0));
+        }
+        typedArray.recycle();
+    }
 
-	public int getId(int attr) {
-		return ids.get(attr);
-	}
+    public int getId(int attr) {
+        return ids.get(attr);
+    }
 }

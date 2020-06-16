@@ -18,6 +18,6 @@
 
 <resources>
 
-	<color name="color_text_error">#ffe53935</color>
+    <color name="color_text_error">#ffe53935</color>
 
 </resources>

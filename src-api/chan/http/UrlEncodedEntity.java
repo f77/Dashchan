@@ -26,79 +26,80 @@ import chan.annotation.Public;
 
 @Extendable
 public class UrlEncodedEntity implements RequestEntity {
-	private final StringBuilder builder = new StringBuilder();
-	private byte[] bytes;
+    private final StringBuilder builder = new StringBuilder();
+    private byte[] bytes;
 
-	private String charsetName = "UTF-8";
+    private String charsetName = "UTF-8";
 
-	@Public
-	public UrlEncodedEntity() {}
+    @Public
+    public UrlEncodedEntity() {
+    }
 
-	@Public
-	public UrlEncodedEntity(String... params) {
-		for (int i = 0; i < params.length; i += 2) {
-			add(params[i], params[i + 1]);
-		}
-	}
+    @Public
+    public UrlEncodedEntity(String... params) {
+        for (int i = 0; i < params.length; i += 2) {
+            add(params[i], params[i + 1]);
+        }
+    }
 
-	@Public
-	public void setEncoding(String charsetName) {
-		this.charsetName = charsetName;
-	}
+    @Public
+    public void setEncoding(String charsetName) {
+        this.charsetName = charsetName;
+    }
 
-	@Override
-	public void add(String name, String value) {
-		if (value != null) {
-			bytes = null;
-			if (builder.length() > 0) {
-				builder.append('&');
-			}
-			builder.append(encode(name));
-			builder.append('=');
-			builder.append(encode(value));
-		}
-	}
+    @Override
+    public void add(String name, String value) {
+        if (value != null) {
+            bytes = null;
+            if (builder.length() > 0) {
+                builder.append('&');
+            }
+            builder.append(encode(name));
+            builder.append('=');
+            builder.append(encode(value));
+        }
+    }
 
-	@Override
-	public String getContentType() {
-		return "application/x-www-form-urlencoded";
-	}
+    @Override
+    public String getContentType() {
+        return "application/x-www-form-urlencoded";
+    }
 
-	@Override
-	public long getContentLength() {
-		return getBytes().length;
-	}
+    @Override
+    public long getContentLength() {
+        return getBytes().length;
+    }
 
-	@Override
-	public void write(OutputStream output) throws IOException {
-		output.write(getBytes());
-		output.flush();
-	}
+    @Override
+    public void write(OutputStream output) throws IOException {
+        output.write(getBytes());
+        output.flush();
+    }
 
-	@Override
-	public RequestEntity copy() {
-		UrlEncodedEntity entity = new UrlEncodedEntity();
-		entity.setEncoding(charsetName);
-		entity.builder.append(builder);
-		return entity;
-	}
+    @Override
+    public RequestEntity copy() {
+        UrlEncodedEntity entity = new UrlEncodedEntity();
+        entity.setEncoding(charsetName);
+        entity.builder.append(builder);
+        return entity;
+    }
 
-	private String encode(String string) {
-		try {
-			return URLEncoder.encode(string, charsetName);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    private String encode(String string) {
+        try {
+            return URLEncoder.encode(string, charsetName);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	private byte[] getBytes() {
-		if (bytes == null) {
-			try {
-				bytes = builder.toString().getBytes("ISO-8859-1");
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return bytes;
-	}
+    private byte[] getBytes() {
+        if (bytes == null) {
+            try {
+                bytes = builder.toString().getBytes("ISO-8859-1");
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return bytes;
+    }
 }

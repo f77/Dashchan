@@ -16,11 +16,6 @@
 
 package com.mishiranu.dashchan.preference;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.json.JSONArray;
-
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -29,254 +24,265 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import chan.util.StringUtils;
-
 import com.mishiranu.dashchan.widget.DropdownView;
 import com.mishiranu.dashchan.widget.SafePasteEditText;
 
+import org.json.JSONArray;
+
+import java.util.Arrays;
+import java.util.List;
+
+import chan.util.StringUtils;
+
 public class MultipleEditTextPreference extends DialogPreference {
-	private final ViewHolder[] viewHolders;
-	private final String[] texts;
+    private final ViewHolder[] viewHolders;
+    private final String[] texts;
 
-	private final int containerId;
+    private final int containerId;
 
-	public MultipleEditTextPreference(Context context, int count) {
-		super(context, null, android.R.attr.editTextPreferenceStyle);
-		containerId = context.getResources().getIdentifier("edittext_container", "id", "android");
-		viewHolders = new ViewHolder[count];
-		texts = new String[count];
-		for (int i = 0; i < count; i++) {
-			viewHolders[i] = new EditTextViewHolder(context, i);
-		}
-	}
+    public MultipleEditTextPreference(Context context, int count) {
+        super(context, null, android.R.attr.editTextPreferenceStyle);
+        containerId = context.getResources().getIdentifier("edittext_container", "id", "android");
+        viewHolders = new ViewHolder[count];
+        texts = new String[count];
+        for (int i = 0; i < count; i++) {
+            viewHolders[i] = new EditTextViewHolder(context, i);
+        }
+    }
 
-	private String packValues(String[] values) {
-		return new JSONArray(Arrays.asList(values)).toString();
-	}
+    private String packValues(String[] values) {
+        return new JSONArray(Arrays.asList(values)).toString();
+    }
 
-	private String[] unpackValues(String value) {
-		return Preferences.unpackOrCastMultipleValues(value, texts.length);
-	}
+    private String[] unpackValues(String value) {
+        return Preferences.unpackOrCastMultipleValues(value, texts.length);
+    }
 
-	public void setTexts(String[] values) {
-		int length = Math.min(values.length, texts.length);
-		System.arraycopy(values, 0, texts, 0, length);
-		persistString(packValues(values));
-	}
+    public void setTexts(String[] values) {
+        int length = Math.min(values.length, texts.length);
+        System.arraycopy(values, 0, texts, 0, length);
+        persistString(packValues(values));
+    }
 
-	public String getText(int index) {
-		return texts[index];
-	}
+    public String getText(int index) {
+        return texts[index];
+    }
 
-	public String formatValues(String format) {
-		StringBuilder builder = new StringBuilder(format);
-		int index;
-		for (int i = 0; i < texts.length && (index = builder.indexOf("%s")) >= 0; i++) {
-			if (texts[i] == null) {
-				return null;
-			}
-			builder.replace(index, index + 2, texts[i]);
-		}
-		return builder.toString();
-	}
+    public String formatValues(String format) {
+        StringBuilder builder = new StringBuilder(format);
+        int index;
+        for (int i = 0; i < texts.length && (index = builder.indexOf("%s")) >= 0; i++) {
+            if (texts[i] == null) {
+                return null;
+            }
+            builder.replace(index, index + 2, texts[i]);
+        }
+        return builder.toString();
+    }
 
-	public void setHints(CharSequence[] hints) {
-		if (hints != null) {
-			int length = Math.min(hints.length, texts.length);
-			for (int i = 0; i < length; i++) {
-				viewHolders[i].setHint(hints[i]);
-			}
-		}
-	}
+    public void setHints(CharSequence[] hints) {
+        if (hints != null) {
+            int length = Math.min(hints.length, texts.length);
+            for (int i = 0; i < length; i++) {
+                viewHolders[i].setHint(hints[i]);
+            }
+        }
+    }
 
-	public void setInputTypes(int[] types) {
-		if (types != null) {
-			int length = Math.min(types.length, texts.length);
-			for (int i = 0; i < length; i++) {
-				viewHolders[i].setInputType(types[i]);
-			}
-		}
-	}
+    public void setInputTypes(int[] types) {
+        if (types != null) {
+            int length = Math.min(types.length, texts.length);
+            for (int i = 0; i < length; i++) {
+                viewHolders[i].setInputType(types[i]);
+            }
+        }
+    }
 
-	public void replaceWithDropdown(int index, CharSequence[] entries, String[] values) {
-		viewHolders[index] = new DropdownViewHolder(getContext(), index, entries, values);
-	}
+    public void replaceWithDropdown(int index, CharSequence[] entries, String[] values) {
+        viewHolders[index] = new DropdownViewHolder(getContext(), index, entries, values);
+    }
 
-	@Override
-	protected void onBindDialogView(View view) {
-		super.onBindDialogView(view);
-		for (int i = 0; i < texts.length; i++) {
-			ViewHolder holder = viewHolders[i];
-			holder.setValue(texts[i]);
-			View child = holder.getView();
-			ViewParent oldParent = child.getParent();
-			if (oldParent != view) {
-				if (oldParent != null) {
-					((ViewGroup) oldParent).removeView(child);
-				}
-				onAddEditTextToDialogView(view, child);
-			}
-		}
-	}
+    @Override
+    protected void onBindDialogView(View view) {
+        super.onBindDialogView(view);
+        for (int i = 0; i < texts.length; i++) {
+            ViewHolder holder = viewHolders[i];
+            holder.setValue(texts[i]);
+            View child = holder.getView();
+            ViewParent oldParent = child.getParent();
+            if (oldParent != view) {
+                if (oldParent != null) {
+                    ((ViewGroup) oldParent).removeView(child);
+                }
+                onAddEditTextToDialogView(view, child);
+            }
+        }
+    }
 
-	protected void onAddEditTextToDialogView(View dialogView, View view) {
-		ViewGroup container = dialogView.findViewById(containerId);
-		if (container != null) {
-			container.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		}
-	}
+    protected void onAddEditTextToDialogView(View dialogView, View view) {
+        ViewGroup container = dialogView.findViewById(containerId);
+        if (container != null) {
+            container.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+    }
 
-	@Override
-	protected void onDialogClosed(boolean positiveResult) {
-		super.onDialogClosed(positiveResult);
-		if (positiveResult) {
-			String[] values = new String[texts.length];
-			for (int i = 0; i < values.length; i++) {
-				values[i] = StringUtils.nullIfEmpty(viewHolders[i].getValue());
-			}
-			if (callChangeListener(values)) {
-				setTexts(values);
-			}
-		}
-	}
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+        if (positiveResult) {
+            String[] values = new String[texts.length];
+            for (int i = 0; i < values.length; i++) {
+                values[i] = StringUtils.nullIfEmpty(viewHolders[i].getValue());
+            }
+            if (callChangeListener(values)) {
+                setTexts(values);
+            }
+        }
+    }
 
-	@Override
-	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-		setTexts(unpackValues(restoreValue ? getPersistedString(packValues(texts)) : (String) defaultValue));
-	}
+    @Override
+    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+        setTexts(unpackValues(restoreValue ? getPersistedString(packValues(texts)) : (String) defaultValue));
+    }
 
-	@Override
-	public boolean shouldDisableDependents() {
-		return false;
-	}
+    @Override
+    public boolean shouldDisableDependents() {
+        return false;
+    }
 
-	@Override
-	protected Parcelable onSaveInstanceState() {
-		Parcelable superState = super.onSaveInstanceState();
-		if (isPersistent()) {
-			return superState;
-		}
-		return new SavedState(superState, texts);
-	}
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        if (isPersistent()) {
+            return superState;
+        }
+        return new SavedState(superState, texts);
+    }
 
-	@Override
-	protected void onRestoreInstanceState(Parcelable state) {
-		if (state == null || !state.getClass().equals(SavedState.class)) {
-			super.onRestoreInstanceState(state);
-		} else {
-			SavedState myState = (SavedState) state;
-			super.onRestoreInstanceState(myState.getSuperState());
-			setTexts(myState.values);
-		}
-	}
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state == null || !state.getClass().equals(SavedState.class)) {
+            super.onRestoreInstanceState(state);
+        } else {
+            SavedState myState = (SavedState) state;
+            super.onRestoreInstanceState(myState.getSuperState());
+            setTexts(myState.values);
+        }
+    }
 
-	private interface ViewHolder {
-		public void setHint(CharSequence hint);
-		public void setInputType(int type);
-		public void setValue(String value);
-		public String getValue();
-		public View getView();
-	}
+    private interface ViewHolder {
+        public void setHint(CharSequence hint);
 
-	private static class EditTextViewHolder implements ViewHolder {
-		private final SafePasteEditText editText;
+        public void setInputType(int type);
 
-		public EditTextViewHolder(Context context, int id) {
-			editText = new SafePasteEditText(context);
-			editText.setId(id);
-		}
+        public void setValue(String value);
 
-		@Override
-		public void setHint(CharSequence hint) {
-			editText.setHint(hint);
-		}
+        public String getValue();
 
-		@Override
-		public void setInputType(int type) {
-			editText.setInputType(type);
-		}
+        public View getView();
+    }
 
-		@Override
-		public void setValue(String value) {
-			editText.setText(value);
-		}
+    private static class EditTextViewHolder implements ViewHolder {
+        private final SafePasteEditText editText;
 
-		@Override
-		public String getValue() {
-			return editText.getText().toString();
-		}
+        public EditTextViewHolder(Context context, int id) {
+            editText = new SafePasteEditText(context);
+            editText.setId(id);
+        }
 
-		@Override
-		public View getView() {
-			return editText;
-		}
-	}
+        @Override
+        public void setHint(CharSequence hint) {
+            editText.setHint(hint);
+        }
 
-	private static class DropdownViewHolder implements ViewHolder {
-		private final DropdownView dropdownView;
-		private final List<String> values;
+        @Override
+        public void setInputType(int type) {
+            editText.setInputType(type);
+        }
 
-		public DropdownViewHolder(Context context, int id, CharSequence[] entries, String[] values) {
-			dropdownView = new DropdownView(context);
-			dropdownView.setId(id);
-			dropdownView.setItems(Arrays.asList(entries));
-			this.values = Arrays.asList(values);
-		}
+        @Override
+        public void setValue(String value) {
+            editText.setText(value);
+        }
 
-		@Override
-		public void setHint(CharSequence hint) {}
+        @Override
+        public String getValue() {
+            return editText.getText().toString();
+        }
 
-		@Override
-		public void setInputType(int type) {}
+        @Override
+        public View getView() {
+            return editText;
+        }
+    }
 
-		@Override
-		public void setValue(String value) {
-			int position = values.indexOf(value);
-			if (position == -1) {
-				position = 0;
-			}
-			dropdownView.setSelection(position);
-		}
+    private static class DropdownViewHolder implements ViewHolder {
+        private final DropdownView dropdownView;
+        private final List<String> values;
 
-		@Override
-		public String getValue() {
-			return values.get(dropdownView.getSelectedItemPosition());
-		}
+        public DropdownViewHolder(Context context, int id, CharSequence[] entries, String[] values) {
+            dropdownView = new DropdownView(context);
+            dropdownView.setId(id);
+            dropdownView.setItems(Arrays.asList(entries));
+            this.values = Arrays.asList(values);
+        }
 
-		@Override
-		public View getView() {
-			return dropdownView;
-		}
-	}
+        @Override
+        public void setHint(CharSequence hint) {
+        }
 
-	private static class SavedState extends BaseSavedState {
-		public final String[] values;
+        @Override
+        public void setInputType(int type) {
+        }
 
-		public SavedState(Parcel source) {
-			super(source);
-			values = source.createStringArray();
-		}
+        @Override
+        public void setValue(String value) {
+            int position = values.indexOf(value);
+            if (position == -1) {
+                position = 0;
+            }
+            dropdownView.setSelection(position);
+        }
 
-		public SavedState(Parcelable superState, String[] values) {
-			super(superState);
-			this.values = values;
-		}
+        @Override
+        public String getValue() {
+            return values.get(dropdownView.getSelectedItemPosition());
+        }
 
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {
-			super.writeToParcel(dest, flags);
-			dest.writeStringArray(values);
-		}
+        @Override
+        public View getView() {
+            return dropdownView;
+        }
+    }
 
-		@SuppressWarnings("unused")
-		public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-			public SavedState createFromParcel(Parcel source) {
-				return new SavedState(source);
-			}
+    private static class SavedState extends BaseSavedState {
+        public final String[] values;
 
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
-			}
-		};
-	}
+        public SavedState(Parcel source) {
+            super(source);
+            values = source.createStringArray();
+        }
+
+        public SavedState(Parcelable superState, String[] values) {
+            super(superState);
+            this.values = values;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeStringArray(values);
+        }
+
+        @SuppressWarnings("unused")
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel source) {
+                return new SavedState(source);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+    }
 }

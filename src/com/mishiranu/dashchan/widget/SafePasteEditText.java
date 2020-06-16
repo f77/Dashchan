@@ -27,45 +27,45 @@ import android.widget.EditText;
 
 // Removes spans on paste event.
 public class SafePasteEditText extends EditText {
-	public SafePasteEditText(Context context) {
-		super(context);
-	}
+    public SafePasteEditText(Context context) {
+        super(context);
+    }
 
-	public SafePasteEditText(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public SafePasteEditText(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	public SafePasteEditText(Context context, AttributeSet attrs, int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
-	}
+    public SafePasteEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
 
-	@SuppressWarnings("unused")
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public SafePasteEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-		super(context, attrs, defStyleAttr, defStyleRes);
-	}
+    @SuppressWarnings("unused")
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public SafePasteEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
 
-	private static final InputFilter SPAN_FILTER = (source, start, end, dest, dstart, dend) ->
-			source instanceof Spanned ? source.toString() : source;
+    private static final InputFilter SPAN_FILTER = (source, start, end, dest, dstart, dend) ->
+            source instanceof Spanned ? source.toString() : source;
 
-	@Override
-	public boolean onTextContextMenuItem(int id) {
-		if (id == android.R.id.paste) {
-			Editable editable = getEditableText();
-			InputFilter[] filters = editable.getFilters();
-			InputFilter[] tempFilters = new InputFilter[filters != null ? filters.length + 1 : 1];
-			if (filters != null) {
-				System.arraycopy(filters, 0, tempFilters, 1, filters.length);
-			}
-			tempFilters[0] = SPAN_FILTER;
-			editable.setFilters(tempFilters);
-			try {
-				return super.onTextContextMenuItem(id);
-			} finally {
-				editable.setFilters(filters);
-			}
-		} else {
-			return super.onTextContextMenuItem(id);
-		}
-	}
+    @Override
+    public boolean onTextContextMenuItem(int id) {
+        if (id == android.R.id.paste) {
+            Editable editable = getEditableText();
+            InputFilter[] filters = editable.getFilters();
+            InputFilter[] tempFilters = new InputFilter[filters != null ? filters.length + 1 : 1];
+            if (filters != null) {
+                System.arraycopy(filters, 0, tempFilters, 1, filters.length);
+            }
+            tempFilters[0] = SPAN_FILTER;
+            editable.setFilters(tempFilters);
+            try {
+                return super.onTextContextMenuItem(id);
+            } finally {
+                editable.setFilters(filters);
+            }
+        } else {
+            return super.onTextContextMenuItem(id);
+        }
+    }
 }

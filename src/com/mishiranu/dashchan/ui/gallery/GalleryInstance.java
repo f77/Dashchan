@@ -18,10 +18,12 @@ package com.mishiranu.dashchan.ui.gallery;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Parcelable;
 
 import com.mishiranu.dashchan.content.model.GalleryItem;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import chan.content.ChanLocator;
 
@@ -45,21 +47,34 @@ public class GalleryInstance {
     }
 
     /**
-     * Get URIs of the all gallery items.
+     * Get sublist from gallery items.
      *
      * @param isOnlyVideos Get only videos?
-     * @return URIs.
+     * @return Sublist of gallery items.
      */
-    public ArrayList<Uri> getGalleryURIs(boolean isOnlyVideos) {
-        ArrayList<Uri> URIs = new ArrayList<>();
+    public ArrayList<GalleryItem> getGallerySubList(boolean isOnlyVideos) {
+        ArrayList<GalleryItem> result = new ArrayList<>();
         for (GalleryItem item : galleryItems) {
             if (isOnlyVideos && !item.isVideo(locator)) {
                 continue;
             }
 
-            URIs.add(item.getFileUri(locator));
+            result.add(item);
         }
-        return URIs;
+        return result;
+    }
+
+    /**
+     * Get URIs of the all gallery items.
+     *
+     * @return URIs.
+     */
+    public LinkedHashMap<Uri, Parcelable> getGalleryURIs(ArrayList<GalleryItem> items) {
+        LinkedHashMap<Uri, Parcelable> result = new LinkedHashMap<>();
+        for (GalleryItem item : items) {
+            result.put(item.getFileUri(locator), item);
+        }
+        return result;
     }
 
     public interface Callback {

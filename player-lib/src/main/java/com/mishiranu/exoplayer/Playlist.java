@@ -5,25 +5,35 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Simple playlist class for the player.
  */
 public class Playlist implements Parcelable {
-    protected ArrayList<Uri> URIs;
+    protected LinkedHashMap<Uri, Parcelable> medias;
     protected int currentPosition;
 
-    public Playlist(ArrayList<Uri> URIs, int currentPosition) {
-        this.URIs = URIs;
+    public Playlist(LinkedHashMap<Uri, Parcelable> medias, int currentPosition) {
+        this.medias = medias;
         this.currentPosition = currentPosition;
     }
 
-    public ArrayList<Uri> getURIs() {
-        return URIs;
+    public LinkedHashMap<Uri, Parcelable> getMedias() {
+        return medias;
     }
 
     public int getCurrentPosition() {
         return currentPosition;
+    }
+
+    public Uri getUriByPosition(int position) {
+        return ((Uri) medias.keySet().toArray()[position]);
+    }
+
+    public Parcelable getExtraByPosition(int position) {
+        return medias.get(getUriByPosition(position));
     }
 
     @Override
@@ -33,7 +43,16 @@ public class Playlist implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeList(URIs);
+        // Make 2 ArrayLists to parcel the data.
+        ArrayList<Uri> listUris = new ArrayList<>();
+        ArrayList<Parcelable> listParcelables = new ArrayList<>();
+        for (Map.Entry<Uri, Parcelable> entry : medias.entrySet()) {
+            listUris.add(entry.getKey());
+            listParcelables.add(entry.getValue());
+        }
+
+        dest.writeList(listUris);
+        dest.writeList(listParcelables);
         dest.writeInt(currentPosition);
     }
 
@@ -41,7 +60,17 @@ public class Playlist implements Parcelable {
     public static final Parcelable.Creator<Playlist> CREATOR = new Parcelable.Creator<Playlist>() {
         @SuppressWarnings("unchecked")
         public Playlist createFromParcel(Parcel in) {
-            return new Playlist(in.readArrayList(getClass().getClassLoader()), in.readInt());
+            // Restore LinkedHashMap from 2 ArrayLists.
+            ArrayList<Uri> listUris = in.readArrayList(getClass().getClassLoader());
+            ArrayList<Parcelable> listParcelables = in.readArrayList(getClass().getClassLoader());
+            LinkedHashMap<Uri, Parcelable> medias = new LinkedHashMap<>();
+            assert listUris != null;
+            assert listParcelables != null;
+            for (int i = 0; i < listUris.size(); i++) {
+                medias.put(listUris.get(i), listParcelables.get(i));
+            }
+
+            return new Playlist(medias, in.readInt());
         }
 
         public Playlist[] newArray(int size) {

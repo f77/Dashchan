@@ -18,6 +18,7 @@ package com.mishiranu.dashchan.ui.gallery;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -30,6 +31,7 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,6 +63,7 @@ import com.mishiranu.dashchan.util.NavigationUtils;
 import com.mishiranu.dashchan.util.ResourceUtils;
 import com.mishiranu.dashchan.util.ViewUtils;
 import com.mishiranu.dashchan.widget.WindowControlFrameLayout;
+import com.mishiranu.exoplayer.PlayerActivity;
 
 import java.util.ArrayList;
 
@@ -230,6 +233,22 @@ public class GalleryActivity extends StateActivity implements GalleryInstance.Ca
         }
         if (pagerUnit != null) {
             pagerUnit.onFinish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PlayerActivity.LAUNCH_EXOPLAYER_FOR_RESULT) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.d("GALLERY_ON_RESULT", "LAUNCH_EXOPLAYER_FOR_RESULT");
+                int lastPosition = data.getIntExtra(PlayerActivity.RESULT_KEY_LAST_POSITION, 0);
+                Uri lastUri = data.getParcelableExtra(PlayerActivity.RESULT_KEY_LAST_URI);
+                GalleryItem lastItem = data.getParcelableExtra(PlayerActivity.RESULT_KEY_LAST_EXTRA);
+                navigatePost(lastItem, true, false);
+                onBackPressed();
+            }
         }
     }
 

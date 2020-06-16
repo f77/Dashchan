@@ -18,6 +18,8 @@ package com.mishiranu.dashchan.content.model;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.mishiranu.dashchan.content.DownloadManager;
 import com.mishiranu.dashchan.util.NavigationUtils;
@@ -28,7 +30,7 @@ import java.util.Collection;
 
 import chan.content.ChanLocator;
 
-public class GalleryItem implements Serializable {
+public class GalleryItem implements Serializable, Parcelable {
     private static final long serialVersionUID = 1L;
 
     private final String fileUriString;
@@ -122,6 +124,41 @@ public class GalleryItem implements Serializable {
             thumbnailUri = null;
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(fileUri, flags);
+        dest.writeParcelable(thumbnailUri, flags);
+        dest.writeString(boardName);
+        dest.writeString(threadNumber);
+        dest.writeString(postNumber);
+        dest.writeString(originalName);
+        dest.writeInt(width);
+        dest.writeInt(height);
+        dest.writeInt(size);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<GalleryItem> CREATOR = new Parcelable.Creator<GalleryItem>() {
+        @SuppressWarnings("unchecked")
+        public GalleryItem createFromParcel(Parcel in) {
+            // Uri fileUri, Uri thumbnailUri, String boardName, String threadNumber, String postNumber,
+            // String originalName, int width, int height, int size
+            return new GalleryItem(in.readParcelable(getClass().getClassLoader()),
+                    in.readParcelable(getClass().getClassLoader()),
+                    in.readString(), in.readString(), in.readString(), in.readString(),
+                    in.readInt(), in.readInt(), in.readInt());
+        }
+
+        public GalleryItem[] newArray(int size) {
+            return new GalleryItem[size];
+        }
+    };
 
     public static class GallerySet {
         private final boolean navigatePostSupported;

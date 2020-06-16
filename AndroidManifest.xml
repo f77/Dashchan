@@ -17,130 +17,136 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	package="com.mishiranu.dashchan">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mishiranu.dashchan">
 
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-	<application
-		android:name=".content.MainApplication"
-		android:label="@string/const_app_name"
-		android:icon="@drawable/ic_launcher"
-		android:logo="@drawable/ic_logo"
-		android:theme="@style/Theme.Special.Stub"
-		android:largeHeap="true"
-		android:allowBackup="true"
-		android:fullBackupContent="true"
-		tools:ignore="GoogleAppIndexingWarning">
+    <application
+        android:name=".content.MainApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/const_app_name"
+        android:largeHeap="true"
+        android:logo="@drawable/ic_logo"
+        android:theme="@style/Theme.Special.Stub"
+        tools:ignore="GoogleAppIndexingWarning">
 
-		<activity
-			android:name=".ui.LauncherActivity">
+        <activity android:name=".ui.LauncherActivity">
 
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-				<category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-			</intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-		</activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
 
-		<activity
-			android:name=".ui.navigator.NavigatorActivity"
-			android:launchMode="singleTask"
-			android:configChanges="orientation|screenSize" />
+        </activity>
 
-		<activity
-			android:name=".ui.gallery.GalleryActivity"
-			android:configChanges="orientation|screenSize"
-			android:theme="@style/Theme.Gallery" />
+        <activity
+            android:name=".ui.navigator.NavigatorActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask" />
 
-		<activity
-			android:name=".ui.posting.PostingActivity"
-			android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.gallery.GalleryActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.Gallery" />
 
-		<activity
-			android:name=".ui.WebBrowserActivity"
-			android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".ui.posting.PostingActivity"
+            android:windowSoftInputMode="stateHidden" />
 
-		<activity
-			android:name=".preference.PreferencesActivity" />
+        <activity
+            android:name=".ui.WebBrowserActivity"
+            android:configChanges="orientation|screenSize" />
 
-		<activity
-			android:name=".preference.UpdaterActivity"
-			android:excludeFromRecents="true"
-			android:theme="@android:style/Theme.Panel" />
+        <activity android:name=".preference.PreferencesActivity" />
 
-		<activity
-			android:name=".content.UriHandlerActivity"
-			android:theme="@android:style/Theme.NoDisplay"
-			android:launchMode="singleTask">
+        <activity
+            android:name=".preference.UpdaterActivity"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Panel" />
 
-			<intent-filter>
-				<action android:name="chan.intent.action.HANDLE_URI" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="http" />
-				<data android:scheme="https" />
-			</intent-filter>
+        <activity
+            android:name=".content.UriHandlerActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoDisplay">
 
-		</activity>
+            <intent-filter>
+                <action android:name="chan.intent.action.HANDLE_URI" />
+                <category android:name="android.intent.category.DEFAULT" />
 
-		<activity
-			android:name=".content.PostingShareActivity"
-			android:taskAffinity=".postingshare"
-			android:launchMode="singleInstance"
-			android:excludeFromRecents="true"
-			android:theme="@android:style/Theme.Translucent.NoTitleBar">
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+            </intent-filter>
 
-			<intent-filter>
-				<action android:name="android.intent.action.SEND" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:mimeType="*/*"/>
-			</intent-filter>
+        </activity>
 
-			<intent-filter>
-				<action android:name="android.intent.action.SEND_MULTIPLE" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:mimeType="*/*"/>
-			</intent-filter>
+        <activity
+            android:name=".content.PostingShareActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=".postingshare"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
 
-		</activity>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
 
-		<activity
-			android:name=".content.service.AudioPlayerActivity"
-			android:configChanges="orientation|screenSize"
-			android:taskAffinity=".audioplayer"
-			android:launchMode="singleInstance"
-			android:excludeFromRecents="true"
-			android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
 
-		<service
-			android:name=".content.service.PostingService" />
+        </activity>
 
-		<service
-			android:name=".content.service.DownloadService" />
+        <activity
+            android:name=".content.service.AudioPlayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=".audioplayer"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-		<service
-			android:name=".content.service.WatcherService" />
+        <service android:name=".content.service.PostingService" />
 
-		<service
-			android:name=".content.service.AudioPlayerService" />
+        <service android:name=".content.service.DownloadService" />
 
-		<provider
-			android:name=".content.FileProvider"
-			android:authorities="com.mishiranu.providers.dashchan"
-			android:exported="false"
-			android:grantUriPermissions="true" />
+        <service android:name=".content.service.WatcherService" />
 
-		<meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
-		<meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W" android:value="632dp" />
-		<meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H" android:value="598dp" />
-		<meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W" android:value="632dp" />
-		<meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H" android:value="598dp" />
+        <service android:name=".content.service.AudioPlayerService" />
 
-	</application>
+        <provider
+            android:name=".content.FileProvider"
+            android:authorities="com.mishiranu.providers.dashchan"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+            android:value="632dp" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+            android:value="598dp" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+            android:value="632dp" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+            android:value="598dp" />
+
+    </application>
 
 </manifest>

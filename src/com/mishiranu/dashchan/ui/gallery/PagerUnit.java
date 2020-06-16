@@ -30,6 +30,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ import com.mishiranu.exoplayer.Playlist;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import chan.util.StringUtils;
 
@@ -304,19 +306,24 @@ public class PagerUnit implements PagerInstance.Callback, ImageLoader.Observer {
             Log.d(PlayerActivity.DEBUG_TAG, "VIDEO_STARTED: " + uri.toString());
 
             // Create the playlist.
-            ArrayList<Uri> URIs = galleryInstance.getGalleryURIs(true);
-            int position = URIs.indexOf(galleryItem.getFileUri(galleryInstance.locator));
-            Playlist playlist = new Playlist(URIs, position);
+            ArrayList<GalleryItem> galleryVideosSublist = galleryInstance.getGallerySubList(true);
+            LinkedHashMap<Uri, Parcelable> medias = galleryInstance.getGalleryURIs(galleryVideosSublist);
+
+            int position = new ArrayList<>(medias.keySet()).indexOf(galleryItem.getFileUri(galleryInstance.locator));
+            Playlist playlist = new Playlist(medias, position);
 
             Intent intent = new Intent(galleryInstance.context, PlayerActivity.class);
             intent.putExtra(PlayerActivity.STATE_PLAYLIST, playlist);
             intent.putExtra(PlayerActivity.STATE_KEY_HIDE_SYSTEM_UI, Preferences.isHideExoplayerSystemUi());
             intent.putExtra(PlayerActivity.STATE_KEY_IS_REPEAT,
                     Preferences.getVideoCompletionMode() == Preferences.VIDEO_COMPLETION_MODE_LOOP);
-            galleryInstance.context.startActivity(intent);
+
+            //galleryInstance.context.startActivity(intent);
+            getActivity(galleryInstance.context)
+                    .startActivityForResult(intent, PlayerActivity.LAUNCH_EXOPLAYER_FOR_RESULT);
 
             // Костыль, чтобы скрыть нескрывшийся просмотр thumbnail.
-            getActivity(galleryInstance.context).onBackPressed();
+            //getActivity(galleryInstance.context).onBackPressed();
             return;
         }
 

@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,17 +43,23 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.util.Map;
+
 /**
  * A fullscreen activity to play audio or video streams.
  */
 public class PlayerActivity extends AppCompatActivity {
     public static final String DEBUG_TAG = PlayerActivity.class.getName();
+    public static final int LAUNCH_EXOPLAYER_FOR_RESULT = 1000;
 
     public static final String STATE_PLAYLIST = "state_playlist";
     public static final String STATE_KEY_HIDE_SYSTEM_UI = "state_hide_system_ui";
     public static final String STATE_KEY_IS_REPEAT = "state_is_repeat";
+    public static final String STATE_KEY_RESULT_EXTRAS = "state_result_extras";
 
-    public static final String RESULT_KEY_POSITION = "result_position";
+    public static final String RESULT_KEY_LAST_POSITION = "result_last_position";
+    public static final String RESULT_KEY_LAST_URI = "result_last_uri";
+    public static final String RESULT_KEY_LAST_EXTRA = "result_last_extra";
 
 
     private PlaybackStateListener playbackStateListener;
@@ -121,7 +128,6 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        setResult(Activity.RESULT_OK, resultIntent);
     }
 
     @Override
@@ -199,8 +205,8 @@ public class PlayerActivity extends AppCompatActivity {
         ConcatenatingMediaSource concatenatingMediaSource = new ConcatenatingMediaSource();
 
         // Add single sources.
-        for (Uri uri : playlist.getURIs()) {
-            concatenatingMediaSource.addMediaSource(mediaSourceFactory.createMediaSource(uri));
+        for (Map.Entry<Uri, Parcelable> media : playlist.getMedias().entrySet()) {
+            concatenatingMediaSource.addMediaSource(mediaSourceFactory.createMediaSource(media.getKey()));
         }
 
         return concatenatingMediaSource;
@@ -245,7 +251,11 @@ public class PlayerActivity extends AppCompatActivity {
         @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
             Log.d(DEBUG_TAG, "currentWindowIndex changed to " + player.getCurrentWindowIndex());
-            resultIntent.putExtra(RESULT_KEY_POSITION, player.getCurrentWindowIndex());
+
+            resultIntent.putExtra(RESULT_KEY_LAST_POSITION, player.getCurrentWindowIndex());
+            resultIntent.putExtra(RESULT_KEY_LAST_URI, playlist.getUriByPosition(player.getCurrentWindowIndex()));
+            resultIntent.putExtra(RESULT_KEY_LAST_EXTRA, playlist.getExtraByPosition(player.getCurrentWindowIndex()));
+            setResult(Activity.RESULT_OK, resultIntent);
         }
 
         /**

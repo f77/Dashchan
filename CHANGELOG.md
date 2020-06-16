@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.21.0] - 2020-06-16
+### Added
+- There are 2 amoled themes now: old and contrast.
+
 ## [2.20.0] - 2020-06-16
 ### Added
 - Added automatically paging of thread's posts while paging the videos in the exoplayer.
@@ -160,6 +164,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added this changelog.
 - Rebuilt to a new Android SDK (29).
 
+[2.21.0]: https://github.com/f77/Dashchan/compare/2.20.0...2.21.0
 [2.20.0]: https://github.com/f77/Dashchan/compare/2.19.1...2.20.0
 [2.19.1]: https://github.com/f77/Dashchan/compare/2.19.0...2.19.1
 [2.19.0]: https://github.com/f77/Dashchan/compare/2.18.0...2.19.0

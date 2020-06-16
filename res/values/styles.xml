@@ -287,6 +287,26 @@
 
     </style>
 
+    <style name="Theme.General.Extended.Main.AmoledContrast" parent="@style/Theme.General.Main.Dark">
+
+        <item name="android:windowBackground">@color/background_window_amoled_contrast</item>
+        <item name="backgroundBlock">@color/background_block_amoled_contrast</item>
+        <item name="backgroundDrawer">@color/background_drawer_amoled_contrast</item>
+
+        <item name="colorPrimarySupport">@color/color_primary_amoled_contrast</item>
+        <item name="colorAccentSupport">@color/color_accent_amoled_contrast</item>
+
+        <item name="colorPostPrimary">@color/color_post_primary_amoled_contrast</item>
+        <item name="colorPostSecondary">@color/color_post_secondary_amoled_contrast</item>
+        <item name="colorPostGrayed">@color/color_post_grayed_amoled_contrast</item>
+
+        <item name="android:textColorLink">@color/color_text_link_amoled_contrast</item>
+        <item name="colorTextQuote">@color/color_text_quote_amoled_contrast</item>
+        <item name="colorTextTripcode">@color/color_text_tripcode_amoled_contrast</item>
+        <item name="colorTextCapcode">@color/color_text_capcode_amoled_contrast</item>
+
+    </style>
+
     <style name="Theme.General.Extended.Gallery" parent="@style/Theme.General.Main.Dark">
 
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -341,6 +361,12 @@
 
     </style>
 
+    <style name="Theme.Main.AmoledContrast" parent="@style/Theme.General.Extended.Main.AmoledContrast">
+
+        <item name="android:actionBarStyle">@style/Widget.Main.AmoledContrast.ActionBar</item>
+
+    </style>
+
     <style name="Theme.Gallery" parent="@style/Theme.General.Extended.Gallery">
 
         <item name="android:actionBarStyle">@style/Widget.Gallery.ActionBar</item>
@@ -354,6 +380,13 @@
     </style>
 
     <style name="Widget.Main.Amoled.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+
+        <item name="android:logo">@android:color/transparent</item>
+        <item name="android:background">@android:color/black</item>
+
+    </style>
+
+    <style name="Widget.Main.AmoledContrast.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
 
         <item name="android:logo">@android:color/transparent</item>
         <item name="android:background">@android:color/black</item>

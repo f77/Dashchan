@@ -909,6 +909,7 @@ public class Preferences {
     public static final String VALUE_THEME_NORMIE = "normie";
     public static final String VALUE_THEME_NEUTRON = "neutron";
     public static final String VALUE_THEME_AMOLED = "amoled";
+    public static final String VALUE_THEME_AMOLED_CONTRAST = "amoled_contrast";
     public static final String[] ENTRIES_THEME = {
             "Photon",
             "Hadron",
@@ -916,7 +917,8 @@ public class Preferences {
             "Tomorrow",
             "Normie",
             "Neutron",
-            "Amoled"
+            "Amoled",
+            "Amoled Contrast",
     };
     public static final String[] VALUES_THEME = {
             VALUE_THEME_PHOTON,
@@ -925,7 +927,8 @@ public class Preferences {
             VALUE_THEME_TOMORROW,
             VALUE_THEME_NORMIE,
             VALUE_THEME_NEUTRON,
-            VALUE_THEME_AMOLED
+            VALUE_THEME_AMOLED,
+            VALUE_THEME_AMOLED_CONTRAST,
     };
     public static final int[] VALUES_THEME_IDS = {
             R.style.Theme_Main_Photon,
@@ -934,7 +937,8 @@ public class Preferences {
             R.style.Theme_Main_Tomorrow,
             R.style.Theme_Main_Normie,
             R.style.Theme_Main_Neutron,
-            R.style.Theme_Main_Amoled
+            R.style.Theme_Main_Amoled,
+            R.style.Theme_Main_AmoledContrast,
     };
     public static final String DEFAULT_THEME = VALUE_THEME_PHOTON;
     public static final int[][] VALUES_THEME_COLORS = {
@@ -944,7 +948,8 @@ public class Preferences {
             {android.R.attr.windowBackground, R.attr.colorPrimarySupport, R.attr.colorAccentSupport},
             {android.R.attr.windowBackground, R.attr.colorPrimarySupport, R.attr.colorAccentSupport},
             {android.R.attr.windowBackground, R.attr.colorPrimarySupport, R.attr.colorPostSecondary},
-            {android.R.attr.windowBackground, R.attr.colorAccentSupport, R.attr.colorAccentSupport}
+            {android.R.attr.windowBackground, R.attr.colorAccentSupport, R.attr.colorAccentSupport},
+            {android.R.attr.windowBackground, R.attr.colorAccentSupport, R.attr.colorAccentSupport},
     };
 
     public static String getTheme() {

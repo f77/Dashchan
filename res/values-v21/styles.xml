@@ -236,6 +236,18 @@
 
     </style>
 
+    <style name="Theme.Main.AmoledContrast" parent="@style/Theme.General.Extended.Main.AmoledContrast">
+
+        <item name="android:dialogTheme">@style/Theme.Main.AmoledContrast.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.Main.AmoledContrast.Dialog.Alert</item>
+
+        <item name="android:colorPrimary">@color/color_primary_amoled</item>
+        <item name="android:colorPrimaryDark">@color/color_primary_amoled</item>
+        <item name="android:colorAccent">@color/color_accent_amoled</item>
+        <item name="android:textColorHighlight">@color/color_selection_amoled</item>
+
+    </style>
+
     <style name="Theme.Main.Normie" parent="@style/Theme.General.Extended.Main.Normie">
 
         <item name="android:dialogTheme">@style/Theme.Main.Normie.Dialog</item>
@@ -382,11 +394,27 @@
 
     </style>
 
+    <style name="Theme.Main.AmoledContrast.Dialog" parent="@style/Theme.Special.Main.Dark.Dialog">
+
+        <item name="android:colorPrimary">@color/color_primary_amoled_contrast</item>
+        <item name="android:colorPrimaryDark">@color/color_primary_amoled_contrast</item>
+        <item name="android:colorAccent">@color/color_accent_amoled_contrast</item>
+
+    </style>
+
     <style name="Theme.Main.Amoled.Dialog.Alert" parent="@style/Theme.Special.Main.Dark.Dialog.Alert">
 
         <item name="android:colorPrimary">@color/color_primary_amoled</item>
         <item name="android:colorPrimaryDark">@color/color_primary_amoled</item>
         <item name="android:colorAccent">@color/color_accent_amoled</item>
+
+    </style>
+
+    <style name="Theme.Main.AmoledContrast.Dialog.Alert" parent="@style/Theme.Special.Main.Dark.Dialog.Alert">
+
+        <item name="android:colorPrimary">@color/color_primary_amoled_contrast</item>
+        <item name="android:colorPrimaryDark">@color/color_primary_amoled_contrast</item>
+        <item name="android:colorAccent">@color/color_accent_amoled_contrast</item>
 
     </style>
 

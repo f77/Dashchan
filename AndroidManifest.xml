@@ -127,7 +127,7 @@
 
         <provider
             android:name=".content.FileProvider"
-            android:authorities="com.mishiranu.providers.dashchan"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true" />
 

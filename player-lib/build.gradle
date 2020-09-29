@@ -1,10 +1,10 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
     }
     buildTypes {
         release {
@@ -15,7 +15,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.11.5'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.11.5'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.5'

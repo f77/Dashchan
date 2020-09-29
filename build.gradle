@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath 'com.trevjonez.AndroidGithubReleasePlugin:plugin:1.2.2'
     }
 }
@@ -27,8 +27,8 @@ apply plugin: 'com.trevjonez.AndroidGithubReleasePlugin'
 
 dependencies {
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0-alpha01'
-    implementation 'androidx.drawerlayout:drawerlayout:1.1.0-rc01'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     compileOnly 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
     implementation 'androidx.browser:browser:1.2.0'
     implementation 'io.noties.markwon:core:4.4.0'
@@ -42,8 +42,8 @@ if (file('private.properties').exists()) {
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
 
     sourceSets.main {
         manifest.srcFile 'AndroidManifest.xml'
@@ -77,6 +77,8 @@ android {
     }
 
     defaultConfig {
+        applicationId "com.f77.dashchan"
+
         versionName androidGitVersion.name()
         versionCode androidGitVersion.code()
 

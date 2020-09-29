@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.22.0] - 2020-09-29
+### Changed
+- ApplicationId has been changed from "com.mishiranu.dashchan" to "com.f77.dashchan". So, you can delete the forked "com.mishiranu.dashchan" application now and even to install the original app instead. There will be 2 apps. But the forked app may not see some new modified modules from the original app, if they have modified API, especially new captcha types.
+- compileSdkVersion and libraries have been updated to the modern versions.
+- README.md has been updated. Removed english instructions (there will be no any support for boards except "dvach" and the forked client app, so, they are not necessary). But yes, I will still write this changelog in english anyway, just because.
+
 ## [2.21.0] - 2020-06-16
 ### Added
 - There are 2 amoled themes now: old and contrast.
@@ -164,6 +170,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added this changelog.
 - Rebuilt to a new Android SDK (29).
 
+[2.22.0]: https://github.com/f77/Dashchan/compare/2.21.0...2.22.0
 [2.21.0]: https://github.com/f77/Dashchan/compare/2.20.0...2.21.0
 [2.20.0]: https://github.com/f77/Dashchan/compare/2.19.1...2.20.0
 [2.19.1]: https://github.com/f77/Dashchan/compare/2.19.0...2.19.1
